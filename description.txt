@@ -1,0 +1,9 @@
+This mod allows you to zoom in and out much further than what's possible in Vanilla.
+Very useful to people who play in lower resolutions or who want to have high resolution sprites.
+You can also make the game turn upside down if you want.
+
+When you zoom out the tiles don't load any further. This is not a bug
+
+For a Changlog and more information visit my homepage!
+
+Contact TheLonelySheep#7696 on discord if you have any problems.

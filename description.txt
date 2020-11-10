@@ -1,9 +1,56 @@
-This mod allows you to zoom in and out much further than what's possible in Vanilla.
-Very useful to people who play in lower resolutions or who want to have high resolution sprites.
-You can also make the game turn upside down if you want.
+[c/FFE900:This mod allows you to zoom in and out much]
+[c/FFE900:further than what's possible in Vanilla.]
 
-When you zoom out the tiles don't load any further. This is not a bug
+[c/FFE900:Very useful to people who play in lower resolutions or]
+[c/FFE900:who want to have high resolution sprites.]
+
+[c/FFE900:You can also make the game turn upside down.]
+
 
 For a Changlog and more information visit my homepage!
 
-Contact TheLonelySheep#7696 on discord if you have any problems.
+Contact [c/66EEFF:TheLonelySheep#7696] on discord if you have any problems.
+
+_________________________
+
+Zoom (default: 1x):
+[c/C4C4C4:    This is the main feature of the Mod.]
+[c/C4C4C4:    Changing the Zoom slider or Pressing the]
+[c/C4C4C4:    plus or minus keys on your keyboard]
+[c/C4C4C4:    (not the ones on the numpad) will zoom your]
+[c/C4C4C4:    game in and out just like normal, but]
+[c/C4C4C4:    instead of zooming from 100% to 200%,]
+[c/C4C4C4:    you can zoom from 20% to 1000%]
+[c/C4C4C4:    and from -100% to -20% (upside down)]
+
+[c/FF0000: When you zoom out the tiles don't load any further.]
+[c/FF0000: This is not a bug!]
+
+Lock screen (default: 'off'):
+[c/C4C4C4:    Setting this to on or pressing the Hotkey,]
+[c/C4C4C4:    locks your screen to the current position.]
+
+[c/C4C4C4:    You can still move while it's locked]
+[c/C4C4C4:    (Unlike Hero's Mod "Fly Camera tool").]
+
+[c/C4C4C4:    Additionally, pressing the arrow keys]
+[c/C4C4C4:    moves your screen in the direction.]
+
+[c/C4C4C4:    Pressing the Hotkey again or setting]
+[c/C4C4C4:    "Lock Screen" to 'off', unlocks your screen.]
+
+Zoom Background (default: 'off'):
+[c/C4C4C4:    This toggles if the background should zoom too.]
+
+Flip Background (default: 'on'):
+[c/C4C4C4:    This decides if the background should flip]
+[c/C4C4C4:    once the zoom is negative.]
+
+Hotbar scale (default: 1x):
+[c/C4C4C4:    This changes how big your hotbar is.]
+
+UI Scale (default: 1x): 
+[c/C4C4C4:    Similar to "Zoom" but for the UI.]
+[c/C4C4C4:    You can also change this by holding shift while]
+[c/C4C4C4:    pressing plus or minus.]
+_________________________

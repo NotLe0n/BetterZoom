@@ -45,6 +45,10 @@ namespace BetterZoom
         [Tooltip("Change this to change the UIScale. This Window updates little wonky, close and open again after changing the value")]
         public float UIScale;
 
+        [Label("Show Trackers")]
+        [Tooltip("If Trackers are shown or not")]
+        [DefaultValue(true)]
+        public bool ShowTrackers;
 
         [Header("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhen you zoom out the tiles don't load any further. This is not a bug")]
         [Label("Understand?")]
@@ -53,7 +57,7 @@ namespace BetterZoom
         public bool dummy;
         public override void OnChanged()
         {
-            CamPosition.fixedscreen = Main.screenPosition;
+            BetterZoomPlayer.fixedscreen = Main.screenPosition;
         }
     }
 }

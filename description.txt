@@ -6,15 +6,22 @@
 
 [c/FFE900:You can also make the game turn upside down.]
 
+Open the UI using the hotkey (default: 'B').
 
 For a Changlog and more information visit my homepage!
 
 Contact [c/66EEFF:TheLonelySheep#7696] on discord if you have any problems.
 
+Special Thanks to:
+[c/66EEFF:AbsoluteAquarian], for helping me with Lerp!
+[c/66EEFF:bafto & Hexagonalex], for testing multiplayer.
+
+_________________________
+
+[c/FFE900: Better Zoom]
 _________________________
 
 Zoom (default: 1x):
-[c/C4C4C4:    This is the main feature of the Mod.]
 [c/C4C4C4:    Changing the Zoom slider or Pressing the]
 [c/C4C4C4:    plus or minus keys on your keyboard]
 [c/C4C4C4:    (not the ones on the numpad) will zoom your]
@@ -25,19 +32,6 @@ Zoom (default: 1x):
 
 [c/FF0000: When you zoom out the tiles don't load any further.]
 [c/FF0000: This is not a bug!]
-
-Lock screen (default: 'off'):
-[c/C4C4C4:    Setting this to on or pressing the Hotkey,]
-[c/C4C4C4:    locks your screen to the current position.]
-
-[c/C4C4C4:    You can still move while it's locked]
-[c/C4C4C4:    (Unlike Hero's Mod "Fly Camera tool").]
-
-[c/C4C4C4:    Additionally, pressing the arrow keys]
-[c/C4C4C4:    moves your screen in the direction.]
-
-[c/C4C4C4:    Pressing the Hotkey again or setting]
-[c/C4C4C4:    "Lock Screen" to 'off', unlocks your screen.]
 
 Zoom Background (default: 'off'):
 [c/C4C4C4:    This toggles if the background should zoom too.]
@@ -54,3 +48,38 @@ UI Scale (default: 1x):
 [c/C4C4C4:    You can also change this by holding shift while]
 [c/C4C4C4:    pressing plus or minus.]
 _________________________
+
+[c/FFE900: Camera Control]
+_________________________
+
+Tracking Speed (default 1x):
+[c/C4C4C4:    Controls the tracking speed.]
+
+Lock screen (default: 'off'):
+[c/C4C4C4:    Setting this to on or pressing the Hotkey,]
+[c/C4C4C4:    locks your screen to the current position.]
+
+[c/C4C4C4:    You can still move while it's locked]
+[c/C4C4C4:    (Unlike Hero's Mod "Fly Camera tool").]
+
+[c/C4C4C4:    Pressing the Hotkey again or toggling]
+[c/C4C4C4:    "Lock Screen", unlocks your screen.]
+
+Move Screen (the Dpad):
+[c/C4C4C4:    You can move your screen while it's locked]
+
+[c/C4C4C4:    Pressing the arrow keys moves]
+[c/C4C4C4:    your screen in the direction too.]
+
+Path Trackers (red):
+[c/C4C4C4:    Click to place Path Trackers which]
+[c/C4C4C4:    will draw a line the camera follows]
+
+[c/C4C4C4:    The Eraser will remove Path Trackers]
+[c/C4C4C4:    when you click or hold the left mouse button]
+
+[c/C4C4C4:    You can move Path trackers using the move tool]
+
+Entity Tracker (green):
+[c/C4C4C4:    Click to place a Entity Tracker which will track]
+[c/C4C4C4:    the closest NPC or Player (only in Multiplayer)]

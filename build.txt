@@ -1,6 +1,6 @@
-displayName = Better Zoom
+displayName = Better Zoom & Camera Control
 author = TheLonelySheep
-version = 1.4
+version = 2.0.0.1
 hideCode = false
 hideResources = false
 includeSource = false

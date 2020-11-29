@@ -43,9 +43,6 @@ namespace BetterZoom.src.UI
 
             // Fix Line Position
             PathTrackers.FixLinePosition();
-
-            if (CCUI.selectedInterp == 2)
-                ControlPoint.FixPosition();
         }
     }
 }

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "YdPekWi97dpGHD6b3QYnZbOypjMv2xwGRE1hzbom2/GL3gbJWPjOJ+RefRruof/0gzfP3G3uKcH/gHFBLMZH7Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mrshe\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\BetterZoom\\BetterZoom.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mrshe\\.nuget\\packages\\tmodloader.codeassist\\0.1.1\\tmodloader.codeassist.0.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}

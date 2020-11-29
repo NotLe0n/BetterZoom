@@ -13,7 +13,7 @@ namespace BetterZoom.src.Trackers
     {
         public static List<PathTrackers> trackers = new List<PathTrackers>();
         public UIImage PTrackerImg;
-        public dynamic Connection;
+        public BezierCurve Connection;
         public Vector2 Position;
 
         public PathTrackers(Vector2 pos)
@@ -25,25 +25,10 @@ namespace BetterZoom.src.Trackers
             
             for (int i = 0; i < trackers.Count; i++)
             {
-                switch (CCUI.selectedInterp) 
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        Connection = new Line(
-                            trackers[i].Position - Main.screenPosition,
-                            trackers[i].Position - Main.screenPosition,
-                            5, Color.Red);
-                        break;
-                    case 2:
-                        Connection = new BezierCurve(
-                            trackers[i].Position - Main.screenPosition,
-                            trackers[i].Position - Main.screenPosition,
-                            5, Color.Red);
-                        break;
-                    case 3:
-                        break;
-                }
+                Connection = new BezierCurve(
+                    trackers[i].Position - Main.screenPosition,
+                    trackers[i].Position - Main.screenPosition,
+                    5, Color.Red);
             }
         }
         public static void FixPosition()

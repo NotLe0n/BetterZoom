@@ -2,7 +2,6 @@ using BetterZoom.src.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Reflection;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ModLoader;
@@ -97,7 +96,7 @@ namespace BetterZoom.src
                     "Better Zoom: TrackerUI",
                     delegate
                     {
-                        if(!TrackerUI.hide)
+                        if (!TrackerUI.hide)
                             TrackerUserInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
                         return true;
                     }, InterfaceScaleType.Game));

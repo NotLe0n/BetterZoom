@@ -1,8 +1,6 @@
 ﻿using BetterZoom.src.Trackers;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.UI;
-using BetterZoom.src.UI.UIElements;
 
 namespace BetterZoom.src.UI
 {
@@ -37,8 +35,9 @@ namespace BetterZoom.src.UI
 
                 // Append Control Points
                 if (i + 1 < PathTrackers.trackers.Count && CCUI.selectedInterp == 2)
+                {
                     Append(PathTrackers.trackers[i].Connection.ControlPoint);
-                
+                }
             }
 
             // Fix Line Position

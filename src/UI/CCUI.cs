@@ -1,7 +1,6 @@
 ﻿using BetterZoom.src.Trackers;
 using BetterZoom.src.UI.UIElements;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
@@ -89,7 +88,7 @@ namespace BetterZoom.src.UI
             var Dpad = UIHelper.Dpad(60, 155);
             for (int i = 0; i < Dpad.Length; i++)
                 Menu.Append(Dpad[i]);
-            
+
             Dpad[0].OnMouseDown += (evt, elm) => move = 1;
             Dpad[0].OnMouseUp += (evt, elm) => move = 0;
             Dpad[0].OnClick += (evt, elm) => Camera.locked = true;

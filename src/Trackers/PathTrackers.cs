@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
-using BetterZoom.src.UI;
-using Terraria.UI;
 
 namespace BetterZoom.src.Trackers
 {
@@ -14,6 +12,9 @@ namespace BetterZoom.src.Trackers
         public static List<PathTrackers> trackers = new List<PathTrackers>();
         public UIImage PTrackerImg;
         public BezierCurve Connection;
+        /// <summary>
+        /// Position in World Coordinates
+        /// </summary>
         public Vector2 Position;
 
         public PathTrackers(Vector2 pos)
@@ -22,12 +23,12 @@ namespace BetterZoom.src.Trackers
             Position = pos;
             PTrackerImg = new UIImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
             PTrackerImg.ImageScale = 0.5f;
-            
+
             for (int i = 0; i < trackers.Count; i++)
             {
                 Connection = new BezierCurve(
-                    trackers[i].Position - Main.screenPosition,
-                    trackers[i].Position - Main.screenPosition,
+                    trackers[i].Position,
+                    trackers[i].Position,
                     5, Color.Red);
             }
         }
@@ -71,6 +72,7 @@ namespace BetterZoom.src.Trackers
                         ID = i;
                         trackers[ID].PTrackerImg.Remove();
                         trackers[ID].Connection.Remove();
+                        trackers[ID].Connection.ControlPoint.Remove();
                         trackers.RemoveAt(ID);
                     }
                 }

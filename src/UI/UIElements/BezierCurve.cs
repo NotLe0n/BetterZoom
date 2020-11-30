@@ -14,7 +14,6 @@ namespace BetterZoom.src.UI.UIElements
         public Vector2 EndPoint;
         public int LineWidth;
         public Color LineColor;
-        public Rectangle Bounds;
         public ControlPoint ControlPoint;
         public List<Vector2> PointList = new List<Vector2> { };
 
@@ -31,46 +30,54 @@ namespace BetterZoom.src.UI.UIElements
             EndPoint = end;
             LineWidth = width;
             LineColor = color;
-            Bounds = new Rectangle((int)start.X, (int)start.Y, (int)(end - start).Length(), width);
-            ControlPoint = new ControlPoint(end);
+            ControlPoint = new ControlPoint(Vector2.Lerp(start, end, 0.5f)); // gets set and half a second later reset to "start"
         }
         private void CalculatePoints()
         {
-            PointList.Clear();
-            for (float t = 0; t <= 1; t += 0.03f)
-                PointList.Add((StartPoint - 2 * ControlPoint.Position + EndPoint) * (float)Math.Pow(t, 2) + (-2 * StartPoint + 2 * ControlPoint.Position) * t + StartPoint);
+            if (ControlPoint != null)
+            {
+                // world to screen coordinates
+                Vector2 controlPoint = ControlPoint.Position - Main.screenPosition;
+
+                PointList.Clear();
+                for (float t = 0; t <= 1; t += 0.03f) // t determines how many segments
+                {
+                    // Calculate points using Bezier equasion and add them to a list
+                    PointList.Add((StartPoint - 2 * controlPoint + EndPoint) * (float)Math.Pow(t, 2) + (-2 * StartPoint + 2 * controlPoint) * t + StartPoint);
+                }
+            }
         }
         /// <summary>
         /// The Length of the line.
         /// </summary>
         public float Length() => Vector2.Distance(StartPoint, EndPoint);
 
-        /// <summary>
-        /// The Angle of the Line
-        /// </summary>
-        public float Angle() => (float)Math.Atan2(EndPoint.Y - StartPoint.Y, EndPoint.X - StartPoint.X);
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             CalculatePoints();
-            Main.NewText(ControlPoint.Position);
+
             for (int i = 0; i + 1 < PointList.Count; i++)
             {
+                // calculate angle for the segment
                 float angle = (float)Math.Atan2(PointList[i + 1].Y - PointList[i].Y, PointList[i + 1].X - PointList[i].X);
                 Vector2 edge = PointList[i + 1] - PointList[i];
 
-                spriteBatch.Draw(Main.magicPixel,
-                    new Rectangle(          // rectangle defines shape of line and position of start of line
-                        (int)PointList[i].X,  // Start
-                        (int)PointList[i].Y,  // End
-                        (int)edge.Length(), // sb will strech the texture to fill this rectangle
-                        LineWidth),         // width of line, change this to make thicker line
-                    null,
-                    LineColor,              // colour of line
-                    angle,                // angle of line (calulated above)
-                    new Vector2(0, 0),      // point in line about which to rotate
-                    SpriteEffects.None,
-                    0);
+                // rectangle defines shape of line and position of start of line
+                Rectangle rect = new Rectangle(
+                                                (int)PointList[i].X,  // Start
+                                                (int)PointList[i].Y,  // End
+                                                (int)edge.Length(),   // will strech the texture to fill this rectangle
+                                                LineWidth);           // width of line, change this to make thicker line
+                // to make it smooth
+                rect.Inflate(2, 0);
+
+                spriteBatch.Draw(Main.magicPixel, rect,
+                                null,
+                                LineColor,              // colour of line
+                                angle,                  // angle of line (calulated above)
+                                new Vector2(0, 0),      // point in line about which to rotate
+                                SpriteEffects.None,
+                                0);
             }
         }
     }

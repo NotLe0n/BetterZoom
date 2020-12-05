@@ -30,7 +30,8 @@ namespace BetterZoom.src.UI.UIElements
             EndPoint = end;
             LineWidth = width;
             LineColor = color;
-            ControlPoint = new ControlPoint(Vector2.Lerp(start, end, 0.5f)); // gets set and half a second later reset to "start"
+
+            ControlPoint = new ControlPoint(Vector2.Lerp(start, end, 0.5f));
         }
         private void CalculatePoints()
         {

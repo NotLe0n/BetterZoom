@@ -31,10 +31,11 @@ namespace BetterZoom.src.UI
                 Append(PathTrackers.trackers[i].PTrackerImg);
 
                 // Append Lines
-                Append(PathTrackers.trackers[i].Connection);
+                if (PathTrackers.trackers[i].Connection != null)
+                    Append(PathTrackers.trackers[i].Connection);
 
                 // Append Control Points
-                if (i + 1 < PathTrackers.trackers.Count && CCUI.selectedInterp == 2)
+                if (i + 1 < PathTrackers.trackers.Count && CCUI.selectedInterp == 2 && PathTrackers.trackers[i].Connection != null)
                 {
                     Append(PathTrackers.trackers[i].Connection.ControlPoint);
                 }

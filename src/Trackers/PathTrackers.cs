@@ -1,4 +1,5 @@
-﻿using BetterZoom.src.UI.UIElements;
+﻿using BetterZoom.src.UI;
+using BetterZoom.src.UI.UIElements;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -24,6 +25,10 @@ namespace BetterZoom.src.Trackers
             PTrackerImg = new UIImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
             PTrackerImg.ImageScale = 0.5f;
 
+            CreateCurve();
+        }
+        public void CreateCurve() // Broken
+        {
             for (int i = 0; i < trackers.Count; i++)
             {
                 Connection = new BezierCurve(
@@ -55,7 +60,7 @@ namespace BetterZoom.src.Trackers
                     }
                     else
                     {
-                        trackers[i].Connection.EndPoint = trackers[i].Connection.StartPoint;
+                        trackers[i].Connection.Remove();
                     }
                 }
             }
@@ -71,8 +76,11 @@ namespace BetterZoom.src.Trackers
                     {
                         ID = i;
                         trackers[ID].PTrackerImg.Remove();
-                        trackers[ID].Connection.Remove();
-                        trackers[ID].Connection.ControlPoint.Remove();
+                        if (trackers[ID].Connection != null)
+                        {
+                            trackers[ID].Connection.Remove();
+                            trackers[ID].Connection.ControlPoint.Remove();
+                        }
                         trackers.RemoveAt(ID);
                     }
                 }

@@ -25,7 +25,6 @@ namespace BetterZoom.src.Trackers
             // Fix Position to world
             MarginLeft = Position.X - Main.screenPosition.X - Width.Pixels / 2;
             MarginTop = Position.Y - Main.screenPosition.Y - Height.Pixels / 2;
-            Recalculate();
 
             if (ContainsPoint(Main.MouseScreen))
                 Main.LocalPlayer.mouseInterface = true;

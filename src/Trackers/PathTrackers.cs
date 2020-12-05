@@ -29,13 +29,10 @@ namespace BetterZoom.src.Trackers
         }
         public void CreateCurve() // Broken
         {
-            for (int i = 0; i < trackers.Count; i++)
-            {
-                Connection = new BezierCurve(
-                    trackers[i].Position,
-                    trackers[i].Position,
-                    5, Color.Red);
-            }
+            Connection = new BezierCurve(
+                Position,
+                Position,
+                5, Color.Red);
         }
         public static void FixPosition()
         {

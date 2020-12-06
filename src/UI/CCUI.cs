@@ -55,6 +55,33 @@ namespace BetterZoom.src.UI
             EraseTrackerBtn.MarginTop = 190;
             Menu.Append(EraseTrackerBtn);
 
+            UIImageButton DelBtn = new UIImageButton(ModContent.GetTexture("BetterZoom/Assets/DelButton"));
+            DelBtn.OnClick += (evt, elm) => {
+                UIPanel ConfirmPanel = new UIPanel();
+                ConfirmPanel.Width.Set(550f, 0f);
+                ConfirmPanel.Height.Set(100f, 0f);
+                ConfirmPanel.SetPadding(0);
+                ConfirmPanel.VAlign = ConfirmPanel.HAlign = 0.5f;
+                Append(ConfirmPanel);
+
+                ConfirmPanel.Append(new UIText("ARE YOU SURE YOU WANT TO DELETE ALL YOUR ITEMS?!") { HAlign = 0.5f, MarginTop = 15 });
+
+                UITextPanel<string> yep = new UITextPanel<string>("yes");
+                yep.HAlign = 0.2f;
+                yep.VAlign = 0.7f;
+                yep.OnClick += (evt1, elm1) => { PathTrackers.RemoveAll(); ConfirmPanel.Remove(); };
+                ConfirmPanel.Append(yep);
+
+                UITextPanel<string> nop = new UITextPanel<string>("no");
+                nop.HAlign = 0.8f;
+                nop.VAlign = 0.7f;
+                nop.OnClick += (evt1, elm1) => ConfirmPanel.Remove();
+                ConfirmPanel.Append(nop);
+            }; 
+            DelBtn.MarginLeft = 285;
+            DelBtn.MarginTop = 190;
+            Menu.Append(DelBtn);
+
             UIImageButton EntityBtn = new UIImageButton(ModContent.GetTexture("BetterZoom/Assets/EntityTrackerButton"));
             EntityBtn.OnClick += (evt, elm) =>
             {
@@ -67,7 +94,7 @@ namespace BetterZoom.src.UI
 
             UIImageButton MoveBtn = new UIImageButton(ModContent.GetTexture("BetterZoom/Assets/MoveButton"));
             MoveBtn.OnClick += (evt, elm) => moving = !moving;
-            MoveBtn.MarginLeft = 285;
+            MoveBtn.MarginLeft = 325;
             MoveBtn.MarginTop = 190;
             Menu.Append(MoveBtn);
 
@@ -220,25 +247,22 @@ namespace BetterZoom.src.UI
             }
 
             // Camera Mover
-            if (move != 0)
+            switch (move)
             {
-                switch (move)
-                {
-                    case 1:
-                        Camera.fixedscreen += new Vector2(0, -.1f);
-                        break;
-                    case 2:
-                        Camera.fixedscreen += new Vector2(0, .1f);
-                        break;
-                    case 3:
-                        Camera.fixedscreen += new Vector2(-0.1f, 0);
-                        break;
-                    case 4:
-                        Camera.fixedscreen += new Vector2(0.1f, 0);
-                        break;
-                    default:
-                        break;
-                }
+                case 1:
+                    Camera.fixedscreen += new Vector2(0, -5f);
+                    break;
+                case 2:
+                    Camera.fixedscreen += new Vector2(0, 5f);
+                    break;
+                case 3:
+                    Camera.fixedscreen += new Vector2(-5f, 0);
+                    break;
+                case 4:
+                    Camera.fixedscreen += new Vector2(5f, 0);
+                    break;
+                default:
+                    break;
             }
         }
     }

@@ -38,8 +38,8 @@ namespace BetterZoom.src.Trackers
         {
             for (int i = 0; i < trackers.Count; i++)
             {
-                trackers[i].PTrackerImg.MarginLeft = trackers[i].Position.X - Main.screenPosition.X - trackers[i].PTrackerImg.Width.Pixels / 2;
-                trackers[i].PTrackerImg.MarginTop = trackers[i].Position.Y - Main.screenPosition.Y - trackers[i].PTrackerImg.Height.Pixels / 2;
+                trackers[i].PTrackerImg.MarginLeft = (trackers[i].Position.X - Main.screenPosition.X - trackers[i].PTrackerImg.Width.Pixels / 2);
+                trackers[i].PTrackerImg.MarginTop = (trackers[i].Position.Y - Main.screenPosition.Y - trackers[i].PTrackerImg.Height.Pixels / 2);
             }
         }
         public static void FixLinePosition()
@@ -49,11 +49,11 @@ namespace BetterZoom.src.Trackers
             {
                 if (trackers[i].Connection != null && trackers[i] != null)
                 {
-                    trackers[i].Connection.StartPoint = trackers[i].Position - Main.screenPosition;
+                    trackers[i].Connection.StartPoint = (trackers[i].Position - Main.screenPosition);
 
                     if (i + 1 < trackers.Count)
                     {
-                        trackers[i].Connection.EndPoint = trackers[i + 1].Position - Main.screenPosition;
+                        trackers[i].Connection.EndPoint = (trackers[i + 1].Position - Main.screenPosition);
                     }
                     else
                     {
@@ -82,6 +82,22 @@ namespace BetterZoom.src.Trackers
                     }
                 }
             }
+        }
+        public static void RemoveAll()
+        {
+            for (int i = 0; i < trackers.Count; i++)
+            {
+                if (trackers[i] != null)
+                {
+                    trackers[i].PTrackerImg.Remove();
+                    if (trackers[i].Connection != null)
+                    {
+                        trackers[i].Connection.Remove();
+                        trackers[i].Connection.ControlPoint.Remove();
+                    }
+                }
+            }
+            trackers.Clear();
         }
     }
 }

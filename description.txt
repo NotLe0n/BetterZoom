@@ -15,6 +15,7 @@ Contact [c/66EEFF:TheLonelySheep#7696] on discord if you have any problems.
 Special Thanks to:
 [c/66EEFF:AbsoluteAquarian], for helping me with Lerp!
 [c/66EEFF:bafto & Hexagonalex], for testing multiplayer.
+[c/66EEFF:Cryoknight], for the trashcan sprite!
 
 _________________________
 
@@ -73,10 +74,12 @@ Move Screen (the Dpad):
 
 Path Trackers (red):
 [c/C4C4C4:    Click to place Path Trackers which]
-[c/C4C4C4:    will draw a line the camera follows]
+[c/C4C4C4:    will draw a curve the camera follows]
 
 [c/C4C4C4:    The Eraser will remove Path Trackers]
 [c/C4C4C4:    when you click or hold the left mouse button]
+
+[c/C4C4C4:    The Delete button will remove all Path Trackers]
 
 [c/C4C4C4:    You can move Path trackers using the move tool]
 

@@ -40,7 +40,7 @@ namespace BetterZoom.src.UI
 
             Menu.Append(new UIText("Control Trackers: ") { MarginTop = 130, MarginLeft = 210 });
 
-            UIImageButton PathTrackerBtn = new UIImageButton(ModContent.GetTexture("BetterZoom/Assets/PathTrackerButton"));
+            UIHoverImageButton PathTrackerBtn = new UIHoverImageButton("BetterZoom/Assets/PathTrackerButton", "Place Path tracker");
             PathTrackerBtn.OnClick += (evt, elm) =>
             {
                 placing = 1;
@@ -49,40 +49,45 @@ namespace BetterZoom.src.UI
             PathTrackerBtn.MarginTop = 155;
             Menu.Append(PathTrackerBtn);
 
-            UIImageButton EraseTrackerBtn = new UIImageButton(ModContent.GetTexture("BetterZoom/Assets/EraserButton"));
+            UIHoverImageButton EraseTrackerBtn = new UIHoverImageButton("BetterZoom/Assets/EraserButton", "Erase Trackers");
             EraseTrackerBtn.OnClick += (evt, elm) => erasing = !erasing;
             EraseTrackerBtn.MarginLeft = 245;
             EraseTrackerBtn.MarginTop = 190;
             Menu.Append(EraseTrackerBtn);
 
-            UIImageButton DelBtn = new UIImageButton(ModContent.GetTexture("BetterZoom/Assets/DelButton"));
+            DragableUIPanel ConfirmPanel = new DragableUIPanel(700, 120);
+            UIHoverImageButton DelBtn = new UIHoverImageButton("BetterZoom/Assets/DelButton", "Delete all Trackers");
             DelBtn.OnClick += (evt, elm) => {
-                UIPanel ConfirmPanel = new UIPanel();
-                ConfirmPanel.Width.Set(550f, 0f);
-                ConfirmPanel.Height.Set(100f, 0f);
-                ConfirmPanel.SetPadding(0);
-                ConfirmPanel.VAlign = ConfirmPanel.HAlign = 0.5f;
-                Append(ConfirmPanel);
+                if (!ConfirmPanel.active)
+                {
+                    ConfirmPanel.Left.Set(1000, 0f);
+                    ConfirmPanel.Top.Set(500, 0f);
+                    ConfirmPanel.Width.Set(400, 0f);
+                    ConfirmPanel.Height.Set(120, 0f);
+                    Append(ConfirmPanel);
 
-                ConfirmPanel.Append(new UIText("ARE YOU SURE YOU WANT TO DELETE ALL YOUR ITEMS?!") { HAlign = 0.5f, MarginTop = 15 });
+                    ConfirmPanel.Append(new UIText("Are you sure you want to remove all trackers?", 0.8f) {MarginLeft = 10, MarginTop = 10 });
 
-                UITextPanel<string> yep = new UITextPanel<string>("yes");
-                yep.HAlign = 0.2f;
-                yep.VAlign = 0.7f;
-                yep.OnClick += (evt1, elm1) => { PathTrackers.RemoveAll(); ConfirmPanel.Remove(); };
-                ConfirmPanel.Append(yep);
+                    UITextPanel<string> yep = new UITextPanel<string>("Yes");
+                    yep.HAlign = 0.2f;
+                    yep.VAlign = 0.7f;
+                    yep.Width.Set(100, 0f);
+                    yep.OnClick += (evt1, elm1) => { PathTrackers.RemoveAll(); ConfirmPanel.Remove(); };
+                    ConfirmPanel.Append(yep);
 
-                UITextPanel<string> nop = new UITextPanel<string>("no");
-                nop.HAlign = 0.8f;
-                nop.VAlign = 0.7f;
-                nop.OnClick += (evt1, elm1) => ConfirmPanel.Remove();
-                ConfirmPanel.Append(nop);
+                    UITextPanel<string> nop = new UITextPanel<string>("No");
+                    nop.HAlign = 0.8f;
+                    nop.VAlign = 0.7f;
+                    nop.Width.Set(100, 0f);
+                    nop.OnClick += (evt1, elm1) => { ConfirmPanel.Remove(); };
+                    ConfirmPanel.Append(nop);
+                }
             }; 
             DelBtn.MarginLeft = 285;
             DelBtn.MarginTop = 190;
             Menu.Append(DelBtn);
 
-            UIImageButton EntityBtn = new UIImageButton(ModContent.GetTexture("BetterZoom/Assets/EntityTrackerButton"));
+            UIHoverImageButton EntityBtn = new UIHoverImageButton("BetterZoom/Assets/EntityTrackerButton", "Place Entity Tracker");
             EntityBtn.OnClick += (evt, elm) =>
             {
                 if (EntityTracker.tracker == null) placing = 2;
@@ -92,7 +97,7 @@ namespace BetterZoom.src.UI
             EntityBtn.MarginTop = 155;
             Menu.Append(EntityBtn);
 
-            UIImageButton MoveBtn = new UIImageButton(ModContent.GetTexture("BetterZoom/Assets/MoveButton"));
+            UIHoverImageButton MoveBtn = new UIHoverImageButton("BetterZoom/Assets/MoveButton", "Move Path Tracker");
             MoveBtn.OnClick += (evt, elm) => moving = !moving;
             MoveBtn.MarginLeft = 325;
             MoveBtn.MarginTop = 190;
@@ -170,7 +175,8 @@ namespace BetterZoom.src.UI
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            lockScreenBtn.SetState(Camera.locked);
+            if(lockScreenBtn != null)
+                lockScreenBtn.SetState(Camera.locked);
             Camera.speed = speed.Data * 100;
 
             playButton.SetText(text: Camera.Playing ? "Stop" : "Play");

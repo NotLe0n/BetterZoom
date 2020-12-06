@@ -45,9 +45,16 @@ namespace BetterZoom.src
         public override void Unload()
         {
             // Other static Fields
+            foreach (var tracker in Trackers.PathTrackers.trackers)
+            {
+                tracker.PTrackerImg = null;
+                tracker.Connection = null;
+            }
+            Trackers.PathTrackers.trackers.Clear();
             Trackers.EntityTracker.TrackedEntity = null;
             Trackers.EntityTracker.tracker = null;
             Camera.locked = false;
+            CCUI.lockScreenBtn = null;
 
             // UI
             UserInterface = null;

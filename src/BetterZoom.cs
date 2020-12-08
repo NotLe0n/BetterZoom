@@ -17,7 +17,7 @@ namespace BetterZoom.src
         // UI
         internal UserInterface UserInterface;
         internal UserInterface TrackerUserInterface;
-        private UIState UI;
+        private UIState UITracker;
 
         /// <summary>
         /// Load Hotkeys and UI
@@ -32,14 +32,18 @@ namespace BetterZoom.src
             // UI
             if (!Main.dedServ)
             {
-                UI = new BZUI();
-                UI.Activate();
                 UserInterface = new UserInterface();
                 UserInterface.SetState(null);
 
+                UITracker = new TrackerUI();
+                UITracker.Activate();
                 TrackerUserInterface = new UserInterface();
-                TrackerUserInterface.SetState(new TrackerUI());
+                TrackerUserInterface.SetState(UITracker);
+
+                UI.UIElements.TabPanel.lastTab = new BZUI();
             }
+            
+            Trackers.PathTrackers.trackers = new List<Trackers.PathTrackers>();
         }
 
         public override void Unload()
@@ -47,19 +51,24 @@ namespace BetterZoom.src
             // Other static Fields
             foreach (var tracker in Trackers.PathTrackers.trackers)
             {
+                tracker.Connection.ControlPoint = null;
                 tracker.PTrackerImg = null;
                 tracker.Connection = null;
             }
-            Trackers.PathTrackers.trackers.Clear();
+            Trackers.PathTrackers.trackers = null;
             Trackers.EntityTracker.TrackedEntity = null;
             Trackers.EntityTracker.tracker = null;
+            Trackers.EntityTracker.ETrackerImg = null;
             Camera.locked = false;
             CCUI.lockScreenBtn = null;
+            CCUI.placeTracker = null;
+            Config.Instance = null;
+            UI.UIElements.TabPanel.lastTab = null;
 
             // UI
             UserInterface = null;
-            UI = null;
             TrackerUserInterface = null;
+            UITracker = null;
 
             // Hotkeys
             LockScreen =

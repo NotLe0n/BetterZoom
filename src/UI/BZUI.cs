@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
 using Terraria.UI;
+using Terraria.ModLoader;
 
 namespace BetterZoom.src.UI
 {
@@ -17,13 +18,14 @@ namespace BetterZoom.src.UI
         private UIRange<float> uiScaleSldr;
         public override void OnInitialize()
         {
-            UIElement Menu = new TabPanel(400, 350,
+            TabPanel Menu = new TabPanel(400, 350,
                 new Tab("Better Zoom", this),
                 new Tab(" Camera Control", new CCUI())
                 );
 
-            Menu.Left.Set(TabPanel.lastPos.X, 0f);
-            Menu.Top.Set(TabPanel.lastPos.Y, 0f);
+            Menu.Left.Set(DragableUIPanel.lastPos.X, 0f);
+            Menu.Top.Set(DragableUIPanel.lastPos.Y, 0f);
+            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<BetterZoom>().UserInterface.SetState(null);
             Append(Menu);
 
             zoom = new UIFloatRangedDataValue("Zoom", 1, -1f, 10);

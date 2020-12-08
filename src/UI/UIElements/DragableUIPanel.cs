@@ -1,23 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Linq;
+using System;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
-using Terraria.ID;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
 
 namespace BetterZoom.src.UI.UIElements
 {
-    class DragableUIPanel : UIPanel
+    public class DragableUIPanel : UIPanel
     {
         public bool active = false;
-        public DragableUIPanel(float width, float height)
+        public event Action OnCloseBtnClicked;
+        internal UIPanel header;
+
+        public DragableUIPanel(string headingtext, float width, float height)
         {
             Width.Set(width, 0f);
             Height.Set(height, 0f);
             SetPadding(0);
 
-            var header = new UIPanel();
+            header = new UIPanel();
             header.SetPadding(0);
             header.Width = Width;
             header.Height.Set(30, 0f);
@@ -26,25 +27,24 @@ namespace BetterZoom.src.UI.UIElements
             header.OnMouseUp += Header_OnMouseUp;
             Append(header);
 
+            var heading = new UIText(headingtext, 0.9f);
+            heading.VAlign = 0.5f;
+            heading.MarginLeft = 16f;
+            header.Append(heading);
+
             var closeBtn = new UITextPanel<char>('X');
             closeBtn.SetPadding(7);
             closeBtn.Width.Set(40, 0);
-            closeBtn.Left.Set(0, 0.9f);
+            closeBtn.Left.Set(-40, 1f);
             closeBtn.BackgroundColor.A = 255;
-            closeBtn.OnClick += (evt, elm) => { Remove(); };
+            closeBtn.OnClick += (evt, elm) => OnCloseBtnClicked?.Invoke();
             header.Append(closeBtn);
         }
         #region Drag code yoiked from ExampleMod 
-        public override void OnDeactivate()
-        {
-            active = false;
-            RemoveAllChildren();
-            Remove();
-        }
-        public override void OnActivate() => active = true;
 
         private Vector2 offset;
         public bool dragging;
+        public static Vector2 lastPos = new Vector2(600, 200);
         public void Header_OnMouseDown(UIMouseEvent evt, UIElement elm)
         {
             base.MouseDown(evt);
@@ -76,6 +76,8 @@ namespace BetterZoom.src.UI.UIElements
                 Left.Set(Main.mouseX - offset.X, 0f);
                 Top.Set(Main.mouseY - offset.Y, 0f);
                 Recalculate();
+
+                lastPos = new Vector2(Left.Pixels, Top.Pixels);
             }
 
             // Here we check if the DragableUIPanel is outside the Parent UIElement rectangle. 

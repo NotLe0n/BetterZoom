@@ -10,7 +10,7 @@ namespace BetterZoom.src.Trackers
 {
     class PathTrackers
     {
-        public static List<PathTrackers> trackers = new List<PathTrackers>();
+        public static List<PathTrackers> trackers;
         public UIImage PTrackerImg;
         public BezierCurve Connection;
         /// <summary>

@@ -19,16 +19,18 @@ namespace BetterZoom.src.UI
         bool moving;
         public static UIToggleImage lockScreenBtn;
         public static byte selectedInterp = 2;
+        public static UIImage placeTracker;
         public override void OnInitialize()
         {
             Camera.fixedscreen = Main.LocalPlayer.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
 
-            UIElement Menu = new TabPanel(400, 350,
+            TabPanel Menu = new TabPanel(400, 350,
                 new Tab("Better Zoom", new BZUI()),
                 new Tab(" Camera Control", this)
                 );
-            Menu.Left.Set(TabPanel.lastPos.X, 0f);
-            Menu.Top.Set(TabPanel.lastPos.Y, 0f);
+            Menu.Left.Set(DragableUIPanel.lastPos.X, 0f);
+            Menu.Top.Set(DragableUIPanel.lastPos.Y, 0f);
+            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<BetterZoom>().UserInterface.SetState(null);
             Append(Menu);
 
             speed = new UIFloatRangedDataValue("Tracking Speed", 1, 0.1f, 100);
@@ -55,7 +57,7 @@ namespace BetterZoom.src.UI
             EraseTrackerBtn.MarginTop = 190;
             Menu.Append(EraseTrackerBtn);
 
-            DragableUIPanel ConfirmPanel = new DragableUIPanel(700, 120);
+            DragableUIPanel ConfirmPanel = new DragableUIPanel("Are you sure you want to remove all trackers?", 700, 120);
             UIHoverImageButton DelBtn = new UIHoverImageButton("BetterZoom/Assets/DelButton", "Delete all Trackers");
             DelBtn.OnClick += (evt, elm) => {
                 if (!ConfirmPanel.active)
@@ -65,8 +67,6 @@ namespace BetterZoom.src.UI
                     ConfirmPanel.Width.Set(400, 0f);
                     ConfirmPanel.Height.Set(120, 0f);
                     Append(ConfirmPanel);
-
-                    ConfirmPanel.Append(new UIText("Are you sure you want to remove all trackers?", 0.8f) {MarginLeft = 10, MarginTop = 10 });
 
                     UITextPanel<string> yep = new UITextPanel<string>("Yes");
                     yep.HAlign = 0.2f;
@@ -135,7 +135,7 @@ namespace BetterZoom.src.UI
 
             Dpad[3].OnMouseDown += (evt, elm) => move = 4;
             Dpad[3].OnMouseUp += (evt, elm) => move = 0;
-            Dpad[3].OnClick += (evt, elm) => Camera.locked = true;
+            Dpad[3].OnClick += (evt, elm) => Camera.locked = true;        
 
             var hideTrackersBtn = new UIToggleImage(TextureManager.Load("Images/UI/Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
             hideTrackersBtn.MarginTop = 250;
@@ -170,12 +170,13 @@ namespace BetterZoom.src.UI
                 repeatBtn.SetText(text: Camera.repeat ? "End" : "Repeat");
             };
             Menu.Append(repeatBtn);
+
+            placeTracker = new UIImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
         }
-        UIImage placeTracker = new UIImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if(lockScreenBtn != null)
+            if (lockScreenBtn != null)
                 lockScreenBtn.SetState(Camera.locked);
             Camera.speed = speed.Data * 100;
 

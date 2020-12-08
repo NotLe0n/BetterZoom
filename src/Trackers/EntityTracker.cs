@@ -11,12 +11,14 @@ namespace BetterZoom.src.Trackers
         public static Entity TrackedEntity;
         public static Vector2 Position;
         public static EntityTracker tracker;
-        public static UIImage ETrackerImg = new UIImage(ModContent.GetTexture("BetterZoom/Assets/EntityTracker")) { MarginLeft = Main.LocalPlayer.position.X - Main.screenPosition.X, MarginTop = Main.LocalPlayer.position.Y - Main.screenPosition.Y };
+        public static UIImage ETrackerImg;
 
         public EntityTracker(Vector2 pos)
         {
             tracker = this;
             Position = pos;
+
+            ETrackerImg = new UIImage(ModContent.GetTexture("BetterZoom/Assets/EntityTracker")) { MarginLeft = Main.LocalPlayer.position.X - Main.screenPosition.X, MarginTop = Main.LocalPlayer.position.Y - Main.screenPosition.Y };
             ETrackerImg.ImageScale = 0.5f;
 
             TrackedEntity = FindClosest(pos);

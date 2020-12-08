@@ -30,7 +30,7 @@ namespace BetterZoom.src
             if (BetterZoom.ShowUI.JustPressed)
             {
                 var ui = ModContent.GetInstance<BetterZoom>().UserInterface;
-                ModContent.GetInstance<BetterZoom>().UserInterface.SetState(ui.CurrentState == null ? UI.UIElements.Tab.lastTab : null);
+                ModContent.GetInstance<BetterZoom>().UserInterface.SetState(ui.CurrentState == null ? UI.UIElements.TabPanel.lastTab : null);
 
             }
             // Control screen Position

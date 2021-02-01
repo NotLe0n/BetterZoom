@@ -1,5 +1,5 @@
 displayName = Better Zoom & Camera Control
-author = TheLonelySheep
+author = NotLe0n
 version = 2.1.2
 hideCode = false
 hideResources = false

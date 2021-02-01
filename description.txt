@@ -10,7 +10,7 @@ Open the UI using the hotkey (default: 'B').
 
 For a Changlog and more information visit my homepage!
 
-Contact [c/66EEFF:TheLonelySheep#7696] on discord if you have any problems.
+Contact [c/66EEFF:NotLe0n#7696] on discord if you have any problems.
 
 Special Thanks to:
 [c/66EEFF:AbsoluteAquarian], for helping me with Lerp!

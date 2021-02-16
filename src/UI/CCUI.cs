@@ -199,7 +199,7 @@ namespace BetterZoom.src.UI
 
                     if (Main.mouseLeft)
                     {
-                        new PathTrackers(Main.MouseWorld);
+                        new PathTrackers(Main.GameViewMatrix.Translation + Main.screenPosition + Main.MouseScreen / BetterZoom.zoom);
                         placeTracker.Remove();
                         placing = 0;
                     }

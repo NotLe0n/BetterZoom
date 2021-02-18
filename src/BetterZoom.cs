@@ -19,7 +19,7 @@ namespace BetterZoom.src
         internal UserInterface TrackerUserInterface;
         private UIState UITracker;
 
-        public float minimapScale = 1f;
+        public static float minimapScale = 1f;
         /// <summary>
         /// Load Hotkeys and UI
         /// </summary>

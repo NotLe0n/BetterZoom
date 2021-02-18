@@ -78,7 +78,7 @@ namespace BetterZoom.src.UI
             miniMapScaleSldr.Width.Set(0, 1);
             miniMapScaleSldr.MarginTop = 300;
             miniMapScaleSldr.MarginLeft = -20;
-            miniMapScale.OnValueChanged += () => ModContent.GetInstance<BetterZoom>().minimapScale = miniMapScale.Data;
+            miniMapScale.OnValueChanged += () => BetterZoom.minimapScale = miniMapScale.Data;
             Menu.Append(miniMapScaleSldr);
 
             var resetBtn = new UITextPanel<string>("Set to Default");

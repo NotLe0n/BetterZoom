@@ -16,6 +16,7 @@ Special Thanks to:
 [c/66EEFF:AbsoluteAquarian], for helping me with Lerp!
 [c/66EEFF:bafto & Hexagonalex], for testing multiplayer.
 [c/66EEFF:Cryoknight], for the trashcan sprite!
+[c/66EEFF:AbsoluteAquarian], [c/66EEFF:Trivaxy] and [c/66EEFF:direwolf420] for helping with the IL-edit
 
 _________________________
 

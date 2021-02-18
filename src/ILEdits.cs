@@ -9,7 +9,7 @@ using Terraria.Graphics;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace BetterZoom
+namespace BetterZoom.src
 {
     public class ILEdits
     {
@@ -39,7 +39,7 @@ namespace BetterZoom
             // Change "Main.minimapWidth = 240;" to "Main.minimapWidth = 240 * minimapScale;"
             c.EmitDelegate<Func<int, int>>((returnvalue) =>
             {
-                return (int)(240 * ModContent.GetInstance<src.BetterZoom>().minimapScale);
+                return (int)(240 * BetterZoom.minimapScale);
             });
 
             // Find Main.minimapHeight = 240;
@@ -55,7 +55,7 @@ namespace BetterZoom
             // Change "Main.minimapHeight = 240;" to "Main.minimapHeight = 240 * minimapScale;"
             c.EmitDelegate<Func<int, int>>((returnvalue) =>
             {
-                return (int)(240 * ModContent.GetInstance<src.BetterZoom>().minimapScale);
+                return (int)(240 * BetterZoom.minimapScale);
             });
             #endregion
 
@@ -82,7 +82,7 @@ namespace BetterZoom
             // change scale parameter to minimapScale
             c.EmitDelegate<Func<float, float>>((returnvalue) =>
             {
-                return ModContent.GetInstance<src.BetterZoom>().minimapScale;
+                return BetterZoom.minimapScale;
             });
             c.Index++;
 
@@ -106,7 +106,7 @@ namespace BetterZoom
 
             c.EmitDelegate<Func<float, float>>((returnvalue) =>
             {
-                return ModContent.GetInstance<src.BetterZoom>().minimapScale;
+                return BetterZoom.minimapScale;
             });
             #endregion
 
@@ -141,7 +141,7 @@ namespace BetterZoom
             {
                 float newX = Main.miniMapX - 6;
                 float offset = returnvalue - (newX + 148f);
-                return newX + (148f * ModContent.GetInstance<src.BetterZoom>().minimapScale) + offset * ModContent.GetInstance<src.BetterZoom>().minimapScale;
+                return newX + (148f * BetterZoom.minimapScale) + offset * BetterZoom.minimapScale;
             });
 
             // Go to IL_2212 (L687: float num89 = num58 + 234f;)
@@ -162,7 +162,7 @@ namespace BetterZoom
             c.EmitDelegate<Func<float, float>>((returnvalue) =>
             {
                 float newY = Main.miniMapY - 6;
-                return newY + 234f * ModContent.GetInstance<src.BetterZoom>().minimapScale;
+                return newY + 234f * BetterZoom.minimapScale;
             });
 
             // Go to IL_2229 (L688: if((float)Main.mouseX < num88 + 22f)))
@@ -184,7 +184,7 @@ namespace BetterZoom
             // Change click hitbox X
             c.EmitDelegate<Func<float, float>>((returnvalue) =>
             {
-                return returnvalue * ModContent.GetInstance<src.BetterZoom>().minimapScale;
+                return returnvalue * BetterZoom.minimapScale;
             });
 
             // Go to (L688: if((float)Main.mouseY < num89 + 22f)))
@@ -205,7 +205,7 @@ namespace BetterZoom
             // Change click hitbox Y
             c.EmitDelegate<Func<float, float>>((returnvalue) =>
             {
-                return returnvalue * ModContent.GetInstance<src.BetterZoom>().minimapScale;
+                return returnvalue * BetterZoom.minimapScale;
             });
 
             // Go to IL_229D (L690: Main.spriteBatch.Draw(Main.miniMapButtonTexture[i], ..., ..., ..., ..., ..., 1f))
@@ -227,7 +227,7 @@ namespace BetterZoom
             // Change scale of Buttons
             c.EmitDelegate<Func<float, float>>((returnvalue) =>
             {
-                return ModContent.GetInstance<src.BetterZoom>().minimapScale;
+                return BetterZoom.minimapScale;
             });
 
             

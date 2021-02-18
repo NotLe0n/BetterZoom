@@ -19,6 +19,7 @@ namespace BetterZoom.src
         internal UserInterface TrackerUserInterface;
         private UIState UITracker;
 
+        public float minimapScale = 1f;
         /// <summary>
         /// Load Hotkeys and UI
         /// </summary>
@@ -42,8 +43,10 @@ namespace BetterZoom.src
 
                 UI.UIElements.TabPanel.lastTab = new BZUI();
             }
-            
+
             Trackers.PathTrackers.trackers = new List<Trackers.PathTrackers>();
+
+            ILEdits.Load();
         }
 
         public override void Unload()

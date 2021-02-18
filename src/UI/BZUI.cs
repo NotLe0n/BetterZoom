@@ -18,7 +18,7 @@ namespace BetterZoom.src.UI
         private UIRange<float> uiScaleSldr;
         public override void OnInitialize()
         {
-            TabPanel Menu = new TabPanel(400, 350,
+            TabPanel Menu = new TabPanel(400, 400,
                 new Tab("Better Zoom", this),
                 new Tab(" Camera Control", new CCUI())
                 );
@@ -73,6 +73,14 @@ namespace BetterZoom.src.UI
             hotbarScale.OnValueChanged += () => BetterZoom.hotbarScale = hotbarScale.Data;
             Menu.Append(hotbarScaleSldr);
 
+            UIFloatRangedDataValue miniMapScale = new UIFloatRangedDataValue("Minimap Scale", 1, 0.2f, 5);
+            var miniMapScaleSldr = new UIRange<float>(miniMapScale);
+            miniMapScaleSldr.Width.Set(0, 1);
+            miniMapScaleSldr.MarginTop = 300;
+            miniMapScaleSldr.MarginLeft = -20;
+            miniMapScale.OnValueChanged += () => ModContent.GetInstance<BetterZoom>().minimapScale = miniMapScale.Data;
+            Menu.Append(miniMapScaleSldr);
+
             var resetBtn = new UITextPanel<string>("Set to Default");
             resetBtn.SetPadding(4);
             resetBtn.MarginLeft = 20;
@@ -85,6 +93,7 @@ namespace BetterZoom.src.UI
                 flipBgBtn.SetState(true);
                 zoomBgBtn.SetState(false);
                 hotbarScale.ResetToDefaultValue();
+                miniMapScale.ResetToDefaultValue();
             };
             Menu.Append(resetBtn);
         }

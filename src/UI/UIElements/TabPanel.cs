@@ -32,13 +32,13 @@ namespace BetterZoom.src.UI.UIElements
             TabPanel.lastTab = _changeStateTo;
 
             // change UIState and play click sound
-            GetInstance<BetterZoom>().UserInterface.SetState(_changeStateTo);
+            GetInstance<BetterZoom>().userInterface.SetState(_changeStateTo);
             Main.PlaySound(SoundID.MenuTick);
         }
         public override void Update(GameTime gameTime)
         {
             // Highlight
-            if (GetInstance<BetterZoom>().UserInterface.CurrentState == _changeStateTo)
+            if (GetInstance<BetterZoom>().userInterface.CurrentState == _changeStateTo)
             {
                 BackgroundColor = new Color(73, 94, 171);
             }

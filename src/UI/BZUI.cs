@@ -18,14 +18,14 @@ namespace BetterZoom.src.UI
         private UIRange<float> uiScaleSldr;
         public override void OnInitialize()
         {
-            TabPanel Menu = new TabPanel(400, 400,
+            TabPanel Menu = new TabPanel(400, 450,
                 new Tab("Better Zoom", this),
                 new Tab(" Camera Control", new CCUI())
                 );
 
             Menu.Left.Set(DragableUIPanel.lastPos.X, 0f);
             Menu.Top.Set(DragableUIPanel.lastPos.Y, 0f);
-            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<BetterZoom>().UserInterface.SetState(null);
+            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<BetterZoom>().userInterface.SetState(null);
             Append(Menu);
 
             zoom = new UIFloatRangedDataValue("Zoom", 1, -1f, 10);
@@ -80,6 +80,14 @@ namespace BetterZoom.src.UI
             miniMapScaleSldr.MarginLeft = -20;
             miniMapScale.OnValueChanged += () => BetterZoom.minimapScale = miniMapScale.Data;
             Menu.Append(miniMapScaleSldr);
+
+            /*UIFloatRangedDataValue offScreenRange = new UIFloatRangedDataValue("offscreen Range", 192, -1000f, 1000);
+            var offScreenRangeSldr = new UIRange<float>(offScreenRange);
+            offScreenRangeSldr.Width.Set(0, 1);
+            offScreenRangeSldr.MarginTop = 350;
+            offScreenRangeSldr.MarginLeft = -20;
+            offScreenRange.OnValueChanged += () => BetterZoom.offscrnRange = offScreenRange.Data;
+            Menu.Append(offScreenRangeSldr);*/
 
             var resetBtn = new UITextPanel<string>("Set to Default");
             resetBtn.SetPadding(4);

@@ -15,11 +15,12 @@ namespace BetterZoom.src
         public static ModHotKey LockScreen, SetTracker, RemoveTracker, ShowUI;
 
         // UI
-        internal UserInterface UserInterface;
-        internal UserInterface TrackerUserInterface;
-        private UIState UITracker;
+        internal UserInterface userInterface;
+        internal UserInterface trackerUserInterface;
+        public UIState trackerUI;
 
         public static float minimapScale = 1f;
+        public static float offscrnRange;
         /// <summary>
         /// Load Hotkeys and UI
         /// </summary>
@@ -33,45 +34,31 @@ namespace BetterZoom.src
             // UI
             if (!Main.dedServ)
             {
-                UserInterface = new UserInterface();
-                UserInterface.SetState(null);
+                userInterface = new UserInterface();
+                userInterface.SetState(null);
 
-                UITracker = new TrackerUI();
-                UITracker.Activate();
-                TrackerUserInterface = new UserInterface();
-                TrackerUserInterface.SetState(UITracker);
+                trackerUI = new TrackerUI();
+                trackerUI.Activate();
+                trackerUserInterface = new UserInterface();
+                trackerUserInterface.SetState(trackerUI);
 
                 UI.UIElements.TabPanel.lastTab = new BZUI();
             }
 
-            Trackers.PathTrackers.trackers = new List<Trackers.PathTrackers>();
-
             ILEdits.Load();
+            //MethodDetours.Load();
         }
 
         public override void Unload()
         {
-            // Other static Fields
-            foreach (var tracker in Trackers.PathTrackers.trackers)
-            {
-                tracker.Connection.ControlPoint = null;
-                tracker.PTrackerImg = null;
-                tracker.Connection = null;
-            }
-            Trackers.PathTrackers.trackers = null;
-            Trackers.EntityTracker.TrackedEntity = null;
-            Trackers.EntityTracker.tracker = null;
-            Trackers.EntityTracker.ETrackerImg = null;
-            Camera.locked = false;
             CCUI.lockScreenBtn = null;
-            CCUI.placeTracker = null;
             Config.Instance = null;
             UI.UIElements.TabPanel.lastTab = null;
 
             // UI
-            UserInterface = null;
-            TrackerUserInterface = null;
-            UITracker = null;
+            userInterface = null;
+            trackerUserInterface = null;
+            trackerUI = null;
 
             // Hotkeys
             LockScreen =
@@ -84,10 +71,10 @@ namespace BetterZoom.src
         public override void UpdateUI(GameTime gameTime)
         {
             _lastUpdateUiGameTime = gameTime;
-            if (UserInterface.CurrentState != null)
-                UserInterface.Update(gameTime);
+            if (userInterface.CurrentState != null)
+                userInterface.Update(gameTime);
             if (!TrackerUI.hide)
-                TrackerUserInterface.Update(gameTime);
+                trackerUserInterface.Update(gameTime);
         }
 
         /// <summary>
@@ -102,8 +89,8 @@ namespace BetterZoom.src
                     "Better Zoom: UI",
                     delegate
                     {
-                        if (UserInterface.CurrentState != null)
-                            UserInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        if (userInterface.CurrentState != null)
+                            userInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
                         return true;
                     }, InterfaceScaleType.UI));
             }
@@ -116,7 +103,7 @@ namespace BetterZoom.src
                     delegate
                     {
                         if (!TrackerUI.hide)
-                            TrackerUserInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                            trackerUserInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
                         return true;
                     }, InterfaceScaleType.Game));
             }

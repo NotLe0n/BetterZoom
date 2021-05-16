@@ -1,4 +1,5 @@
 ﻿using BetterZoom.src.Trackers;
+using BetterZoom.src.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
@@ -14,39 +15,43 @@ namespace BetterZoom.src
             // Toggles Lock Screen
             if (BetterZoom.LockScreen.JustPressed)
             {
-                Camera.fixedscreen = Main.screenPosition;
-                Camera.locked = !Camera.locked;
+                Camera.ToggleLock();
             }
             // New Path Tracker
             if (BetterZoom.SetTracker.JustPressed)
             {
-                new PathTrackers(Main.MouseWorld);
+                var tracker = new PathTrackers(Main.MouseWorld);
+                ModContent.GetInstance<BetterZoom>().trackerUI.Append(tracker);
             }
             // Removes Path Tracker
             if (BetterZoom.RemoveTracker.JustPressed)
             {
-                PathTrackers.Remove();
+                for (int i = 0; i < TrackerUI.trackers.Count; i++)
+                {
+                    if (TrackerUI.trackers[i].IsMouseHovering)
+                        TrackerUI.trackers[i].RemoveTracker();
+                }
             }
             if (BetterZoom.ShowUI.JustPressed)
             {
-                var ui = ModContent.GetInstance<BetterZoom>().UserInterface;
-                ModContent.GetInstance<BetterZoom>().UserInterface.SetState(ui.CurrentState == null ? UI.UIElements.TabPanel.lastTab : null);
+                var ui = ModContent.GetInstance<BetterZoom>().userInterface;
+                ModContent.GetInstance<BetterZoom>().userInterface.SetState(ui.CurrentState == null ? UI.UIElements.TabPanel.lastTab : null);
 
             }
             // Control screen Position
-            if (Camera.locked)
+            if (Camera.Locked)
             {
                 if (Main.keyState.IsKeyDown(Keys.Up))
-                    Camera.fixedscreen += new Vector2(0, -5);
+                    Camera.MoveRelativeTo(new Vector2(0, -5));
 
                 if (Main.keyState.IsKeyDown(Keys.Down))
-                    Camera.fixedscreen += new Vector2(0, 5);
+                    Camera.MoveRelativeTo(new Vector2(0, 5));
 
                 if (Main.keyState.IsKeyDown(Keys.Left))
-                    Camera.fixedscreen += new Vector2(-5, 0);
+                    Camera.MoveRelativeTo(new Vector2(-5, 0));
 
                 if (Main.keyState.IsKeyDown(Keys.Right))
-                    Camera.fixedscreen += new Vector2(5, 0);
+                    Camera.MoveRelativeTo(new Vector2(5, 0));
 
             }
             // Control UI Scale

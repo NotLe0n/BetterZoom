@@ -13,13 +13,20 @@ namespace BetterZoom.src.UI
     {
         UITextPanel<string> playButton;
         UIFloatRangedDataValue speed;
-        byte placing;
-        byte move = 0;
         bool erasing;
         bool moving;
         public static UIToggleImage lockScreenBtn;
         public static byte selectedInterp = 2;
-        public static UIImage placeTracker;
+        public UIImage placeTracker;
+        private TrackerID? placing = null;
+        DragableUIPanel ConfirmPanel = new DragableUIPanel("Are you sure you want to remove all trackers?", 700, 120);
+
+        enum TrackerID
+        {
+            PathTracker,
+            EntityTracker
+        }
+
         public override void OnInitialize()
         {
             Camera.fixedscreen = Main.LocalPlayer.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
@@ -30,7 +37,7 @@ namespace BetterZoom.src.UI
                 );
             Menu.Left.Set(DragableUIPanel.lastPos.X, 0f);
             Menu.Top.Set(DragableUIPanel.lastPos.Y, 0f);
-            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<BetterZoom>().UserInterface.SetState(null);
+            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<BetterZoom>().userInterface.SetState(null);
             Append(Menu);
 
             speed = new UIFloatRangedDataValue("Tracking Speed", 1, 0.1f, 100);
@@ -43,10 +50,7 @@ namespace BetterZoom.src.UI
             Menu.Append(new UIText("Control Trackers: ") { MarginTop = 130, MarginLeft = 210 });
 
             UIHoverImageButton PathTrackerBtn = new UIHoverImageButton("BetterZoom/Assets/PathTrackerButton", "Place Path tracker");
-            PathTrackerBtn.OnClick += (evt, elm) =>
-            {
-                placing = 1;
-            };
+            PathTrackerBtn.OnClick += (evt, elm) => placing = TrackerID.PathTracker;
             PathTrackerBtn.MarginLeft = 245;
             PathTrackerBtn.MarginTop = 155;
             Menu.Append(PathTrackerBtn);
@@ -57,42 +61,14 @@ namespace BetterZoom.src.UI
             EraseTrackerBtn.MarginTop = 190;
             Menu.Append(EraseTrackerBtn);
 
-            DragableUIPanel ConfirmPanel = new DragableUIPanel("Are you sure you want to remove all trackers?", 700, 120);
             UIHoverImageButton DelBtn = new UIHoverImageButton("BetterZoom/Assets/DelButton", "Delete all Trackers");
-            DelBtn.OnClick += (evt, elm) => {
-                if (!ConfirmPanel.active)
-                {
-                    ConfirmPanel.Left.Set(1000, 0f);
-                    ConfirmPanel.Top.Set(500, 0f);
-                    ConfirmPanel.Width.Set(400, 0f);
-                    ConfirmPanel.Height.Set(120, 0f);
-                    Append(ConfirmPanel);
-
-                    UITextPanel<string> yep = new UITextPanel<string>("Yes");
-                    yep.HAlign = 0.2f;
-                    yep.VAlign = 0.7f;
-                    yep.Width.Set(100, 0f);
-                    yep.OnClick += (evt1, elm1) => { PathTrackers.RemoveAll(); ConfirmPanel.Remove(); };
-                    ConfirmPanel.Append(yep);
-
-                    UITextPanel<string> nop = new UITextPanel<string>("No");
-                    nop.HAlign = 0.8f;
-                    nop.VAlign = 0.7f;
-                    nop.Width.Set(100, 0f);
-                    nop.OnClick += (evt1, elm1) => { ConfirmPanel.Remove(); };
-                    ConfirmPanel.Append(nop);
-                }
-            }; 
+            DelBtn.OnClick += DeleteAll;
             DelBtn.MarginLeft = 285;
             DelBtn.MarginTop = 190;
             Menu.Append(DelBtn);
 
             UIHoverImageButton EntityBtn = new UIHoverImageButton("BetterZoom/Assets/EntityTrackerButton", "Place Entity Tracker");
-            EntityBtn.OnClick += (evt, elm) =>
-            {
-                if (EntityTracker.tracker == null) placing = 2;
-                else EntityTracker.RemoveTracker();
-            };
+            EntityBtn.OnClick += ToggleEnityTracker;
             EntityBtn.MarginLeft = 285;
             EntityBtn.MarginTop = 155;
             Menu.Append(EntityBtn);
@@ -108,8 +84,7 @@ namespace BetterZoom.src.UI
             lockScreenBtn.MarginLeft = 250;
             lockScreenBtn.OnClick += (evt, elm) =>
             {
-                Camera.fixedscreen = Main.screenPosition;
-                Camera.locked = !Camera.locked;
+                Camera.ToggleLock();
             };
             lockScreenBtn.Append(new UIText("Lock Screen", 0.9f) { MarginLeft = -230 });
             Menu.Append(lockScreenBtn);
@@ -121,21 +96,10 @@ namespace BetterZoom.src.UI
             for (int i = 0; i < Dpad.Length; i++)
                 Menu.Append(Dpad[i]);
 
-            Dpad[0].OnMouseDown += (evt, elm) => move = 1;
-            Dpad[0].OnMouseUp += (evt, elm) => move = 0;
-            Dpad[0].OnClick += (evt, elm) => Camera.locked = true;
-
-            Dpad[1].OnMouseDown += (evt, elm) => move = 2;
-            Dpad[1].OnMouseUp += (evt, elm) => move = 0;
-            Dpad[1].OnClick += (evt, elm) => Camera.locked = true;
-
-            Dpad[2].OnMouseDown += (evt, elm) => move = 3;
-            Dpad[2].OnMouseUp += (evt, elm) => move = 0;
-            Dpad[2].OnClick += (evt, elm) => Camera.locked = true;
-
-            Dpad[3].OnMouseDown += (evt, elm) => move = 4;
-            Dpad[3].OnMouseUp += (evt, elm) => move = 0;
-            Dpad[3].OnClick += (evt, elm) => Camera.locked = true;        
+            Dpad[0].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(0, -5f));
+            Dpad[1].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(0, 5f));
+            Dpad[2].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(-5f, 0));
+            Dpad[3].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(5f, 0));
 
             var hideTrackersBtn = new UIToggleImage(TextureManager.Load("Images/UI/Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
             hideTrackersBtn.MarginTop = 250;
@@ -173,103 +137,164 @@ namespace BetterZoom.src.UI
 
             placeTracker = new UIImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
         }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
             if (lockScreenBtn != null)
-                lockScreenBtn.SetState(Camera.locked);
+            {
+                lockScreenBtn.SetState(Camera.Locked);
+            }
+
             Camera.speed = speed.Data * 100;
 
             playButton.SetText(text: Camera.Playing ? "Stop" : "Play");
 
-            // Placer
-            if (placing != 0)
+            if (placing != null)
             {
-                Main.cursorOverride = 16;
-                Main.LocalPlayer.mouseInterface = true;
-                placeTracker.ImageScale = 0.5f;
-                placeTracker.MarginLeft = Main.MouseScreen.X - placeTracker.Width.Pixels / 2;
-                placeTracker.MarginTop = Main.MouseScreen.Y - placeTracker.Height.Pixels / 2;
-                erasing = moving = false;
-
-                if (placing == 1)
-                {
-                    placeTracker.SetImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
-                    Append(placeTracker);
-
-                    if (Main.mouseLeft)
-                    {
-                        new PathTrackers(Main.GameViewMatrix.Translation + Main.screenPosition + Main.MouseScreen / BetterZoom.zoom);
-                        placeTracker.Remove();
-                        placing = 0;
-                    }
-                }
-                // Entity Tracker
-                else if (placing == 2)
-                {
-                    placeTracker.SetImage(ModContent.GetTexture("BetterZoom/Assets/EntityTracker"));
-                    Append(placeTracker);
-
-                    if (Main.mouseLeft)
-                    {
-                        Camera.locked = true;
-                        new EntityTracker(Main.MouseWorld);
-                        placeTracker.Remove();
-                        placing = 0;
-                    }
-                }
+                PlaceTracker((TrackerID)placing);
             }
+
             // Eraser
             if (erasing)
             {
-                Main.cursorOverride = 6;
-                Main.LocalPlayer.mouseInterface = true;
-                moving = false;
-                placing = 0;
-
-                if (Main.mouseLeft)
-                {
-                    PathTrackers.Remove();
-                }
+                EraseTracker();
             }
 
             // Tracker Mover
             if (moving)
             {
-                placing = 0;
-                erasing = false;
-                Main.cursorOverride = 16;
-                Main.LocalPlayer.mouseInterface = true;
+                MoveTracker();
+            }
+        }
+
+        private void PlaceTracker(TrackerID id)
+        {
+            Main.cursorOverride = 16;
+            Main.LocalPlayer.mouseInterface = true;
+            placeTracker.ImageScale = 0.5f;
+            placeTracker.MarginLeft = Main.MouseScreen.X - placeTracker.Width.Pixels / 2;
+            placeTracker.MarginTop = Main.MouseScreen.Y - placeTracker.Height.Pixels / 2;
+            erasing = moving = false;
+
+            if (id == TrackerID.PathTracker)
+            {
+                placeTracker.SetImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
+                Append(placeTracker);
 
                 if (Main.mouseLeft)
                 {
-                    for (int i = 0; i < PathTrackers.trackers.Count; i++)
+                    var tracker = new PathTrackers(Main.GameViewMatrix.Translation + Main.screenPosition + (Main.MouseScreen / BetterZoom.zoom));
+                    ModContent.GetInstance<BetterZoom>().trackerUI.Append(tracker);
+                    placeTracker.Remove();
+                    placing = null;
+                }
+            }
+            // Entity Tracker
+            else if (id == TrackerID.EntityTracker)
+            {
+                placeTracker.SetImage(ModContent.GetTexture("BetterZoom/Assets/EntityTracker"));
+                Append(placeTracker);
+
+                if (Main.mouseLeft)
+                {
+                    TrackerUI.entityTracker = new EntityTracker(Main.MouseWorld);
+                    ModContent.GetInstance<BetterZoom>().trackerUI.Append(TrackerUI.entityTracker);
+                    Camera.ToggleLock(TrackerUI.entityTracker.TrackedEntity.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2));
+                    placeTracker.Remove();
+                    placing = null;
+                }
+            }
+        }
+
+        private void ToggleEnityTracker(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (TrackerUI.entityTracker == null)
+            {
+                placing = TrackerID.EntityTracker;
+            }
+            else
+            {
+                TrackerUI.entityTracker.RemoveTracker();
+            }
+        }
+
+        private void MoveTracker()
+        {
+            Main.cursorOverride = 16;
+            Main.LocalPlayer.mouseInterface = true;
+            placing = null;
+            erasing = false;
+
+            if (Main.mouseLeft)
+            {
+                for (int i = 0; i < TrackerUI.trackers.Count; i++)
+                {
+                    if (TrackerUI.trackers[i].IsMouseHovering)
                     {
-                        if (PathTrackers.trackers[i].PTrackerImg.IsMouseHovering)
+                        TrackerUI.trackers[i].Position = Main.MouseWorld;
+                    }
+                }
+            }
+        }
+
+        private void EraseTracker()
+        {
+            Main.cursorOverride = 6;
+            Main.LocalPlayer.mouseInterface = true;
+            moving = false;
+            placing = null;
+
+            if (Main.mouseLeft)
+            {
+                int ID = 0;
+                for (int i = 0; i < TrackerUI.trackers.Count; i++)
+                {
+                    if (TrackerUI.trackers[i].IsMouseHovering)
+                    {
+                        if (TrackerUI.trackers[i] != null && (ID == 0 || Vector2.Distance(TrackerUI.trackers[i].Position, Main.MouseWorld) < Vector2.Distance(TrackerUI.trackers[ID].Position, Main.MouseWorld)))
                         {
-                            PathTrackers.trackers[i].Position = Main.MouseWorld;
+                            ID = i;
+                            TrackerUI.trackers[i].RemoveTracker();
                         }
                     }
                 }
             }
+        }
 
-            // Camera Mover
-            switch (move)
+        private void DeleteAll(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (!ConfirmPanel.active)
             {
-                case 1:
-                    Camera.fixedscreen += new Vector2(0, -5f);
-                    break;
-                case 2:
-                    Camera.fixedscreen += new Vector2(0, 5f);
-                    break;
-                case 3:
-                    Camera.fixedscreen += new Vector2(-5f, 0);
-                    break;
-                case 4:
-                    Camera.fixedscreen += new Vector2(5f, 0);
-                    break;
-                default:
-                    break;
+                ConfirmPanel.Left.Set(1000, 0f);
+                ConfirmPanel.Top.Set(500, 0f);
+                ConfirmPanel.Width.Set(400, 0f);
+                ConfirmPanel.Height.Set(120, 0f);
+                Append(ConfirmPanel);
+
+                UITextPanel<string> yep = new UITextPanel<string>("Yes");
+                yep.HAlign = 0.2f;
+                yep.VAlign = 0.7f;
+                yep.Width.Set(100, 0f);
+                yep.OnClick += (evt1, elm1) =>
+                {
+                    for (int i = 0; i < TrackerUI.trackers.Count; i++)
+                    {
+                        TrackerUI.trackers[i].RemoveTracker();
+                    }
+                    TrackerUI.trackers.Clear();
+                    ModContent.GetInstance<BetterZoom>().trackerUI.RemoveAllChildren();
+                    ConfirmPanel.Remove();
+                };
+                ConfirmPanel.Append(yep);
+
+                UITextPanel<string> nop = new UITextPanel<string>("No");
+                nop.HAlign = 0.8f;
+                nop.VAlign = 0.7f;
+                nop.Width.Set(100, 0f);
+                nop.OnClick += (evt1, elm1) => ConfirmPanel.Remove();
+                ConfirmPanel.Append(nop);
             }
         }
     }

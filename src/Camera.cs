@@ -10,10 +10,12 @@ namespace BetterZoom.src
     class Camera : ModPlayer
     {
         public static Vector2 fixedscreen = Main.LocalPlayer.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-        public static bool Playing, locked, repeat;
+        public static bool Playing, repeat;
         public static float k;
         public static int segment = 0;
         public static float speed = 1;
+        public static bool Locked { get; set; }
+
         public static void PlayStopTracking()
         {
             Playing = !Playing;
@@ -25,19 +27,19 @@ namespace BetterZoom.src
             fixedscreen = Playing ? Main.screenPosition
                       : Main.LocalPlayer.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
             Playing = !Playing;
-            locked = !locked;
+            ToggleLock(fixedscreen);
         }
         public override void ModifyScreenPosition()
         {
             if (Playing)
             {
-                if (segment < PathTrackers.trackers.Count && PathTrackers.trackers.Count != 1)
+                if (segment < TrackerUI.trackers.Count && TrackerUI.trackers.Count != 1)
                 {
-                    var start = PathTrackers.trackers[segment].Position - new Vector2(Main.screenWidth, Main.screenHeight) / 2;
+                    var start = TrackerUI.trackers[segment].Position - new Vector2(Main.screenWidth, Main.screenHeight) / 2;
                     var end = start;
-                    if (segment + 1 < PathTrackers.trackers.Count)
-                        end = PathTrackers.trackers[segment + 1].Position - new Vector2(Main.screenWidth, Main.screenHeight) / 2;
-                    var control = PathTrackers.trackers[segment].Connection.ControlPoint.Position - new Vector2(Main.screenWidth, Main.screenHeight) / 2;
+                    if (segment + 1 < TrackerUI.trackers.Count)
+                        end = TrackerUI.trackers[segment + 1].Position - new Vector2(Main.screenWidth, Main.screenHeight) / 2;
+                    var control = TrackerUI.trackers[segment].Connection.ControlPoint.Position - new Vector2(Main.screenWidth, Main.screenHeight) / 2;
 
                     // Change screen Position
                     switch (CCUI.selectedInterp)
@@ -51,7 +53,7 @@ namespace BetterZoom.src
                             break;
                     }
                     // Change Lerp amount
-                    k += 0.01f / PathTrackers.trackers[segment].Connection.Length() * speed;
+                    k += 0.01f / TrackerUI.trackers[segment].Connection.Length() * speed;
                     // Next segment
                     if (k > 1f || Main.screenPosition == end)
                     {
@@ -68,21 +70,34 @@ namespace BetterZoom.src
                 }
             }
 
-            if (!Main.gameMenu)
+            if (Locked)
             {
-                if (locked)
-                {
-                    // Lock screen
-                    Main.screenPosition = fixedscreen;
-
-                    // Lock screen to Entity
-                    if (EntityTracker.tracker != null)
-                    {
-                        EntityTracker.Position = EntityTracker.TrackedEntity.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-                        Main.screenPosition = EntityTracker.Position;
-                    }
-                }
+                Main.screenPosition = fixedscreen;
             }
+        }
+
+        public static void ToggleLock()
+        {
+            fixedscreen = Main.screenPosition;
+            Locked = !Locked;
+        }
+
+        public static void ToggleLock(Vector2 position)
+        {
+            fixedscreen = position;
+            Locked = !Locked;
+        }
+
+        public static void MoveTo(Vector2 pos)
+        {
+            Locked = true;
+            fixedscreen = pos;
+        }
+
+        public static void MoveRelativeTo(Vector2 pos)
+        {
+            Locked = true;
+            fixedscreen += pos;
         }
     }
 }

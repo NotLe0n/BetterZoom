@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "BetterZoom": {
+      "commandName": "Executable",
+      "executablePath": "$(tMLPath)",
+      "workingDirectory": "$(TerrariaSteamPath)"
+    }
+  }
+}

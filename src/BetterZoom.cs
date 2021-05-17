@@ -46,12 +46,10 @@ namespace BetterZoom.src
             }
 
             ILEdits.Load();
-            //MethodDetours.Load();
         }
 
         public override void Unload()
         {
-            CCUI.lockScreenBtn = null;
             Config.Instance = null;
             UI.UIElements.TabPanel.lastTab = null;
 

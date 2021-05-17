@@ -1,6 +1,7 @@
 ﻿using BetterZoom.src.Trackers;
 using BetterZoom.src.UI.UIElements;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
@@ -9,19 +10,19 @@ using Terraria.UI;
 
 namespace BetterZoom.src.UI
 {
-    class CCUI : UIState
+    internal class CCUI : UIState
     {
-        UITextPanel<string> playButton;
-        UIFloatRangedDataValue speed;
-        bool erasing;
-        bool moving;
-        public static UIToggleImage lockScreenBtn;
         public static byte selectedInterp = 2;
-        public UIImage placeTracker;
-        private TrackerID? placing = null;
-        DragableUIPanel ConfirmPanel = new DragableUIPanel("Are you sure you want to remove all trackers?", 700, 120);
 
-        enum TrackerID
+        private UITextPanel<string> playButton;
+        private UIFloatRangedDataValue speed;
+        private bool erasing;
+        private bool moving;
+        private UIToggleImage lockScreenBtn;
+        private TrackerID? placing = null;
+        private DragableUIPanel ConfirmPanel = new DragableUIPanel("Are you sure you want to remove all trackers?", 700, 120);
+
+        private enum TrackerID
         {
             PathTracker,
             EntityTracker
@@ -82,10 +83,7 @@ namespace BetterZoom.src.UI
             lockScreenBtn = new UIToggleImage(TextureManager.Load("Images/UI/Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
             lockScreenBtn.MarginTop = 100;
             lockScreenBtn.MarginLeft = 250;
-            lockScreenBtn.OnClick += (evt, elm) =>
-            {
-                Camera.ToggleLock();
-            };
+            lockScreenBtn.OnClick += (evt, elm) => Camera.ToggleLock();
             lockScreenBtn.Append(new UIText("Lock Screen", 0.9f) { MarginLeft = -230 });
             Menu.Append(lockScreenBtn);
 
@@ -134,8 +132,6 @@ namespace BetterZoom.src.UI
                 repeatBtn.SetText(text: Camera.repeat ? "End" : "Repeat");
             };
             Menu.Append(repeatBtn);
-
-            placeTracker = new UIImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
         }
 
         public override void Update(GameTime gameTime)
@@ -173,36 +169,22 @@ namespace BetterZoom.src.UI
         {
             Main.cursorOverride = 16;
             Main.LocalPlayer.mouseInterface = true;
-            placeTracker.ImageScale = 0.5f;
-            placeTracker.MarginLeft = Main.MouseScreen.X - placeTracker.Width.Pixels / 2;
-            placeTracker.MarginTop = Main.MouseScreen.Y - placeTracker.Height.Pixels / 2;
             erasing = moving = false;
 
-            if (id == TrackerID.PathTracker)
+            if (Main.mouseLeft)
             {
-                placeTracker.SetImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
-                Append(placeTracker);
-
-                if (Main.mouseLeft)
+                if (id == TrackerID.PathTracker)
                 {
                     var tracker = new PathTrackers(Main.GameViewMatrix.Translation + Main.screenPosition + (Main.MouseScreen / BetterZoom.zoom));
                     ModContent.GetInstance<BetterZoom>().trackerUI.Append(tracker);
-                    placeTracker.Remove();
                     placing = null;
                 }
-            }
-            // Entity Tracker
-            else if (id == TrackerID.EntityTracker)
-            {
-                placeTracker.SetImage(ModContent.GetTexture("BetterZoom/Assets/EntityTracker"));
-                Append(placeTracker);
-
-                if (Main.mouseLeft)
+                // Entity Tracker
+                else if (id == TrackerID.EntityTracker)
                 {
                     TrackerUI.entityTracker = new EntityTracker(Main.MouseWorld);
                     ModContent.GetInstance<BetterZoom>().trackerUI.Append(TrackerUI.entityTracker);
                     Camera.ToggleLock(TrackerUI.entityTracker.TrackedEntity.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2));
-                    placeTracker.Remove();
                     placing = null;
                 }
             }
@@ -295,6 +277,25 @@ namespace BetterZoom.src.UI
                 nop.Width.Set(100, 0f);
                 nop.OnClick += (evt1, elm1) => ConfirmPanel.Remove();
                 ConfirmPanel.Append(nop);
+            }
+        }
+
+
+        // Drawing the cursors
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            if (placing != null) {
+                Rectangle mouseRect = new Rectangle((int)(Main.MouseScreen.X - 16), (int)(Main.MouseScreen.Y - 16), 32, 32);
+                if (placing == TrackerID.PathTracker)
+                {
+                    spriteBatch.Draw(ModContent.GetTexture("BetterZoom/Assets/PathTracker"), mouseRect, Color.White);
+                }
+                else if (placing == TrackerID.EntityTracker)
+                {
+                    spriteBatch.Draw(ModContent.GetTexture("BetterZoom/Assets/EntityTracker"), mouseRect, Color.White);
+                }
             }
         }
     }

@@ -1,13 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Terraria;
-using Terraria.Graphics;
-using Terraria.ModLoader;
-using Terraria.UI;
 
 namespace BetterZoom.src
 {
@@ -15,8 +11,89 @@ namespace BetterZoom.src
     {
         public static void Load()
         {
+            //IL.Terraria.Main.InitTargets_int_int += ChangeTargets;
+            //IL.Terraria.Main.DrawTiles += HookTiles;
             IL.Terraria.Main.DrawMap += HookMap;
         }
+
+        private static void HookTiles(ILContext il)
+        {
+            var c = new ILCursor(il);
+
+            /*
+                IL_008E: sub
+                IL_008F: ldc.r4    16
+                IL_0094: div
+                IL_0095: ldc.r4    1
+                IL_009A: sub
+                ---> here
+            */
+
+            if (!c.TryGotoNext(MoveType.After,
+                i => i.MatchSub(),
+                i => i.MatchLdcR4(16),
+                i => i.MatchDiv(),
+                i => i.MatchLdcR4(1),
+                i => i.MatchSub()))
+                return;
+
+            c.EmitDelegate<Func<float, float>>((returnvalue) =>
+            {
+                return (int)((Main.screenPosition.X - BetterZoom.offscrnRange) / 16f - 1f);
+            });
+
+
+            /*
+                IL_00B5: add
+                IL_00B6: ldc.r4    16
+                IL_00BB: div
+                IL_00BC: conv.i4
+                IL_00BD: ldc.i4.2
+                IL_00BE: add
+                ---> here
+            */
+            if (!c.TryGotoNext(MoveType.After,
+                i => i.MatchAdd(),
+                i => i.MatchLdcR4(16),
+                i => i.MatchDiv(),
+                i => i.MatchConvI4(),
+                i => i.MatchLdcI4(2),
+                i => i.MatchAdd()))
+                return;
+
+            c.EmitDelegate<Func<int, int>>((returnvalue) =>
+            {
+                return (int)((Main.screenPosition.X + Main.screenWidth + BetterZoom.offscrnRange) / 16f + 2);
+            });
+        }
+        public static void ChangeTargets(ILContext il)
+        {
+            var c = new ILCursor(il);
+
+            SwapTarget(c, "waterTarget");
+            SwapTarget(c, "backWaterTarget");
+            SwapTarget(c, "blackTarget");
+            SwapTarget(c, "tileTarget");
+            SwapTarget(c, "tile2Target");
+            SwapTarget(c, "wallTarget");
+            SwapTarget(c, "screenTarget");
+            SwapTarget(c, "screenTargetSwap");
+        }
+
+        public static void SwapTarget(ILCursor c, string name)
+        {
+            if (!c.TryGotoNext(MoveType.Before,
+            i => i.MatchStfld<Main>(name)))
+                return;
+
+            c.Emit(OpCodes.Pop);
+            c.EmitDelegate<Func<RenderTarget2D>>(ReturnNewTileTarget);
+        }
+        public static RenderTarget2D ReturnNewTileTarget()
+        {
+            return new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth * 2, Main.screenHeight * 2, false, Main.graphics.GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.None);
+        }
+
         public static void HookMap(ILContext il)
         {
             var c = new ILCursor(il);
@@ -230,7 +307,7 @@ namespace BetterZoom.src
                 return BetterZoom.minimapScale;
             });
 
-            
+
             #endregion
         }
     }

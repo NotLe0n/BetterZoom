@@ -1,5 +1,6 @@
 ﻿using BetterZoom.src.Trackers;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria.UI;
 
 namespace BetterZoom.src.UI
@@ -7,37 +8,31 @@ namespace BetterZoom.src.UI
     class TrackerUI : UIState
     {
         public static bool hide;
-        public override void OnInitialize()
-        {
-        }
+        public static EntityTracker entityTracker;
+        public static List<PathTrackers> trackers = new List<PathTrackers>();
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            // Fix
-            if (EntityTracker.TrackedEntity != null)
+            // Fix Entity Tracker Position
+            if (entityTracker != null && entityTracker.TrackedEntity != null)
             {
-                Append(EntityTracker.ETrackerImg);
-
-                // Fix Entity Tracker Position
-                EntityTracker.FixPosition();
+                entityTracker.FixPosition();
             }
-            // Fix Path Tracker Position
-            PathTrackers.FixPosition();
 
-            for (int i = 0; i < PathTrackers.trackers.Count; i++)
+            for (int i = 0; i < trackers.Count; i++)
             {
-                // Append PathTrackers
-                Append(PathTrackers.trackers[i].PTrackerImg);
+                trackers[i].FixPosition();
 
                 // Append Lines
-                if (PathTrackers.trackers[i].Connection != null)
-                    Append(PathTrackers.trackers[i].Connection);
+                if (trackers[i].Connection != null)
+                    Append(trackers[i].Connection);
 
                 // Append Control Points
-                if (i + 1 < PathTrackers.trackers.Count && CCUI.selectedInterp == 2 && PathTrackers.trackers[i].Connection != null)
+                if (i + 1 < trackers.Count && CCUI.selectedInterp == 2 && trackers[i].Connection != null)
                 {
-                    Append(PathTrackers.trackers[i].Connection.ControlPoint);
+                    Append(trackers[i].Connection.ControlPoint);
                 }
             }
 

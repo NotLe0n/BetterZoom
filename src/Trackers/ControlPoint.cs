@@ -11,6 +11,7 @@ namespace BetterZoom.src.Trackers
         /// Position in World Coordinates
         /// </summary>
         public Vector2 Position;
+
         public ControlPoint(Vector2 position) : base(ModContent.GetTexture("BetterZoom/Assets/ControlPoint"))
         {
             Position = position;

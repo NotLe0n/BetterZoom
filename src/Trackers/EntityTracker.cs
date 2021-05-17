@@ -1,28 +1,23 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BetterZoom.src.UI;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace BetterZoom.src.Trackers
 {
-    class EntityTracker
+    class EntityTracker : Tracker
     {
-        public static Entity TrackedEntity;
-        public static Vector2 Position;
-        public static EntityTracker tracker;
-        public static UIImage ETrackerImg;
+        public Entity TrackedEntity;
 
-        public EntityTracker(Vector2 pos)
+        public EntityTracker(Vector2 pos) : base(pos, ModContent.GetTexture("BetterZoom/Assets/EntityTracker"))
         {
-            tracker = this;
-            Position = pos;
-
-            ETrackerImg = new UIImage(ModContent.GetTexture("BetterZoom/Assets/EntityTracker")) { MarginLeft = Main.LocalPlayer.position.X - Main.screenPosition.X, MarginTop = Main.LocalPlayer.position.Y - Main.screenPosition.Y };
-            ETrackerImg.ImageScale = 0.5f;
+            MarginLeft = Main.LocalPlayer.position.X - Main.screenPosition.X;
+            MarginTop = Main.LocalPlayer.position.Y - Main.screenPosition.Y;
 
             TrackedEntity = FindClosest(pos);
         }
+
         private Entity FindClosest(Vector2 pos)
         {
             int NPCID = 0;
@@ -54,25 +49,27 @@ namespace BetterZoom.src.Trackers
                 return Main.npc[NPCID];
             }
         }
-        public static void RemoveTracker()
+
+        public override void RemoveTracker()
         {
-            Camera.locked = false;
-            tracker = null;
+            Camera.Locked = false;
             TrackedEntity = null;
             Position = Main.LocalPlayer.position;
-            ETrackerImg.Remove();
+            TrackerUI.entityTracker = null;
+            Remove();
         }
-        public static void FixPosition()
+
+        public override void FixPosition()
         {
             // screen dimentions
             var screen = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
 
             // Fix Entity Tracker Position
-            if (TrackedEntity != null && screen.Contains(Position.ToPoint()) && tracker != null)
+            if (TrackedEntity != null && screen.Contains(Position.ToPoint()))
             {
                 // relative to screen   // center screen   // center image               // center Entity
-                ETrackerImg.MarginLeft = Position.X - screen.X + screen.Width / 2 - ETrackerImg.Width.Pixels / 2 + TrackedEntity.width / 2;
-                ETrackerImg.MarginTop = Position.Y - screen.Y + screen.Height / 2 - ETrackerImg.Height.Pixels / 2 + TrackedEntity.height / 2;
+                MarginLeft = Position.X - screen.X + screen.Width / 2 - Width.Pixels / 2 + TrackedEntity.width / 2;
+                MarginTop = Position.Y - screen.Y + screen.Height / 2 - Height.Pixels / 2 + TrackedEntity.height / 2;
             }
         }
     }

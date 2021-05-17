@@ -1,29 +1,18 @@
 ﻿using BetterZoom.src.UI;
 using BetterZoom.src.UI.UIElements;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 
 namespace BetterZoom.src.Trackers
 {
-    class PathTrackers
+    class PathTrackers : Tracker
     {
-        public static List<PathTrackers> trackers;
-        public UIImage PTrackerImg;
         public BezierCurve Connection;
-        /// <summary>
-        /// Position in World Coordinates
-        /// </summary>
-        public Vector2 Position;
 
-        public PathTrackers(Vector2 pos)
+        public PathTrackers(Vector2 pos) : base(pos, ModContent.GetTexture("BetterZoom/Assets/PathTracker"))
         {
-            trackers.Add(this);
-            Position = pos;
-            PTrackerImg = new UIImage(ModContent.GetTexture("BetterZoom/Assets/PathTracker"));
-            PTrackerImg.ImageScale = 0.5f;
+            TrackerUI.trackers.Add(this);
 
             CreateCurve();
         }
@@ -34,70 +23,37 @@ namespace BetterZoom.src.Trackers
                 Position,
                 5, Color.Red);
         }
-        public static void FixPosition()
+        public override void FixPosition()
         {
-            for (int i = 0; i < trackers.Count; i++)
-            {
-                trackers[i].PTrackerImg.MarginLeft = (trackers[i].Position.X - Main.screenPosition.X - trackers[i].PTrackerImg.Width.Pixels / 2);
-                trackers[i].PTrackerImg.MarginTop = (trackers[i].Position.Y - Main.screenPosition.Y - trackers[i].PTrackerImg.Height.Pixels / 2);
-            }
+            MarginLeft = Position.X - Main.screenPosition.X - Width.Pixels / 2;
+            MarginTop = Position.Y - Main.screenPosition.Y - Height.Pixels / 2;
         }
         public static void FixLinePosition()
         {
             // Fix Line Position
-            for (int i = 0; i < trackers.Count; i++)
+            for (int i = 0; i < TrackerUI.trackers.Count; i++)
             {
-                if (trackers[i].Connection != null && trackers[i] != null)
+                if (TrackerUI.trackers[i].Connection != null && TrackerUI.trackers[i] != null)
                 {
-                    trackers[i].Connection.StartPoint = (trackers[i].Position - Main.screenPosition);
+                    TrackerUI.trackers[i].Connection.StartPoint = (TrackerUI.trackers[i].Position - Main.screenPosition);
 
-                    if (i + 1 < trackers.Count)
+                    if (i + 1 < TrackerUI.trackers.Count)
                     {
-                        trackers[i].Connection.EndPoint = (trackers[i + 1].Position - Main.screenPosition);
+                        TrackerUI.trackers[i].Connection.EndPoint = (TrackerUI.trackers[i + 1].Position - Main.screenPosition);
                     }
                     else
                     {
-                        trackers[i].Connection.Remove();
+                        TrackerUI.trackers[i].Connection.Remove();
                     }
                 }
             }
         }
-        public static void Remove()
+        public override void RemoveTracker()
         {
-            int ID = 0;
-            for (int i = 0; i < trackers.Count; i++)
-            {
-                if (trackers[i].PTrackerImg.IsMouseHovering)
-                {
-                    if (trackers[i] != null && (ID == 0 || Vector2.Distance(trackers[i].Position, Main.MouseWorld) < Vector2.Distance(trackers[ID].Position, Main.MouseWorld)))
-                    {
-                        ID = i;
-                        trackers[ID].PTrackerImg.Remove();
-                        if (trackers[ID].Connection != null)
-                        {
-                            trackers[ID].Connection.Remove();
-                            trackers[ID].Connection.ControlPoint.Remove();
-                        }
-                        trackers.RemoveAt(ID);
-                    }
-                }
-            }
-        }
-        public static void RemoveAll()
-        {
-            for (int i = 0; i < trackers.Count; i++)
-            {
-                if (trackers[i] != null)
-                {
-                    trackers[i].PTrackerImg.Remove();
-                    if (trackers[i].Connection != null)
-                    {
-                        trackers[i].Connection.Remove();
-                        trackers[i].Connection.ControlPoint.Remove();
-                    }
-                }
-            }
-            trackers.Clear();
+            Connection?.Remove();
+            Connection.ControlPoint?.Remove();
+            Remove();
+            TrackerUI.trackers.Remove(this);
         }
     }
 }

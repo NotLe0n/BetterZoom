@@ -253,6 +253,7 @@ namespace BetterZoom.src.UI
                 ConfirmPanel.Top.Set(500, 0f);
                 ConfirmPanel.Width.Set(400, 0f);
                 ConfirmPanel.Height.Set(120, 0f);
+                ConfirmPanel.OnCloseBtnClicked += () => ConfirmPanel.Remove();
                 Append(ConfirmPanel);
 
                 UITextPanel<string> yep = new UITextPanel<string>("Yes");

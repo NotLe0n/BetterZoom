@@ -73,6 +73,12 @@ namespace BetterZoom.src
             {
                 Main.screenPosition = fixedscreen;
             }
+
+            if (TrackerUI.entityTracker != null && TrackerUI.entityTracker.TrackedEntity != null)
+            {
+                TrackerUI.entityTracker.Position = TrackerUI.entityTracker.TrackedEntity.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2); ;
+                MoveTo(TrackerUI.entityTracker.Position);
+            }
         }
 
         public static void ToggleLock()

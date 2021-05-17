@@ -67,8 +67,6 @@ namespace BetterZoom.src.Trackers
             // Fix Entity Tracker Position
             if (TrackedEntity != null && screen.Contains(Position.ToPoint()))
             {
-                Position = TrackedEntity.position - new Vector2(screen.Width / 2, screen.Height / 2);
-
                 // relative to screen   // center screen   // center image               // center Entity
                 MarginLeft = Position.X - screen.X + screen.Width / 2 - Width.Pixels / 2 + TrackedEntity.width / 2;
                 MarginTop = Position.Y - screen.Y + screen.Height / 2 - Height.Pixels / 2 + TrackedEntity.height / 2;

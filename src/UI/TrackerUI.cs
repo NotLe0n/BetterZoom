@@ -11,20 +11,14 @@ namespace BetterZoom.src.UI
         public static EntityTracker entityTracker;
         public static List<PathTrackers> trackers = new List<PathTrackers>();
 
-        public override void OnInitialize()
-        {
-        }
-
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
+            // Fix Entity Tracker Position
             if (entityTracker != null && entityTracker.TrackedEntity != null)
             {
-                // Fix Entity Tracker Position
                 entityTracker.FixPosition();
-
-                Camera.MoveTo(entityTracker.Position);
             }
 
             for (int i = 0; i < trackers.Count; i++)

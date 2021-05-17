@@ -21,6 +21,8 @@ namespace BetterZoom.src
 
         public static float minimapScale = 1f;
         public static float offscrnRange;
+        public static Vector2 RealMouseWorld => Main.GameViewMatrix.Translation + Main.screenPosition + (Main.MouseScreen / zoom);
+
         /// <summary>
         /// Load Hotkeys and UI
         /// </summary>

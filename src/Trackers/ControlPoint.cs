@@ -11,13 +11,11 @@ namespace BetterZoom.src.Trackers
         /// Position in World Coordinates
         /// </summary>
         public Vector2 Position;
+        public new bool IsMouseHovering => new Rectangle((int)Position.X - (int)(8 * BetterZoom.zoom), (int)Position.Y - (int)(8 * BetterZoom.zoom), (int)(16 * BetterZoom.zoom), (int)(16 * BetterZoom.zoom)).Contains(BetterZoom.RealMouseWorld.ToPoint());
 
         public ControlPoint(Vector2 position) : base(ModContent.GetTexture("BetterZoom/Assets/ControlPoint"))
         {
             Position = position;
-
-            OnMouseDown += (evt, elm) => dragging = true;
-            OnMouseUp += (evt, elm) => dragging = false;
         }
 
         public bool dragging;
@@ -27,12 +25,21 @@ namespace BetterZoom.src.Trackers
             MarginLeft = Position.X - Main.screenPosition.X - Width.Pixels / 2;
             MarginTop = Position.Y - Main.screenPosition.Y - Height.Pixels / 2;
 
+            if (IsMouseHovering && Main.mouseLeft)
+            {
+                dragging = true;
+            }
+            if (Main.mouseLeftRelease)
+            {
+                dragging = false;
+            }
+
             if (ContainsPoint(Main.MouseScreen))
                 Main.LocalPlayer.mouseInterface = true;
 
             if (dragging)
             {
-                Position = Main.MouseWorld;
+                Position = BetterZoom.RealMouseWorld;
                 Recalculate();
             }
         }

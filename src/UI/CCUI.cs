@@ -175,14 +175,14 @@ namespace BetterZoom.src.UI
             {
                 if (id == TrackerID.PathTracker)
                 {
-                    var tracker = new PathTrackers(Main.GameViewMatrix.Translation + Main.screenPosition + (Main.MouseScreen / BetterZoom.zoom));
+                    var tracker = new PathTrackers(BetterZoom.RealMouseWorld);
                     ModContent.GetInstance<BetterZoom>().trackerUI.Append(tracker);
                     placing = null;
                 }
                 // Entity Tracker
                 else if (id == TrackerID.EntityTracker)
                 {
-                    TrackerUI.entityTracker = new EntityTracker(Main.MouseWorld);
+                    TrackerUI.entityTracker = new EntityTracker(BetterZoom.RealMouseWorld);
                     ModContent.GetInstance<BetterZoom>().trackerUI.Append(TrackerUI.entityTracker);
                     Camera.ToggleLock(TrackerUI.entityTracker.TrackedEntity.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2));
                     placing = null;
@@ -202,6 +202,7 @@ namespace BetterZoom.src.UI
             }
         }
 
+        private PathTrackers hoveringTracker;
         private void MoveTracker()
         {
             Main.cursorOverride = 16;
@@ -209,15 +210,19 @@ namespace BetterZoom.src.UI
             placing = null;
             erasing = false;
 
-            if (Main.mouseLeft)
+            if (TrackerUI.trackers.Exists(x => x.IsMouseHovering))
             {
-                for (int i = 0; i < TrackerUI.trackers.Count; i++)
-                {
-                    if (TrackerUI.trackers[i].IsMouseHovering)
-                    {
-                        TrackerUI.trackers[i].Position = Main.MouseWorld;
-                    }
-                }
+                hoveringTracker = TrackerUI.trackers.Find(x => x.IsMouseHovering); 
+            }
+
+            if (Main.mouseLeftRelease)
+            {
+                hoveringTracker = null;
+            }
+
+            if (Main.mouseLeft && hoveringTracker != null)
+            {
+                hoveringTracker.Position = BetterZoom.RealMouseWorld;
             }
         }
 

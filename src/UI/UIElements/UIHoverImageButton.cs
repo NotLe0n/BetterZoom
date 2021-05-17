@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI;
 
 namespace BetterZoom.src.UI.UIElements
 {

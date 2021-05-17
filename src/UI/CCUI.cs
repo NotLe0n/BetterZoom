@@ -280,13 +280,13 @@ namespace BetterZoom.src.UI
             }
         }
 
-
         // Drawing the cursors
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
-            if (placing != null) {
+            if (placing != null)
+            {
                 Rectangle mouseRect = new Rectangle((int)(Main.MouseScreen.X - 16), (int)(Main.MouseScreen.Y - 16), 32, 32);
                 if (placing == TrackerID.PathTracker)
                 {

@@ -1,15 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Terraria;
-using Terraria.Graphics;
-using Terraria.ModLoader;
-using Terraria.UI;
-using System.Reflection;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace BetterZoom.src
 {
@@ -42,7 +36,7 @@ namespace BetterZoom.src
                 i => i.MatchLdcR4(1),
                 i => i.MatchSub()))
                 return;
-            
+
             c.EmitDelegate<Func<float, float>>((returnvalue) =>
             {
                 return (int)((Main.screenPosition.X - BetterZoom.offscrnRange) / 16f - 1f);

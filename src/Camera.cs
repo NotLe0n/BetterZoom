@@ -1,5 +1,4 @@
-﻿using BetterZoom.src.Trackers;
-using BetterZoom.src.UI;
+﻿using BetterZoom.src.UI;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

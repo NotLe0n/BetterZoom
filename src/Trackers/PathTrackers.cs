@@ -2,7 +2,6 @@
 using BetterZoom.src.UI.UIElements;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 
 namespace BetterZoom.src.Trackers

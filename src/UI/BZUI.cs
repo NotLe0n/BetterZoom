@@ -18,7 +18,7 @@ namespace BetterZoom.src.UI
         private UIRange<float> uiScaleSldr;
         public override void OnInitialize()
         {
-            TabPanel Menu = new TabPanel(400, 350,
+            TabPanel Menu = new TabPanel(400, 400,
                 new Tab("Better Zoom", this),
                 new Tab(" Camera Control", new CCUI())
                 );

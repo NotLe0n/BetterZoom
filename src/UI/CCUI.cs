@@ -38,7 +38,7 @@ namespace BetterZoom.src.UI
                 );
             Menu.Left.Set(DragableUIPanel.lastPos.X, 0f);
             Menu.Top.Set(DragableUIPanel.lastPos.Y, 0f);
-            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<BetterZoom>().userInterface.SetState(null);
+            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<UISystem>().userInterface.SetState(null);
             Append(Menu);
 
             speed = new UIFloatRangedDataValue("Tracking Speed", 1, 0.1f, 100);
@@ -80,7 +80,7 @@ namespace BetterZoom.src.UI
             MoveBtn.MarginTop = 190;
             Menu.Append(MoveBtn);
 
-            lockScreenBtn = new UIToggleImage(TextureManager.Load("Images/UI/Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
+            lockScreenBtn = new UIToggleImage(Main.Assets.Request<Texture2D>("Images\\UI\\Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
             lockScreenBtn.MarginTop = 100;
             lockScreenBtn.MarginLeft = 250;
             lockScreenBtn.OnClick += (evt, elm) => Camera.ToggleLock();
@@ -99,7 +99,7 @@ namespace BetterZoom.src.UI
             Dpad[2].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(-5f, 0));
             Dpad[3].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(5f, 0));
 
-            var hideTrackersBtn = new UIToggleImage(TextureManager.Load("Images/UI/Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
+            var hideTrackersBtn = new UIToggleImage(Main.Assets.Request<Texture2D>("Images\\UI\\Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
             hideTrackersBtn.MarginTop = 250;
             hideTrackersBtn.MarginLeft = 250;
             hideTrackersBtn.OnClick += (evt, elm) => TrackerUI.hide = !TrackerUI.hide;
@@ -176,14 +176,14 @@ namespace BetterZoom.src.UI
                 if (id == TrackerID.PathTracker)
                 {
                     var tracker = new PathTrackers(BetterZoom.RealMouseWorld);
-                    ModContent.GetInstance<BetterZoom>().trackerUI.Append(tracker);
+                    ModContent.GetInstance<UISystem>().trackerUI.Append(tracker);
                     placing = null;
                 }
                 // Entity Tracker
                 else if (id == TrackerID.EntityTracker)
                 {
                     TrackerUI.entityTracker = new EntityTracker(BetterZoom.RealMouseWorld);
-                    ModContent.GetInstance<BetterZoom>().trackerUI.Append(TrackerUI.entityTracker);
+                    ModContent.GetInstance<UISystem>().trackerUI.Append(TrackerUI.entityTracker);
                     Camera.ToggleLock(TrackerUI.entityTracker.TrackedEntity.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2));
                     placing = null;
                 }
@@ -272,7 +272,7 @@ namespace BetterZoom.src.UI
                         TrackerUI.trackers[i].RemoveTracker();
                     }
                     TrackerUI.trackers.Clear();
-                    ModContent.GetInstance<BetterZoom>().trackerUI.RemoveAllChildren();
+                    ModContent.GetInstance<UISystem>().trackerUI.RemoveAllChildren();
                     ConfirmPanel.Remove();
                 };
                 ConfirmPanel.Append(yep);
@@ -296,11 +296,11 @@ namespace BetterZoom.src.UI
                 Rectangle mouseRect = new Rectangle((int)(Main.MouseScreen.X - 16), (int)(Main.MouseScreen.Y - 16), 32, 32);
                 if (placing == TrackerID.PathTracker)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("BetterZoom/Assets/PathTracker"), mouseRect, Color.White);
+                    spriteBatch.Draw(ModContent.GetTexture("BetterZoom/Assets/PathTracker").Value, mouseRect, Color.White);
                 }
                 else if (placing == TrackerID.EntityTracker)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("BetterZoom/Assets/EntityTracker"), mouseRect, Color.White);
+                    spriteBatch.Draw(ModContent.GetTexture("BetterZoom/Assets/EntityTracker").Value, mouseRect, Color.White);
                 }
             }
         }

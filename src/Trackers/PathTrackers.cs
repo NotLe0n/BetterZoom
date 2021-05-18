@@ -10,7 +10,7 @@ namespace BetterZoom.src.Trackers
     {
         public BezierCurve Connection;
 
-        public PathTrackers(Vector2 pos) : base(pos, ModContent.GetTexture("BetterZoom/Assets/PathTracker"))
+        public PathTrackers(Vector2 pos) : base(pos, ModContent.GetTexture("BetterZoom/Assets/PathTracker").Value)
         {
             TrackerUI.trackers.Add(this);
 

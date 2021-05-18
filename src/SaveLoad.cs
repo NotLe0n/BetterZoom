@@ -11,7 +11,6 @@ namespace BetterZoom.src
 				// {"somethingelse", somethingelse}, // To save more data, add additional lines
 				{"zoom", BetterZoom.zoom},
                 {"uiscale", BetterZoom.uiScale},
-                {"flipbackground", BetterZoom.flipBackground},
                 {"hotbarscale", BetterZoom.hotbarScale},
                 {"zoombackground", BetterZoom.zoomBackground}
             };
@@ -21,7 +20,6 @@ namespace BetterZoom.src
         {
             BetterZoom.zoom = tag.GetFloat("zoom");
             BetterZoom.uiScale = tag.GetFloat("uiscale");
-            BetterZoom.flipBackground = tag.GetBool("flipbackground");
             BetterZoom.hotbarScale = tag.GetFloat("hotbarscale");
             BetterZoom.zoomBackground = tag.GetBool("zoombackground");
         }

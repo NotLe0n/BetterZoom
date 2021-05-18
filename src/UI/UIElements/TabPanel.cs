@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
 
 namespace BetterZoom.src.UI.UIElements
 {
@@ -31,13 +32,13 @@ namespace BetterZoom.src.UI.UIElements
             TabPanel.lastTab = _changeStateTo;
 
             // change UIState and play click sound
-            GetInstance<BetterZoom>().userInterface.SetState(_changeStateTo);
-            Main.PlaySound(SoundID.MenuTick);
+            ModContent.GetInstance<UISystem>().userInterface.SetState(_changeStateTo);
+            SoundEngine.PlaySound(SoundID.MenuTick);
         }
         public override void Update(GameTime gameTime)
         {
             // Highlight
-            if (GetInstance<BetterZoom>().userInterface.CurrentState == _changeStateTo)
+            if (ModContent.GetInstance<UISystem>().userInterface.CurrentState == _changeStateTo)
             {
                 BackgroundColor = new Color(73, 94, 171);
             }

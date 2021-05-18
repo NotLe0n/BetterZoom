@@ -21,7 +21,7 @@ namespace BetterZoom.src
             if (BetterZoom.SetTracker.JustPressed)
             {
                 var tracker = new PathTrackers(Main.MouseWorld);
-                ModContent.GetInstance<BetterZoom>().trackerUI.Append(tracker);
+                ModContent.GetInstance<UISystem>().trackerUI.Append(tracker);
             }
             // Removes Path Tracker
             if (BetterZoom.RemoveTracker.JustPressed)
@@ -34,8 +34,8 @@ namespace BetterZoom.src
             }
             if (BetterZoom.ShowUI.JustPressed)
             {
-                var ui = ModContent.GetInstance<BetterZoom>().userInterface;
-                ModContent.GetInstance<BetterZoom>().userInterface.SetState(ui.CurrentState == null ? UI.UIElements.TabPanel.lastTab : null);
+                var ui = ModContent.GetInstance<UISystem>().userInterface;
+                ModContent.GetInstance<UISystem>().userInterface.SetState(ui.CurrentState == null ? UI.UIElements.TabPanel.lastTab : null);
 
             }
             // Control screen Position

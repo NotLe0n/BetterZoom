@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using ReLogic.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
@@ -152,7 +153,7 @@ namespace BetterZoom.src.UI.UIElements
         {
             Rectangle hitbox = GetDimensions().ToRectangle();
 
-            Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.White);
+            Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.White);
 
 
             if (focused)
@@ -199,7 +200,7 @@ namespace BetterZoom.src.UI.UIElements
 
             CalculatedStyle innerDimensions = GetInnerDimensions();
             Vector2 pos = innerDimensions.Position();
-            DynamicSpriteFont spriteFont = IsLarge ? Main.fontDeathText : Main.fontMouseText;
+            DynamicSpriteFont spriteFont = IsLarge ? FontAssets.DeathText.Value : FontAssets.MouseText.Value;
             Vector2 vector = new Vector2(spriteFont.MeasureString(Text.Substring(0, _cursor)).X, IsLarge ? 32f : 16f) * TextScale;
             if (IsLarge)
             {

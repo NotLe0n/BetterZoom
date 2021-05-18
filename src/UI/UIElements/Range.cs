@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using static Terraria.ModLoader.ModContent;
@@ -59,24 +60,24 @@ namespace BetterZoom.src.UI.UIElements
             if (debugDraw)
             {
                 Rectangle hitbox = GetInnerDimensions().ToRectangle();
-                Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
+                Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Red * 0.6f);
 
                 hitbox = label.GetInnerDimensions().ToRectangle();
                 //hitbox.Offset((int)-Main.screenPosition.X, (int)-Main.screenPosition.Y);
-                Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightCyan * 0.6f);
+                Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.LightCyan * 0.6f);
 
                 hitbox = slider.GetOuterDimensions().ToRectangle();
-                Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.AliceBlue * 0.6f);
+                Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.AliceBlue * 0.6f);
 
                 hitbox = input.GetOuterDimensions().ToRectangle();
-                Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Yellow * 0.6f);
+                Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Yellow * 0.6f);
 
                 if (minus != null)
                 {
                     hitbox = minus.GetOuterDimensions().ToRectangle();
-                    Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Green * 0.6f);
+                    Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.Green * 0.6f);
                     hitbox = plus.GetOuterDimensions().ToRectangle();
-                    Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.BlueViolet * 0.6f);
+                    Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, Color.BlueViolet * 0.6f);
                 }
             }
         }

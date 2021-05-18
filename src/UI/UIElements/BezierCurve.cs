@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 
 namespace BetterZoom.src.UI.UIElements
@@ -72,7 +73,7 @@ namespace BetterZoom.src.UI.UIElements
                 // to make it smooth
                 rect.Inflate(2, 0);
 
-                spriteBatch.Draw(Main.magicPixel, rect,
+                spriteBatch.Draw(TextureAssets.MagicPixel.Value, rect,
                                 null,
                                 LineColor,              // colour of line
                                 angle,                  // angle of line (calulated above)

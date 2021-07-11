@@ -10,21 +10,24 @@ namespace BetterZoom.src
 {
     class Hotkeys : ModPlayer
     {
+        // Hotkeys
+        public static ModKeybind LockScreen, SetTracker, RemoveTracker, ShowUI;
+
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             // Toggles Lock Screen
-            if (BetterZoom.LockScreen.JustPressed)
+            if (LockScreen.JustPressed)
             {
                 Camera.ToggleLock();
             }
             // New Path Tracker
-            if (BetterZoom.SetTracker.JustPressed)
+            if (SetTracker.JustPressed)
             {
                 var tracker = new PathTrackers(Main.MouseWorld);
                 ModContent.GetInstance<UISystem>().trackerUI.Append(tracker);
             }
             // Removes Path Tracker
-            if (BetterZoom.RemoveTracker.JustPressed)
+            if (RemoveTracker.JustPressed)
             {
                 for (int i = 0; i < TrackerUI.trackers.Count; i++)
                 {
@@ -32,7 +35,7 @@ namespace BetterZoom.src
                         TrackerUI.trackers[i].RemoveTracker();
                 }
             }
-            if (BetterZoom.ShowUI.JustPressed)
+            if (ShowUI.JustPressed)
             {
                 var ui = ModContent.GetInstance<UISystem>().userInterface;
                 ModContent.GetInstance<UISystem>().userInterface.SetState(ui.CurrentState == null ? UI.UIElements.TabPanel.lastTab : null);

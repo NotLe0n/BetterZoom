@@ -9,7 +9,7 @@ namespace BetterZoom.src.UI
     {
         public static bool hide;
         public static EntityTracker entityTracker;
-        public static List<PathTrackers> trackers = new List<PathTrackers>();
+        public static List<PathTrackers> trackers = new();
 
         public override void Update(GameTime gameTime)
         {

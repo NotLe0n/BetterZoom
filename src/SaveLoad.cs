@@ -9,19 +9,19 @@ namespace BetterZoom.src
         {
             return new TagCompound {
 				// {"somethingelse", somethingelse}, // To save more data, add additional lines
-				{"zoom", BetterZoom.zoom},
-                {"uiscale", BetterZoom.uiScale},
-                {"hotbarscale", BetterZoom.hotbarScale},
-                {"zoombackground", BetterZoom.zoomBackground}
+				{"zoom", BetterZoom.Zoom},
+                {"uiscale", BetterZoom.UIScale},
+                {"hotbarscale", BetterZoom.HotbarScale},
+                {"zoombackground", BetterZoom.ZoomBackground}
             };
         }
 
         public override void Load(TagCompound tag)
         {
-            BetterZoom.zoom = tag.GetFloat("zoom");
-            BetterZoom.uiScale = tag.GetFloat("uiscale");
-            BetterZoom.hotbarScale = tag.GetFloat("hotbarscale");
-            BetterZoom.zoomBackground = tag.GetBool("zoombackground");
+            BetterZoom.Zoom = tag.GetFloat("zoom");
+            BetterZoom.UIScale = tag.GetFloat("uiscale");
+            BetterZoom.HotbarScale = tag.GetFloat("hotbarscale");
+            BetterZoom.ZoomBackground = tag.GetBool("zoombackground");
         }
     }
 }

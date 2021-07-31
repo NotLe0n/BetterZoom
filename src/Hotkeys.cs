@@ -62,11 +62,11 @@ namespace BetterZoom.src
             {
                 if (Main.keyState.IsKeyDown(Keys.OemMinus))
                 {
-                    BetterZoom.uiScale -= 0.01f;
+                    BetterZoom.UIScale -= 0.01f;
                 }
                 if (Main.keyState.IsKeyDown(Keys.OemPlus))
                 {
-                    BetterZoom.uiScale += 0.01f;
+                    BetterZoom.UIScale += 0.01f;
                 }
             }
             // Control Zoom
@@ -74,11 +74,11 @@ namespace BetterZoom.src
             {
                 if (Main.keyState.IsKeyDown(Keys.OemMinus))
                 {
-                    BetterZoom.zoom -= 0.01f;
+                    BetterZoom.Zoom -= 0.01f;
                 }
                 if (Main.keyState.IsKeyDown(Keys.OemPlus))
                 {
-                    BetterZoom.zoom += 0.01f;
+                    BetterZoom.Zoom += 0.01f;
                 }
             }
         }

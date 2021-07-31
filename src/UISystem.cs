@@ -1,9 +1,7 @@
 ﻿using BetterZoom.src.UI;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.Graphics;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -36,7 +34,6 @@ namespace BetterZoom.src
 
         public override void Unload()
         {
-            // UI
             userInterface = null;
             trackerUserInterface = null;
             trackerUI = null;
@@ -55,9 +52,6 @@ namespace BetterZoom.src
                 trackerUserInterface.Update(gameTime);
         }
 
-        /// <summary>
-        /// Add UI
-        /// </summary>
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));

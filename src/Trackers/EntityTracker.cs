@@ -43,7 +43,7 @@ namespace BetterZoom.src.Trackers
 
                 return Main.player[PlayerID].Hitbox.Distance(pos) < Main.npc[NPCID].Hitbox.Distance(pos) && Main.player[PlayerID] != Main.player[Main.myPlayer]
                     ? Main.player[PlayerID]
-                    : (Entity)Main.npc[NPCID];
+                    : Main.npc[NPCID];
             }
             else
             {

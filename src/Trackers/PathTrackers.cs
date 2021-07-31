@@ -17,6 +17,7 @@ namespace BetterZoom.src.Trackers
 
             CreateCurve();
         }
+
         public void CreateCurve() // Broken
         {
             Connection = new BezierCurve(
@@ -24,11 +25,13 @@ namespace BetterZoom.src.Trackers
                 Position,
                 5, Color.Red);
         }
+
         public override void FixPosition()
         {
             MarginLeft = Position.X - Main.screenPosition.X - Width.Pixels / 2;
             MarginTop = Position.Y - Main.screenPosition.Y - Height.Pixels / 2;
         }
+
         public static void FixLinePosition()
         {
             // Fix Line Position
@@ -49,6 +52,7 @@ namespace BetterZoom.src.Trackers
                 }
             }
         }
+
         public override void RemoveTracker()
         {
             Connection?.Remove();

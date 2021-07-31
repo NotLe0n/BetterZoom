@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
-using Terraria.Graphics;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -20,7 +19,7 @@ namespace BetterZoom.src.UI
         private bool moving;
         private UIToggleImage lockScreenBtn;
         private TrackerID? placing = null;
-        private DragableUIPanel ConfirmPanel = new DragableUIPanel("Are you sure you want to remove all trackers?", 700, 120);
+        private DragableUIPanel ConfirmPanel = new("Are you sure you want to remove all trackers?", 700, 120);
 
         private enum TrackerID
         {
@@ -32,88 +31,80 @@ namespace BetterZoom.src.UI
         {
             Camera.fixedscreen = Main.LocalPlayer.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
 
-            TabPanel Menu = new TabPanel(400, 350,
+            var menu = new TabPanel(400, 350,
                 new Tab("Better Zoom", new BZUI()),
-                new Tab(" Camera Control", this)
-                );
-            Menu.Left.Set(DragableUIPanel.lastPos.X, 0f);
-            Menu.Top.Set(DragableUIPanel.lastPos.Y, 0f);
-            Menu.OnCloseBtnClicked += () => ModContent.GetInstance<UISystem>().userInterface.SetState(null);
-            Append(Menu);
+                new Tab(" Camera Control", this));
+            menu.Left.Set(DragableUIPanel.lastPos.X, 0f);
+            menu.Top.Set(DragableUIPanel.lastPos.Y, 0f);
+            menu.OnCloseBtnClicked += () => ModContent.GetInstance<UISystem>().userInterface.SetState(null);
+            Append(menu);
 
             speed = new UIFloatRangedDataValue("Tracking Speed", 1, 0.1f, 100);
             var speedSldr = new UIRange<float>(speed);
             speedSldr.Width.Set(0, 1);
             speedSldr.MarginTop = 50;
             speedSldr.MarginLeft = -20;
-            Menu.Append(speedSldr);
+            menu.Append(speedSldr);
 
-            Menu.Append(new UIText("Control Trackers: ") { MarginTop = 130, MarginLeft = 210 });
+            menu.Append(new UIText("Control Trackers: ") { MarginTop = 130, MarginLeft = 210 });
 
-            UIHoverImageButton PathTrackerBtn = new UIHoverImageButton("BetterZoom/Assets/PathTrackerButton", "Place Path tracker");
+            var PathTrackerBtn = new UIHoverImageButton("BetterZoom/Assets/PathTrackerButton", "Place Path tracker");
             PathTrackerBtn.OnClick += (evt, elm) => placing = TrackerID.PathTracker;
             PathTrackerBtn.MarginLeft = 245;
             PathTrackerBtn.MarginTop = 155;
-            Menu.Append(PathTrackerBtn);
+            menu.Append(PathTrackerBtn);
 
-            UIHoverImageButton EraseTrackerBtn = new UIHoverImageButton("BetterZoom/Assets/EraserButton", "Erase Trackers");
+            var EraseTrackerBtn = new UIHoverImageButton("BetterZoom/Assets/EraserButton", "Erase Trackers");
             EraseTrackerBtn.OnClick += (evt, elm) => erasing = !erasing;
             EraseTrackerBtn.MarginLeft = 245;
             EraseTrackerBtn.MarginTop = 190;
-            Menu.Append(EraseTrackerBtn);
+            menu.Append(EraseTrackerBtn);
 
-            UIHoverImageButton DelBtn = new UIHoverImageButton("BetterZoom/Assets/DelButton", "Delete all Trackers");
+            var DelBtn = new UIHoverImageButton("BetterZoom/Assets/DelButton", "Delete all Trackers");
             DelBtn.OnClick += DeleteAll;
             DelBtn.MarginLeft = 285;
             DelBtn.MarginTop = 190;
-            Menu.Append(DelBtn);
+            menu.Append(DelBtn);
 
-            UIHoverImageButton EntityBtn = new UIHoverImageButton("BetterZoom/Assets/EntityTrackerButton", "Place Entity Tracker");
+            var EntityBtn = new UIHoverImageButton("BetterZoom/Assets/EntityTrackerButton", "Place Entity Tracker");
             EntityBtn.OnClick += ToggleEnityTracker;
             EntityBtn.MarginLeft = 285;
             EntityBtn.MarginTop = 155;
-            Menu.Append(EntityBtn);
+            menu.Append(EntityBtn);
 
-            UIHoverImageButton MoveBtn = new UIHoverImageButton("BetterZoom/Assets/MoveButton", "Move Path Tracker");
+            var MoveBtn = new UIHoverImageButton("BetterZoom/Assets/MoveButton", "Move Path Tracker");
             MoveBtn.OnClick += (evt, elm) => moving = !moving;
             MoveBtn.MarginLeft = 325;
             MoveBtn.MarginTop = 190;
-            Menu.Append(MoveBtn);
+            menu.Append(MoveBtn);
 
             lockScreenBtn = new UIToggleImage(Main.Assets.Request<Texture2D>("Images\\UI\\Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
             lockScreenBtn.MarginTop = 100;
             lockScreenBtn.MarginLeft = 250;
             lockScreenBtn.OnClick += (evt, elm) => Camera.ToggleLock();
             lockScreenBtn.Append(new UIText("Lock Screen", 0.9f) { MarginLeft = -230 });
-            Menu.Append(lockScreenBtn);
+            menu.Append(lockScreenBtn);
 
-            Menu.Append(new UIText("Control Screen: ") { MarginTop = 130, MarginLeft = 20 });
+            menu.Append(new UIText("Control Screen: ") { MarginTop = 130, MarginLeft = 20 });
 
-            // Dpad
-            var Dpad = UIHelper.Dpad(60, 155);
-            for (int i = 0; i < Dpad.Length; i++)
-                Menu.Append(Dpad[i]);
-
-            Dpad[0].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(0, -5f));
-            Dpad[1].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(0, 5f));
-            Dpad[2].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(-5f, 0));
-            Dpad[3].OnMouseDown += (evt, elm) => Camera.MoveRelativeTo(new Vector2(5f, 0));
+            var dpad = new Dpad(60, 155);
+            menu.Append(dpad);
 
             var hideTrackersBtn = new UIToggleImage(Main.Assets.Request<Texture2D>("Images\\UI\\Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));
             hideTrackersBtn.MarginTop = 250;
             hideTrackersBtn.MarginLeft = 250;
             hideTrackersBtn.OnClick += (evt, elm) => TrackerUI.hide = !TrackerUI.hide;
             hideTrackersBtn.Append(new UIText("Hide Trackers", 0.9f) { MarginLeft = -230 });
-            Menu.Append(hideTrackersBtn);
+            menu.Append(hideTrackersBtn);
 
             // Control Buttons
             playButton = new UITextPanel<string>("Play");
             playButton.VAlign = 0.9f;
             playButton.HAlign = 0.1f;
             playButton.OnClick += (evt, elm) => Camera.PlayStopTracking();
-            Menu.Append(playButton);
+            menu.Append(playButton);
 
-            UITextPanel<string> pauseButton = new UITextPanel<string>("Pause");
+            var pauseButton = new UITextPanel<string>("Pause");
             pauseButton.VAlign = 0.9f;
             pauseButton.HAlign = 0.5f;
             pauseButton.OnClick += (evt, elm) =>
@@ -121,7 +112,7 @@ namespace BetterZoom.src.UI
                 Camera.PauseTracking();
                 pauseButton.SetText(text: Camera.Playing ? "Pause" : "Resume");
             };
-            Menu.Append(pauseButton);
+            menu.Append(pauseButton);
 
             var repeatBtn = new UITextPanel<string>("Repeat");
             repeatBtn.VAlign = 0.9f;
@@ -131,7 +122,7 @@ namespace BetterZoom.src.UI
                 Camera.repeat = !Camera.repeat;
                 repeatBtn.SetText(text: Camera.repeat ? "End" : "Repeat");
             };
-            Menu.Append(repeatBtn);
+            menu.Append(repeatBtn);
         }
 
         public override void Update(GameTime gameTime)
@@ -212,7 +203,7 @@ namespace BetterZoom.src.UI
 
             if (TrackerUI.trackers.Exists(x => x.IsMouseHovering))
             {
-                hoveringTracker = TrackerUI.trackers.Find(x => x.IsMouseHovering); 
+                hoveringTracker = TrackerUI.trackers.Find(x => x.IsMouseHovering);
             }
 
             if (Main.mouseLeftRelease)
@@ -261,7 +252,7 @@ namespace BetterZoom.src.UI
                 ConfirmPanel.OnCloseBtnClicked += () => ConfirmPanel.Remove();
                 Append(ConfirmPanel);
 
-                UITextPanel<string> yep = new UITextPanel<string>("Yes");
+                var yep = new UITextPanel<string>("Yes");
                 yep.HAlign = 0.2f;
                 yep.VAlign = 0.7f;
                 yep.Width.Set(100, 0f);
@@ -277,7 +268,7 @@ namespace BetterZoom.src.UI
                 };
                 ConfirmPanel.Append(yep);
 
-                UITextPanel<string> nop = new UITextPanel<string>("No");
+                var nop = new UITextPanel<string>("No");
                 nop.HAlign = 0.8f;
                 nop.VAlign = 0.7f;
                 nop.Width.Set(100, 0f);

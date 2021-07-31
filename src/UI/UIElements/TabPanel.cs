@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
@@ -80,6 +79,7 @@ namespace BetterZoom.src.UI.UIElements
                     Tabs[i].Left.Set(Tabs[i - 1].MinWidth.Pixels - 24, 0f);
                 }
             }
+
             // append all tabs
             for (int i = Tabs.Length - 1; i >= 0; i--)
                 header.Append(Tabs[i]);

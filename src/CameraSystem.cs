@@ -1,11 +1,7 @@
-﻿using BetterZoom.src.UI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ModLoader;
-using Terraria.UI;
 
 namespace BetterZoom.src
 {
@@ -19,10 +15,10 @@ namespace BetterZoom.src
         {
             if (!Main.gameMenu)
             {
-                if (BetterZoom.zoom != 1)
+                if (BetterZoom.Zoom != 1)
                 {
                     // Journeys end lighting changes make the game crash below 0.64 zoom :(
-                    BetterZoom.zoom = MathHelper.Clamp(BetterZoom.zoom, 0.64f, 10);
+                    BetterZoom.Zoom = MathHelper.Clamp(BetterZoom.Zoom, 0.64f, 10);
 
                     //prevent crash
                     /*if (BetterZoom.zoom >= -0.18f && BetterZoom.zoom <= 0.18f
@@ -39,26 +35,26 @@ namespace BetterZoom.src
                     }*/
 
                     //Change zoom
-                    Main.GameZoomTarget = BetterZoom.zoom;
+                    Main.GameZoomTarget = BetterZoom.Zoom;
                     Transform.Zoom = new Vector2(Main.GameZoomTarget);
 
                     //Zoom with background if above one
-                    if (BetterZoom.zoomBackground)
+                    if (BetterZoom.ZoomBackground)
                         Main.BackgroundViewMatrix.Zoom = new Vector2(Main.GameZoomTarget);
                 }
                 // change hotbar scale
-                if (BetterZoom.hotbarScale != 1f)
+                if (BetterZoom.HotbarScale != 1f)
                 {
-                    float[] scale = { BetterZoom.hotbarScale, BetterZoom.hotbarScale, BetterZoom.hotbarScale, BetterZoom.hotbarScale, BetterZoom.hotbarScale, BetterZoom.hotbarScale, BetterZoom.hotbarScale, BetterZoom.hotbarScale, BetterZoom.hotbarScale, BetterZoom.hotbarScale }; // for each hotbar slot
+                    float[] scale = { BetterZoom.HotbarScale, BetterZoom.HotbarScale, BetterZoom.HotbarScale, BetterZoom.HotbarScale, BetterZoom.HotbarScale, BetterZoom.HotbarScale, BetterZoom.HotbarScale, BetterZoom.HotbarScale, BetterZoom.HotbarScale, BetterZoom.HotbarScale }; // for each hotbar slot
                     Main.hotbarScale = scale;
                 }
-                if (BetterZoom.uiScale != 1)
+                if (BetterZoom.UIScale != 1)
                 {
                     // between 0.2 and 2
-                    BetterZoom.uiScale = MathHelper.Clamp(BetterZoom.uiScale, 0.2f, 2);
+                    BetterZoom.UIScale = MathHelper.Clamp(BetterZoom.UIScale, 0.2f, 2);
 
                     // change UI scale
-                    Main.UIScale = BetterZoom.uiScale;
+                    Main.UIScale = BetterZoom.UIScale;
                 }
             }
         }

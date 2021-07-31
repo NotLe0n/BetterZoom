@@ -296,11 +296,11 @@ namespace BetterZoom.src.UI
                 Rectangle mouseRect = new Rectangle((int)(Main.MouseScreen.X - 16), (int)(Main.MouseScreen.Y - 16), 32, 32);
                 if (placing == TrackerID.PathTracker)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("BetterZoom/Assets/PathTracker").Value, mouseRect, Color.White);
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("BetterZoom/Assets/PathTracker").Value, mouseRect, Color.White);
                 }
                 else if (placing == TrackerID.EntityTracker)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("BetterZoom/Assets/EntityTracker").Value, mouseRect, Color.White);
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("BetterZoom/Assets/EntityTracker").Value, mouseRect, Color.White);
                 }
             }
         }

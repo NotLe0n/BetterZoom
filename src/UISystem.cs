@@ -26,6 +26,7 @@ namespace BetterZoom.src
 
                 trackerUI = new TrackerUI();
                 trackerUI.Activate();
+
                 trackerUserInterface = new UserInterface();
                 trackerUserInterface.SetState(trackerUI);
 
@@ -47,8 +48,9 @@ namespace BetterZoom.src
         public override void UpdateUI(GameTime gameTime)
         {
             _lastUpdateUiGameTime = gameTime;
-            if (userInterface.CurrentState != null)
-                userInterface.Update(gameTime);
+
+            userInterface?.Update(gameTime);
+
             if (!TrackerUI.hide)
                 trackerUserInterface.Update(gameTime);
         }
@@ -65,8 +67,7 @@ namespace BetterZoom.src
                     "Better Zoom: UI",
                     delegate
                     {
-                        if (userInterface.CurrentState != null)
-                            userInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                        userInterface?.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
                         return true;
                     }, InterfaceScaleType.UI));
             }

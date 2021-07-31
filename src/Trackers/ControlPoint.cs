@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
@@ -13,7 +14,7 @@ namespace BetterZoom.src.Trackers
         public Vector2 Position;
         public new bool IsMouseHovering => new Rectangle((int)Position.X - (int)(8 * BetterZoom.zoom), (int)Position.Y - (int)(8 * BetterZoom.zoom), (int)(16 * BetterZoom.zoom), (int)(16 * BetterZoom.zoom)).Contains(BetterZoom.RealMouseWorld.ToPoint());
 
-        public ControlPoint(Vector2 position) : base(ModContent.GetTexture("BetterZoom/Assets/ControlPoint"))
+        public ControlPoint(Vector2 position) : base(ModContent.Request<Texture2D>("BetterZoom/Assets/ControlPoint"))
         {
             Position = position;
         }

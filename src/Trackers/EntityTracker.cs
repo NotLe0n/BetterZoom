@@ -1,5 +1,6 @@
 ﻿using BetterZoom.src.UI;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,7 @@ namespace BetterZoom.src.Trackers
     {
         public Entity TrackedEntity;
 
-        public EntityTracker(Vector2 pos) : base(pos, ModContent.GetTexture("BetterZoom/Assets/EntityTracker").Value)
+        public EntityTracker(Vector2 pos) : base(pos, ModContent.Request<Texture2D>("BetterZoom/Assets/EntityTracker").Value)
         {
             MarginLeft = Main.LocalPlayer.position.X - Main.screenPosition.X;
             MarginTop = Main.LocalPlayer.position.Y - Main.screenPosition.Y;

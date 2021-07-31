@@ -9,7 +9,7 @@ namespace BetterZoom.src.UI.UIElements
     {
         internal string HoverText;
         internal string Texture;
-        public UIHoverImageButton(string texture, string hoverText) : base(ModContent.GetTexture(texture))
+        public UIHoverImageButton(string texture, string hoverText) : base(ModContent.Request<Texture2D>(texture))
         {
             HoverText = hoverText;
             Texture = texture;

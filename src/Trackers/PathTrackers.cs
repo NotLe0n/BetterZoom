@@ -1,6 +1,7 @@
 ﻿using BetterZoom.src.UI;
 using BetterZoom.src.UI.UIElements;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,7 +11,7 @@ namespace BetterZoom.src.Trackers
     {
         public BezierCurve Connection;
 
-        public PathTrackers(Vector2 pos) : base(pos, ModContent.GetTexture("BetterZoom/Assets/PathTracker").Value)
+        public PathTrackers(Vector2 pos) : base(pos, ModContent.Request<Texture2D>("BetterZoom/Assets/PathTracker").Value)
         {
             TrackerUI.trackers.Add(this);
 

@@ -21,11 +21,13 @@ namespace BetterZoom.src.UI.UIElements
         {
             _changeStateTo = changeStateTo;
         }
+
         public override void OnInitialize()
         {
             SetPadding(7);
             BackgroundColor.A = 255; // solid color
         }
+
         public override void Click(UIMouseEvent evt)
         {
             // update Last tab
@@ -35,6 +37,7 @@ namespace BetterZoom.src.UI.UIElements
             ModContent.GetInstance<UISystem>().userInterface.SetState(_changeStateTo);
             SoundEngine.PlaySound(SoundID.MenuTick);
         }
+
         public override void Update(GameTime gameTime)
         {
             // Highlight
@@ -66,6 +69,7 @@ namespace BetterZoom.src.UI.UIElements
             Height.Pixels = height;
             Tabs = tabs;
         }
+
         public override void OnInitialize()
         {
             // set correct position for all tabs

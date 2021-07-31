@@ -4,8 +4,8 @@ using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
 
 namespace BetterZoom.src.UI.UIElements
 {
@@ -109,7 +109,7 @@ namespace BetterZoom.src.UI.UIElements
                 //slider.HAlign = .25f;
                 Append(slider);
 
-                minus = new UIImageButton(GetTexture("UIElements/ButtonMinus"));
+                minus = new UIImageButton(ModContent.Request<Texture2D>("UIElements/ButtonMinus"));
                 minus.OnClick += Minus_OnClick;
                 //minus.Height.Set(16, 0f);
                 minus.Width.Set(0, .125f);
@@ -119,7 +119,7 @@ namespace BetterZoom.src.UI.UIElements
                 //minus.HAlign = .625f;
                 Append(minus);
 
-                plus = new UIImageButton(GetTexture("UIElements/ButtonPlus"));
+                plus = new UIImageButton(ModContent.Request<Texture2D>("UIElements/ButtonPlus"));
                 plus.OnClick += Plus_OnClick;
                 //plus.Height.Set(16, 0f);
                 plus.Width.Set(0, .125f);

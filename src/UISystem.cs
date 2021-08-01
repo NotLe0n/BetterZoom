@@ -65,19 +65,15 @@ namespace BetterZoom.src
                         return true;
                     }, InterfaceScaleType.UI));
             }
-
-            int RulerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Ruler"));
-            if (RulerIndex != -1)
-            {
-                layers.Insert(RulerIndex, new LegacyGameInterfaceLayer(
-                    "Better Zoom: TrackerUI",
-                    delegate
-                    {
-                        if (!TrackerUI.hide)
-                            trackerUserInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
-                        return true;
-                    }, InterfaceScaleType.Game));
-            }
+            
+            layers.Add(new LegacyGameInterfaceLayer(
+                "Better Zoom: TrackerUI",
+                delegate
+                {
+                    if (!TrackerUI.hide)
+                        trackerUserInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+                    return true;
+                }, InterfaceScaleType.Game));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace BetterZoom.src.Trackers
         public Vector2 Position;
         public new bool IsMouseHovering => new Rectangle((int)Position.X - (int)(8 * BetterZoom.Zoom), (int)Position.Y - (int)(8 * BetterZoom.Zoom), (int)(16 * BetterZoom.Zoom), (int)(16 * BetterZoom.Zoom)).Contains(BetterZoom.RealMouseWorld.ToPoint());
 
-        public ControlPoint(Vector2 position) : base(ModContent.Request<Texture2D>("BetterZoom/Assets/ControlPoint"))
+        public ControlPoint(Vector2 position) : base(ModContent.Request<Texture2D>("BetterZoom/Assets/ControlPoint", ReLogic.Content.AssetRequestMode.ImmediateLoad))
         {
             Position = position;
         }

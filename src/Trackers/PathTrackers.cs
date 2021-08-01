@@ -11,7 +11,7 @@ namespace BetterZoom.src.Trackers
     {
         public BezierCurve Connection;
 
-        public PathTrackers(Vector2 pos) : base(pos, ModContent.Request<Texture2D>("BetterZoom/Assets/PathTracker").Value)
+        public PathTrackers(Vector2 pos) : base(pos, ModContent.Request<Texture2D>("BetterZoom/Assets/PathTracker", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value)
         {
             TrackerUI.trackers.Add(this);
 

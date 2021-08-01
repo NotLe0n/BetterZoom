@@ -11,7 +11,7 @@ namespace BetterZoom.src.Trackers
     {
         public Entity TrackedEntity;
 
-        public EntityTracker(Vector2 pos) : base(pos, ModContent.Request<Texture2D>("BetterZoom/Assets/EntityTracker").Value)
+        public EntityTracker(Vector2 pos) : base(pos, ModContent.Request<Texture2D>("BetterZoom/Assets/EntityTracker", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value)
         {
             MarginLeft = Main.LocalPlayer.position.X - Main.screenPosition.X;
             MarginTop = Main.LocalPlayer.position.Y - Main.screenPosition.Y;

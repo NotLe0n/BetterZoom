@@ -1,9 +1,15 @@
 {
   "profiles": {
-    "BetterZoom": {
+    "Terraria": {
       "commandName": "Executable",
       "executablePath": "dotnet",
       "commandLineArgs": "$(tMLPath)",
+      "workingDirectory": "$(TerrariaSteamPath)"
+    },
+    "TerrariaServer": {
+      "commandName": "Executable",
+      "executablePath": "dotnet",
+      "commandLineArgs": "$(tMLServerPath)",
       "workingDirectory": "$(TerrariaSteamPath)"
     }
   }

@@ -15,32 +15,32 @@ namespace BetterZoom.src.UI.UIElements
 
         public Dpad(float x, float y)
         {
-            Width.Set(240, 0);
+            Left.Set(x, 0);
+            Top.Set(y, 0);
+            Width.Set(160, 0);
             Height.Set(320, 0);
 
             buttons = new (UIImageButton, ArrowDir)[] {
                 (new UIImageButton(ModContent.Request<Texture2D>("BetterZoom/Assets/UpButton", ReLogic.Content.AssetRequestMode.ImmediateLoad))
                 {
-                    MarginTop = y,
-                    MarginLeft = x
+                    MarginLeft = 40
                 }, ArrowDir.UP),
 
                 (new UIImageButton(ModContent.Request<Texture2D>("BetterZoom/Assets/DownButton", ReLogic.Content.AssetRequestMode.ImmediateLoad))
                 {
-                    MarginTop = y + 40,
-                    MarginLeft = x
+                    MarginTop = 40,
+                    MarginLeft = 40
                 }, ArrowDir.DOWN),
 
                 (new UIImageButton(ModContent.Request<Texture2D>("BetterZoom/Assets/LeftButton", ReLogic.Content.AssetRequestMode.ImmediateLoad))
                 {
-                    MarginTop = y + 40,
-                    MarginLeft = x - 40
+                    MarginTop = 40,
                 }, ArrowDir.LEFT),
 
                 (new UIImageButton(ModContent.Request<Texture2D>("BetterZoom/Assets/RightButton", ReLogic.Content.AssetRequestMode.ImmediateLoad))
                 {
-                    MarginTop = y + 40,
-                    MarginLeft = x + 40
+                    MarginTop = 40,
+                    MarginLeft = 80
                 }, ArrowDir.RIGHT)
             };
 

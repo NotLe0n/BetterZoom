@@ -87,7 +87,7 @@ namespace BetterZoom.src.UI
 
             menu.Append(new UIText("Control Screen: ") { MarginTop = 130, MarginLeft = 20 });
 
-            var dpad = new Dpad(60, 155);
+            var dpad = new Dpad(20, 155);
             menu.Append(dpad);
 
             var hideTrackersBtn = new UIToggleImage(Main.Assets.Request<Texture2D>("Images\\UI\\Settings_Toggle"), 13, 13, new Point(17, 1), new Point(1, 1));

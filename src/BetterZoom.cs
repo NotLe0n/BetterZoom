@@ -28,13 +28,6 @@ namespace BetterZoom.src
             set => Main.LocalPlayer.GetModPlayer<SaveLoad>().zoomBackground = value;
         }
 
-        public override void Load()
-        {
-            Edits.Load();
-
-            base.Load();
-        }
-
         public override void Unload()
         {
             Config.Instance = null;

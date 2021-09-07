@@ -29,7 +29,7 @@ namespace BetterZoom.src.UI
             Menu.OnCloseBtnClicked += () => ModContent.GetInstance<UISystem>().userInterface.SetState(null);
             Append(Menu);
 
-            zoom = new UIFloatRangedDataValue("Zoom", 1, 0.64f, 10);
+            zoom = new UIFloatRangedDataValue("Zoom", 1, 0.3f, 10);
             zoomSldr = new UIRange<float>(zoom);
             zoom.OnValueChanged += () => BetterZoom.Zoom = zoom.Data;
             zoomSldr.Width.Set(0, 1);

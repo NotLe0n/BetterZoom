@@ -17,22 +17,7 @@ namespace BetterZoom.src
             {
                 if (BetterZoom.Zoom != 1)
                 {
-                    // Journeys end lighting changes make the game crash below 0.64 zoom :(
-                    BetterZoom.Zoom = MathHelper.Clamp(BetterZoom.Zoom, 0.64f, 10);
-
-                    //prevent crash
-                    /*if (BetterZoom.zoom >= -0.18f && BetterZoom.zoom <= 0.18f
-                        && !(BetterZoom.zoom <= -0.2f)
-                        && !Main.keyState.IsKeyDown(Keys.OemPlus))
-                    {
-                        BetterZoom.zoom = -0.2f;
-                    }
-                    if (BetterZoom.zoom >= -0.18f && BetterZoom.zoom <= 0.18f
-                        && !(BetterZoom.zoom <= -0.2f)
-                        && Main.keyState.IsKeyDown(Keys.OemPlus))
-                    {
-                        BetterZoom.zoom = 0.2f;
-                    }*/
+                    BetterZoom.Zoom = MathHelper.Clamp(BetterZoom.Zoom, 0.3f, 10);
 
                     //Change zoom
                     Main.GameZoomTarget = BetterZoom.Zoom;

@@ -10,17 +10,15 @@ namespace BetterZoom.src
         public float hotbarScale = 1;
         public bool zoomBackground = false;
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
-            return new TagCompound {
-				{"zoom", BetterZoom.Zoom},
-                {"uiscale", BetterZoom.UIScale},
-                {"hotbarscale", BetterZoom.HotbarScale},
-                {"zoombackground", BetterZoom.ZoomBackground}
-            };
+            tag["zoom"] = BetterZoom.Zoom;
+            tag["uiscale"] = BetterZoom.UIScale;
+            tag["hotbarscale"] = BetterZoom.HotbarScale;
+            tag["zoombackground"] = BetterZoom.ZoomBackground;
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             zoom = tag.GetFloat("zoom");
             uIScale = tag.GetFloat("uiscale");

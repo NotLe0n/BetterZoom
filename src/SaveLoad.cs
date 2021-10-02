@@ -12,10 +12,10 @@ namespace BetterZoom.src
 
         public override void SaveData(TagCompound tag)
         {
-            tag["zoom"] = BetterZoom.Zoom;
-            tag["uiscale"] = BetterZoom.UIScale;
-            tag["hotbarscale"] = BetterZoom.HotbarScale;
-            tag["zoombackground"] = BetterZoom.ZoomBackground;
+            tag["zoom"] = zoom;
+            tag["uiscale"] = uIScale;
+            tag["hotbarscale"] = hotbarScale;
+            tag["zoombackground"] = zoomBackground;
         }
 
         public override void LoadData(TagCompound tag)

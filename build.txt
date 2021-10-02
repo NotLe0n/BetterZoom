@@ -1,6 +1,6 @@
 displayName = Better Zoom & Camera Control
 author = NotLe0n
-version = 3.0.2.1
+version = 3.0.2.2
 hideCode = false
 hideResources = false
 includeSource = false

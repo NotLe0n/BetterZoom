@@ -4,18 +4,16 @@
 [c/FFE900:Very useful to people who play in lower resolutions or]
 [c/FFE900:who want to have high resolution sprites.]
 
-[c/FFE900:You can also make the game turn upside down.]
-
-Open the UI using the hotkey (default: 'B').
+Open the UI using the hotkey (you have to set it first).
 
 For a Changlog and more information visit my homepage!
 
-Contact [c/66EEFF:NotLe0n#7696] on discord if you have any problems.
+Comment on the forum post or join my discord if you have any problems: [c/8ab4f8:https://discord.gg/NX4DVzz2v6]
 
 Special Thanks to:
 [c/66EEFF:AbsoluteAquarian], for helping me with Lerp!
 [c/66EEFF:bafto & Hexagonalex], for testing multiplayer.
-[c/66EEFF:Cryoknight], for the trashcan sprite!
+[c/66EEFF:Pyroknight], for the trashcan sprite!
 [c/66EEFF:AbsoluteAquarian], [c/66EEFF:Trivaxy] and [c/66EEFF:direwolf420] for helping with the IL-edit
 
 _________________________
@@ -29,18 +27,13 @@ Zoom (default: 1x):
 [c/C4C4C4:    (not the ones on the numpad) will zoom your]
 [c/C4C4C4:    game in and out just like normal, but]
 [c/C4C4C4:    instead of zooming from 100% to 200%,]
-[c/C4C4C4:    you can zoom from 20% to 1000%]
-[c/C4C4C4:    and from -100% to -20% (upside down)]
+[c/C4C4C4:    you can zoom from 30% to 1000%]
 
 [c/FF0000: When you zoom out the tiles don't load any further.]
 [c/FF0000: This is not a bug!]
 
 Zoom Background (default: 'off'):
 [c/C4C4C4:    This toggles if the background should zoom too.]
-
-Flip Background (default: 'on'):
-[c/C4C4C4:    This decides if the background should flip]
-[c/C4C4C4:    once the zoom is negative.]
 
 Hotbar scale (default: 1x):
 [c/C4C4C4:    This changes how big your hotbar is.]

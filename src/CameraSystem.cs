@@ -7,10 +7,6 @@ namespace BetterZoom.src
 {
     public class CameraSystem : ModSystem
     {
-        /// <summary>
-        /// Change Zoom
-        /// </summary>
-        /// <param name="Transform">Screen Transform Matrix</param>
         public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
             if (!Main.gameMenu)

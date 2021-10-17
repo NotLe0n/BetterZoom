@@ -8,7 +8,21 @@ namespace BetterZoom.src
         public float zoom = 1;
         public float uIScale = 1;
         public float hotbarScale = 1;
-        public bool zoomBackground = false;
+        public bool zoomBackground;
+
+        // temporary fix to crash nullref on world load
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return true;
+        }
+
+        public override void Initialize()
+        {
+            zoom = 1;
+            uIScale = 1;
+            hotbarScale = 1;
+            zoomBackground = false;
+        }
 
         public override void SaveData(TagCompound tag)
         {

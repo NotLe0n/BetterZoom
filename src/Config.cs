@@ -1,23 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
-namespace BetterZoom.src
+namespace BetterZoom.src;
+
+internal class Config : ModConfig
 {
-    class Config : ModConfig
-    {
-        public static Config Instance;
-        public override ConfigScope Mode => ConfigScope.ClientSide;
+	public static Config Instance;
 
-        [Header("Better Zoom now uses UI instead of the Config")]
-        [Label("Press the hotkey (you have to set it first) to open the UI")]
-        [Tooltip("Changing this doesn't do anything. This is just there to add the text")]
-        [JsonIgnore]
-        public bool dummy2;
+	public override ConfigScope Mode => ConfigScope.ClientSide;
 
-        [Header("When you zoom out the tiles don't load any further. This is not a bug")]
-        [Label("Understand?")]
-        [Tooltip("Changing this doesn't do anything. This is just there to add the text")]
-        [JsonIgnore]
-        public bool dummy;
-    }
+	[Label("Scale Background")]
+	public bool scaleBackground;
+
+	[Slider]
+	[Range(0.1f, 10.0f)]
+	[DefaultValue(1f)]
+	[Label("Cursor Scale")]
+	public float cursorScale;
+
+	public override void OnLoaded()
+	{
+		Instance = this;
+		base.OnLoaded();
+	}
 }

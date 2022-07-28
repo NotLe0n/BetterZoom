@@ -1,9 +1,9 @@
-displayName = Better Zoom & Camera Control
+displayName = Better Zoom
 author = NotLe0n
-version = 3.0.2.5
+version = 4.0.0.1
 hideCode = false
 hideResources = false
 includeSource = false
 buildIgnore = vs/*, *.csproj, *.sln, *.pidb, *.userprefs, *.user, obj/*, bin/*
 side = Client
-homepage = https://forums.terraria.org/index.php?threads/better-zoom.97640/
+homepage = https://github.com/NotLe0n/BetterZoom

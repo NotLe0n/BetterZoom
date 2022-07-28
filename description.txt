@@ -10,12 +10,6 @@ For a Changlog and more information visit my homepage!
 
 Comment on the forum post or join my discord if you have any problems: [c/8ab4f8:https://discord.gg/NX4DVzz2v6]
 
-Special Thanks to:
-[c/66EEFF:AbsoluteAquarian], for helping me with Lerp!
-[c/66EEFF:bafto & Hexagonalex], for testing multiplayer.
-[c/66EEFF:Pyroknight], for the trashcan sprite!
-[c/66EEFF:AbsoluteAquarian], [c/66EEFF:Trivaxy] and [c/66EEFF:direwolf420] for helping with the IL-edit
-
 _________________________
 
 [c/FFE900: Better Zoom]
@@ -42,41 +36,3 @@ UI Scale (default: 1x):
 [c/C4C4C4:    Similar to "Zoom" but for the UI.]
 [c/C4C4C4:    You can also change this by holding shift while]
 [c/C4C4C4:    pressing plus or minus.]
-_________________________
-
-[c/FFE900: Camera Control]
-_________________________
-
-Tracking Speed (default 1x):
-[c/C4C4C4:    Controls the tracking speed.]
-
-Lock screen (default: 'off'):
-[c/C4C4C4:    Setting this to on or pressing the Hotkey,]
-[c/C4C4C4:    locks your screen to the current position.]
-
-[c/C4C4C4:    You can still move while it's locked]
-[c/C4C4C4:    (Unlike Hero's Mod "Fly Camera tool").]
-
-[c/C4C4C4:    Pressing the Hotkey again or toggling]
-[c/C4C4C4:    "Lock Screen", unlocks your screen.]
-
-Move Screen (the Dpad):
-[c/C4C4C4:    You can move your screen while it's locked]
-
-[c/C4C4C4:    Pressing the arrow keys moves]
-[c/C4C4C4:    your screen in the direction too.]
-
-Path Trackers (red):
-[c/C4C4C4:    Click to place Path Trackers which]
-[c/C4C4C4:    will draw a curve the camera follows]
-
-[c/C4C4C4:    The Eraser will remove Path Trackers]
-[c/C4C4C4:    when you click or hold the left mouse button]
-
-[c/C4C4C4:    The Delete button will remove all Path Trackers]
-
-[c/C4C4C4:    You can move Path trackers using the move tool]
-
-Entity Tracker (green):
-[c/C4C4C4:    Click to place a Entity Tracker which will track]
-[c/C4C4C4:    the closest NPC or Player (only in Multiplayer)]

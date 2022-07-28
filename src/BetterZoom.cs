@@ -1,36 +1,19 @@
-using Microsoft.Xna.Framework;
-using Terraria;
+using BetterZoom.src.Edits;
 using Terraria.ModLoader;
 
-namespace BetterZoom.src
-{
-    public class BetterZoom : Mod
-    {
-        public static Vector2 RealMouseWorld => Main.GameViewMatrix.Translation + Main.screenPosition + (Main.MouseScreen / Zoom);
-        public static float Zoom 
-        {
-            get => Main.LocalPlayer.GetModPlayer<SaveLoad>().zoom;
-            set => Main.LocalPlayer.GetModPlayer<SaveLoad>().zoom = value; 
-        }
-        public static float UIScale
-        {
-            get => Main.LocalPlayer.GetModPlayer<SaveLoad>().uIScale;
-            set => Main.LocalPlayer.GetModPlayer<SaveLoad>().uIScale = value;
-        }
-        public static float HotbarScale
-        {
-            get => Main.LocalPlayer.GetModPlayer<SaveLoad>().hotbarScale;
-            set => Main.LocalPlayer.GetModPlayer<SaveLoad>().hotbarScale = value;
-        }
-        public static bool ZoomBackground
-        {
-            get => Main.LocalPlayer.GetModPlayer<SaveLoad>().zoomBackground;
-            set => Main.LocalPlayer.GetModPlayer<SaveLoad>().zoomBackground = value;
-        }
+namespace BetterZoom.src;
 
-        public override void Unload()
-        {
-            Config.Instance = null;
-        }
-    }
+public class BetterZoom : Mod
+{
+	public const float MIN_GAME_ZOOM = 0.3f;
+	public const float MIN_UI_ZOOM = 0.3f;
+	public const float MAX_GAME_ZOOM = 10.0f;
+	public const float MAX_UI_ZOOM = 4.0f;
+
+	public override void Load()
+	{
+		SettingsEdits.Load();
+		ZoomEdits.Load();
+		base.Load();
+	}
 }

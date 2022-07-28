@@ -4,18 +4,20 @@
 [c/FFE900:Very useful to people who play in lower resolutions or]
 [c/FFE900:who want to have high resolution sprites.]
 
-Open the UI using the hotkey (you have to set it first).
-
-For a Changlog and more information visit my homepage!
-
 Comment on the forum post or join my discord if you have any problems: [c/8ab4f8:https://discord.gg/NX4DVzz2v6]
+This mod is open source on GitHub. If you have a GitHub account, please give it a star! (link is the homepage button)
+
+The Camera Control portion of this mod has been moved to its seperate mod called "Camera Control".
+If you are a content creator, go check it out!
 
 _________________________
 
-[c/FFE900: Better Zoom]
+[c/FFE900: How to use:]
 _________________________
 
-Zoom (default: 1x):
+[c/FFE900: In Settings:]
+
+Zoom:
 [c/C4C4C4:    Changing the Zoom slider or Pressing the]
 [c/C4C4C4:    plus or minus keys on your keyboard]
 [c/C4C4C4:    (not the ones on the numpad) will zoom your]
@@ -26,13 +28,15 @@ Zoom (default: 1x):
 [c/FF0000: When you zoom out the tiles don't load any further.]
 [c/FF0000: This is not a bug!]
 
-Zoom Background (default: 'off'):
-[c/C4C4C4:    This toggles if the background should zoom too.]
-
-Hotbar scale (default: 1x):
-[c/C4C4C4:    This changes how big your hotbar is.]
-
-UI Scale (default: 1x): 
-[c/C4C4C4:    Similar to "Zoom" but for the UI.]
+UI Scale: 
+[c/C4C4C4:    You can change the UI Scale from 30% to 600%.]
 [c/C4C4C4:    You can also change this by holding shift while]
 [c/C4C4C4:    pressing plus or minus.]
+
+[c/FFE900: Mod Config:]
+
+Background Scale (default: 'off'):
+[c/C4C4C4:    This toggles if the background should zoom too.]
+
+Cursor Scale (default: 1x):
+[c/C4C4C4:    This changes the size of your cursor.]

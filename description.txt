@@ -12,10 +12,11 @@ If you are a content creator, go check it out!
 
 _________________________
 
-[c/FFE900: How to use:]
+[c/FFE900:                                How to use:]
 _________________________
 
-[c/FFE900: In Settings:]
+[c/FFE900:In Settings:]
+Clicking on the Zoom or UIScale text next to the sliders will reset the value to 100%.
 
 Zoom:
 [c/C4C4C4:    Changing the Zoom slider or Pressing the]
@@ -33,7 +34,7 @@ UI Scale:
 [c/C4C4C4:    You can also change this by holding shift while]
 [c/C4C4C4:    pressing plus or minus.]
 
-[c/FFE900: Mod Config:]
+[c/FFE900:Mod Config:]
 
 Background Scale (default: 'off'):
 [c/C4C4C4:    This toggles if the background should zoom too.]

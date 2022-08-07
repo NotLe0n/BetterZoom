@@ -2,6 +2,7 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
+using System.Reflection;
 
 namespace BetterZoom.src.Edits;
 
@@ -17,11 +18,109 @@ internal class SettingsEdits
 		var c = new ILCursor(il);
 
 		ModifyZoomSlider(c);
-
 		ModifyUIScaleSlider(c);
 	}
 
 	private static void ModifyZoomSlider(ILCursor c)
+	{
+		HookHoveringZoomText(c);
+		IncreaseZoomBound(c);
+	}
+
+	// Adds a hover text and a click action which resets the game zoom to 100%
+	private static void HookHoveringZoomText(ILCursor c)
+	{
+		/*
+			C#:
+				if (DrawRightSide(sb, text, num13, vector3, vector4, rightScale[num13] * 0.85f, (rightScale[num13] - num4) / (num5 - num4))) {
+					if (rightLock == -1) {
+							<=== here
+					}
+				}
+
+			IL:
+				IL_11bc: ldarg.1
+				IL_11bd: ldloc.s 40
+				IL_11bf: ldloc.s 36
+				IL_11c1: ldloc.s 24
+				IL_11c3: ldloc.s 25
+				IL_11c5: ldsfld float32[] Terraria.IngameOptions::rightScale
+				IL_11ca: ldloc.s 36
+				IL_11cc: ldelem.r4
+				IL_11cd: ldc.r4 0.85
+				IL_11d2: mul
+				IL_11d3: ldsfld float32[] Terraria.IngameOptions::rightScale
+				IL_11d8: ldloc.s 36
+				IL_11da: ldelem.r4
+				IL_11db: ldloc.s 13
+				IL_11dd: sub
+				IL_11de: ldloc.s 14
+				IL_11e0: ldloc.s 13
+				IL_11e2: sub
+				IL_11e3: div
+				IL_11e4: ldloca.s 29
+				IL_11e6: initobj [FNA]Microsoft.Xna.Framework.Color
+				IL_11ec: ldloc.s 29
+				IL_11ee: call bool Terraria.IngameOptions::DrawRightSide(class [FNA]Microsoft.Xna.Framework.Graphics.SpriteBatch, string, int32, valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32, float32, valuetype [FNA]Microsoft.Xna.Framework.Color)
+				IL_11f3: brfalse.s IL_120a
+
+				// if (rightLock == -1)
+				IL_11f5: ldsfld int32 Terraria.IngameOptions::rightLock
+				IL_11fa: ldc.i4.m1
+				IL_11fb: bne.un.s IL_1203
+						<=== here
+			[+]		   : ldstr "Click to reset to 100%"
+			[+]		   : stsfld string Terraria.IngameOptions::_mouseOverText
+			[+]		   : <click action>
+		*/
+
+		if (!c.TryGotoNext(MoveType.After,
+			i => i.MatchLdarg(1),
+			i => i.MatchLdloc(40),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdloc(24),
+			i => i.MatchLdloc(25),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdelemR4(),
+			i => i.MatchLdcR4(0.85f),
+			i => i.MatchMul(),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdelemR4(),
+			i => i.MatchLdloc(13),
+			i => i.MatchSub(),
+			i => i.MatchLdloc(14),
+			i => i.MatchLdloc(13),
+			i => i.MatchSub(),
+			i => i.MatchDiv(),
+			i => i.MatchLdloca(29),
+			i => i.MatchInitobj<Color>(),
+			i => i.MatchLdloc(29),
+			i => i.MatchCall(typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide), BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchBrfalse(out _),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock), BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdcI4(-1),
+			i => i.MatchBneUn(out _)
+		)) {
+			throw new($"IL edit at BetterZoom.SettingsEdits::HookHoveringZoomText failed! Please contact NotLe0n!");
+		}
+
+		// Add hover text
+		c.Emit(OpCodes.Ldstr, "Click to reset to 100%");
+		c.Emit(OpCodes.Stsfld, typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static));
+
+		// Add click action
+		c.EmitDelegate(() =>
+		{
+			if (!Main.mouseLeftRelease) {
+				Main.GameZoomTarget = 1.0f;
+			}
+		});
+	}
+
+	// Changes the zoom slider to allow for a larger range of values
+	private static void IncreaseZoomBound(ILCursor c)
 	{
 		/*
 			C# (L-502):
@@ -59,7 +158,7 @@ internal class SettingsEdits
 			i => i.MatchLdsfld<Main>("GameZoomTarget"),
 			i => i.MatchLdcR4(1)
 			)) {
-			throw new("IL edit at BetterZoom.SettingsEdits::ModifyZoomSlider failed! Please contact NotLe0n!");
+			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
 		}
 
 		c.Previous.Operand = BetterZoom.MIN_GAME_ZOOM;
@@ -67,7 +166,7 @@ internal class SettingsEdits
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchSub()
 			)) {
-			throw new("IL edit at BetterZoom.SettingsEdits::ModifyZoomSlider failed! Please contact NotLe0n!");
+			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
 		}
 
 		c.Emit(OpCodes.Ldc_R4, BetterZoom.MAX_GAME_ZOOM - BetterZoom.MIN_GAME_ZOOM);
@@ -103,7 +202,7 @@ internal class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.0f))) {
-			throw new("IL edit at BetterZoom.SettingsEdits::IngameOptions_Draw failed! Please contact NotLe0n!");
+			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
 		}
 
 		c.Prev.Operand = BetterZoom.MAX_GAME_ZOOM - BetterZoom.MIN_GAME_ZOOM;
@@ -113,6 +212,106 @@ internal class SettingsEdits
 	}
 
 	private static void ModifyUIScaleSlider(ILCursor c)
+	{
+		HookHoveringUIScaleText(c);
+		IncreaseUIScaleBound(c);
+	}
+
+	// Adds a hover text and a click action which resets the game zoom to 100%
+	private static void HookHoveringUIScaleText(ILCursor c)
+	{
+		/*
+			C#:
+				if (DrawRightSide(sb, text2, num13, vector6, vector7, rightScale[num13] * 0.75f, (rightScale[num13] - num4) / (num5 - num4))) {
+					if (rightLock == -1) {
+							<=== here
+					}
+				}
+
+			IL:
+				IL_13a2: ldarg.1
+				IL_13a3: ldloc.s 43
+				IL_13a5: ldloc.s 36
+				IL_13a7: ldloc.s 24
+				IL_13a9: ldloc.s 25
+				IL_13ab: ldsfld float32[] Terraria.IngameOptions::rightScale
+				IL_13b0: ldloc.s 36
+				IL_13b2: ldelem.r4
+				IL_13b3: ldc.r4 0.75
+				IL_13b8: mul
+				IL_13b9: ldsfld float32[] Terraria.IngameOptions::rightScale
+				IL_13be: ldloc.s 36
+				IL_13c0: ldelem.r4
+				IL_13c1: ldloc.s 13
+				IL_13c3: sub
+				IL_13c4: ldloc.s 14
+				IL_13c6: ldloc.s 13
+				IL_13c8: sub
+				IL_13c9: div
+				IL_13ca: ldloca.s 29
+				IL_13cc: initobj [FNA]Microsoft.Xna.Framework.Color
+				IL_13d2: ldloc.s 29
+				IL_13d4: call bool Terraria.IngameOptions::DrawRightSide(class [FNA]Microsoft.Xna.Framework.Graphics.SpriteBatch, string, int32, valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32, float32, valuetype [FNA]Microsoft.Xna.Framework.Color)
+				IL_13d9: brfalse.s IL_13f0
+
+				// if (rightLock == -1)
+				IL_13db: ldsfld int32 Terraria.IngameOptions::rightLock
+				IL_13e0: ldc.i4.m1
+				IL_13e1: bne.un.s IL_13e9
+						<=== here
+			[+]		   : ldstr "Click to reset to 100%"
+			[+]		   : stsfld string Terraria.IngameOptions::_mouseOverText
+			[+]		   : <click action>
+		*/
+
+		if (!c.TryGotoNext(MoveType.After,
+			i => i.MatchLdarg(1),
+			i => i.MatchLdloc(43),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdloc(24),
+			i => i.MatchLdloc(25),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdelemR4(),
+			i => i.MatchLdcR4(0.75f),
+			i => i.MatchMul(),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdelemR4(),
+			i => i.MatchLdloc(13),
+			i => i.MatchSub(),
+			i => i.MatchLdloc(14),
+			i => i.MatchLdloc(13),
+			i => i.MatchSub(),
+			i => i.MatchDiv(),
+			i => i.MatchLdloca(29),
+			i => i.MatchInitobj<Color>(),
+			i => i.MatchLdloc(29),
+			i => i.MatchCall(typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide), BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchBrfalse(out _),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock), BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdcI4(-1),
+			i => i.MatchBneUn(out _)
+		)) {
+			throw new($"IL edit at BetterZoom.SettingsEdits::HookHoveringUIScaleText failed! Please contact NotLe0n!");
+		}
+
+		// Add hover text
+		c.Emit(OpCodes.Ldstr, "Click to reset to 100%");
+		c.Emit(OpCodes.Stsfld, typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static));
+
+		// Add click action
+		c.EmitDelegate(() =>
+		{
+			if (!Main.mouseLeftRelease) {
+				Main.temporaryGUIScaleSlider = 1.0f;
+				Main.UIScale = 1.0f;
+			}
+		});
+	}
+
+	// Changes the ui scale slider to allow for a larger range of values
+	private static void IncreaseUIScaleBound(ILCursor c)
 	{
 		/*
 			C# (L-537):
@@ -147,7 +346,7 @@ internal class SettingsEdits
 			i => i.MatchLdsfld<Main>("temporaryGUIScaleSlider"),
 			i => i.MatchLdcR4(0.5f)
 			)) {
-			throw new("IL edit at BetterZoom.SettingsEdits::ModifyUIScaleSlider failed! Please contact NotLe0n!");
+			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseUIScaleBound failed! Please contact NotLe0n!");
 		}
 
 		c.Prev.Operand = BetterZoom.MIN_UI_ZOOM;
@@ -194,7 +393,7 @@ internal class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.5f))) {
-			throw new("IL edit at BetterZoom.SettingsEdits::ModifyUIScaleSlider failed! Please contact NotLe0n!");
+			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseUIScaleBound failed! Please contact NotLe0n!");
 		}
 
 		c.Prev.Operand = BetterZoom.MAX_UI_ZOOM - BetterZoom.MIN_UI_ZOOM;

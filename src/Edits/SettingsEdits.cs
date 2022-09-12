@@ -157,7 +157,7 @@ internal class SettingsEdits
 			i => i.MatchLdloc(6),
 			i => i.MatchLdsfld<Main>("GameZoomTarget"),
 			i => i.MatchLdcR4(1)
-			)) {
+		    )) {
 			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
 		}
 
@@ -165,7 +165,7 @@ internal class SettingsEdits
 
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchSub()
-			)) {
+		    )) {
 			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
 		}
 
@@ -345,7 +345,7 @@ internal class SettingsEdits
 			i => i.MatchLdloc(6),
 			i => i.MatchLdsfld<Main>("temporaryGUIScaleSlider"),
 			i => i.MatchLdcR4(0.5f)
-			)) {
+		    )) {
 			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseUIScaleBound failed! Please contact NotLe0n!");
 		}
 

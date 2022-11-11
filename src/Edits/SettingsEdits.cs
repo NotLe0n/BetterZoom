@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Reflection;
+using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
-using System.Reflection;
 
-namespace BetterZoom.src.Edits;
+namespace BetterZoom.Edits;
 
-internal class SettingsEdits
+internal static class SettingsEdits
 {
 	public static void Load()
 	{

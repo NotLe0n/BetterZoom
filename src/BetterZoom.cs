@@ -1,7 +1,7 @@
-using BetterZoom.src.Edits;
+using BetterZoom.Edits;
 using Terraria.ModLoader;
 
-namespace BetterZoom.src;
+namespace BetterZoom;
 
 public class BetterZoom : Mod
 {

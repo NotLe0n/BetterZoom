@@ -1,8 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
-namespace BetterZoom.src;
+namespace BetterZoom;
 
 internal class Config : ModConfig
 {

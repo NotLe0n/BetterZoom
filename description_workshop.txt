@@ -30,3 +30,9 @@ This toggles if the background should zoom too.
 
 [h3]Cursor Scale (default: 1x):[/h3]
 This changes the size of your cursor.
+
+[h3]Min Zoom (default: 0.3x):[/h3]
+This changes the minimum amount of zoom you can set.
+
+[h3]Max Zoom (default: 10x):[/h3]
+This changes the maximal amount of zoom you can set.

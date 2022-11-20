@@ -35,9 +35,14 @@ UI Scale:
 [c/C4C4C4:    pressing plus or minus.]
 
 [c/FFE900:Mod Config:]
-
 Background Scale (default: 'off'):
 [c/C4C4C4:    This toggles if the background should zoom too.]
 
 Cursor Scale (default: 1x):
 [c/C4C4C4:    This changes the size of your cursor.]
+
+Min Zoom (default: 0.3x):
+[c/C4C4C4:    This changes the minimum amount of zoom.]
+
+Max Zoom (default: 10x):
+[c/C4C4C4:    This changes the maximal amount of zoom.]

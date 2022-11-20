@@ -161,7 +161,7 @@ internal static class SettingsEdits
 			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
 		}
 
-		c.Previous.Operand = BetterZoom.MIN_GAME_ZOOM;
+		c.Previous.Operand = BetterZoom.MinGameZoom;
 
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchSub()
@@ -169,7 +169,7 @@ internal static class SettingsEdits
 			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
 		}
 
-		c.Emit(OpCodes.Ldc_R4, BetterZoom.MAX_GAME_ZOOM - BetterZoom.MIN_GAME_ZOOM);
+		c.Emit(OpCodes.Ldc_R4, BetterZoom.MaxGameZoom - BetterZoom.MinGameZoom);
 		c.Emit(OpCodes.Div);
 		c.Emit(OpCodes.Ldc_R4, 0.0f);
 		c.Emit(OpCodes.Ldc_R4, 1.0f);
@@ -205,10 +205,10 @@ internal static class SettingsEdits
 			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
 		}
 
-		c.Prev.Operand = BetterZoom.MAX_GAME_ZOOM - BetterZoom.MIN_GAME_ZOOM;
+		c.Prev.Operand = BetterZoom.MaxGameZoom - BetterZoom.MinGameZoom;
 
 		c.Emit(OpCodes.Mul);
-		c.Emit(OpCodes.Ldc_R4, BetterZoom.MIN_GAME_ZOOM);
+		c.Emit(OpCodes.Ldc_R4, BetterZoom.MinGameZoom);
 	}
 
 	private static void ModifyUIScaleSlider(ILCursor c)

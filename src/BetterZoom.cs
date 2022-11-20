@@ -5,9 +5,9 @@ namespace BetterZoom;
 
 public class BetterZoom : Mod
 {
-	public const float MIN_GAME_ZOOM = 0.3f;
+	public static readonly float MinGameZoom = Config.Instance.minZoom;
+	public static readonly float MaxGameZoom = Config.Instance.maxZoom;
 	public const float MIN_UI_ZOOM = 0.3f;
-	public const float MAX_GAME_ZOOM = 10.0f;
 	public const float MAX_UI_ZOOM = 4.0f;
 
 	public override void Load()

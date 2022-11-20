@@ -36,11 +36,11 @@ internal class ZoomEdits
 
 		if (!Main.keyState.PressingShift()) { // <new />
 			if (PlayerInput.Triggers.Current.ViewZoomIn) {
-				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget + num, BetterZoom.MIN_GAME_ZOOM, BetterZoom.MAX_GAME_ZOOM); // changed
+				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget + num, BetterZoom.MinGameZoom, BetterZoom.MaxGameZoom); // changed
 			}
 
 			if (PlayerInput.Triggers.Current.ViewZoomOut) {
-				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget - num, BetterZoom.MIN_GAME_ZOOM, BetterZoom.MAX_GAME_ZOOM); // changed
+				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget - num, BetterZoom.MinGameZoom, BetterZoom.MaxGameZoom); // changed
 			}
 		}
 		// <new>
@@ -99,7 +99,7 @@ internal class ZoomEdits
 			throw new("IL edit at BetterZoom.ZoomEdits::ModifyZoomBounds failed! Please contact NotLe0n!");
 		}
 
-		c.Prev.Operand = BetterZoom.MIN_GAME_ZOOM;
+		c.Prev.Operand = BetterZoom.MinGameZoom;
 
 		c.Index++;
 
@@ -109,6 +109,6 @@ internal class ZoomEdits
 				<--- here
 		*/
 
-		c.Prev.Operand = BetterZoom.MAX_GAME_ZOOM;
+		c.Prev.Operand = BetterZoom.MaxGameZoom;
 	}
 }

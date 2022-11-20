@@ -17,6 +17,26 @@ internal class Config : ModConfig
 	[DefaultValue(1f)]
 	[Label("Cursor Scale")]
 	public float cursorScale;
+	
+	[Range(0.3f, 10.0f)]
+	[DefaultValue(0.3f)]
+	[ReloadRequired]
+	[Label("min zoom")]
+	public float minZoom;
+	
+	[Range(0.3f, 10.0f)]
+	[DefaultValue(10f)]
+	[ReloadRequired]
+	[Label("max zoom")]
+	public float maxZoom;
+
+	public override void OnChanged()
+	{
+		if (minZoom > maxZoom) {
+			minZoom = maxZoom;
+		}
+		base.OnChanged();
+	}
 
 	public override void OnLoaded()
 	{

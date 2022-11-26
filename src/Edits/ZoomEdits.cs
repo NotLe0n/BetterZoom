@@ -96,7 +96,7 @@ internal class ZoomEdits
 			i => i.MatchLdsfld<Main>("ForcedMinimumZoom"),
 			i => i.MatchLdsfld<Main>("GameZoomTarget"),
 			i => i.MatchLdcR4(1))) {
-			throw new("IL edit at BetterZoom.ZoomEdits::ModifyZoomBounds failed! Please contact NotLe0n!");
+			throw new ILEditException($"BetterZoom.{nameof(ZoomEdits)}::{nameof(ModifyZoomBounds)}");
 		}
 
 		c.Prev.Operand = BetterZoom.MinGameZoom;

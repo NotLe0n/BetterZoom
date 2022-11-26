@@ -76,34 +76,34 @@ internal static class SettingsEdits
 
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchLdarg(1),
-			i => i.MatchLdloc(40),
-			i => i.MatchLdloc(36),
-			i => i.MatchLdloc(24),
-			i => i.MatchLdloc(25),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
-			i => i.MatchLdloc(36),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
 			i => i.MatchLdcR4(0.85f),
 			i => i.MatchMul(),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
-			i => i.MatchLdloc(36),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
-			i => i.MatchLdloc(13),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchSub(),
-			i => i.MatchLdloc(14),
-			i => i.MatchLdloc(13),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchSub(),
 			i => i.MatchDiv(),
-			i => i.MatchLdloca(29),
+			i => i.Match(OpCodes.Ldloca_S),
 			i => i.MatchInitobj<Color>(),
-			i => i.MatchLdloc(29),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchCall(typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide), BindingFlags.Public | BindingFlags.Static)),
-			i => i.MatchBrfalse(out _),
+			i => i.Match(OpCodes.Brfalse_S),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock), BindingFlags.Public | BindingFlags.Static)),
 			i => i.MatchLdcI4(-1),
-			i => i.MatchBneUn(out _)
+			i => i.Match(OpCodes.Bne_Un_S)
 		)) {
-			throw new($"IL edit at BetterZoom.SettingsEdits::HookHoveringZoomText failed! Please contact NotLe0n!");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(HookHoveringZoomText)}");
 		}
 
 		// Add hover text
@@ -154,11 +154,11 @@ internal static class SettingsEdits
 
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchLdarg(1),
-			i => i.MatchLdloc(6),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdsfld<Main>("GameZoomTarget"),
 			i => i.MatchLdcR4(1)
 		    )) {
-			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseZoomBound)}");
 		}
 
 		c.Previous.Operand = BetterZoom.MinGameZoom;
@@ -166,7 +166,7 @@ internal static class SettingsEdits
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchSub()
 		    )) {
-			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseZoomBound)}");
 		}
 
 		c.Emit(OpCodes.Ldc_R4, BetterZoom.MaxGameZoom - BetterZoom.MinGameZoom);
@@ -202,7 +202,7 @@ internal static class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.0f))) {
-			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseZoomBound failed! Please contact NotLe0n!");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseZoomBound)}");
 		}
 
 		c.Prev.Operand = BetterZoom.MaxGameZoom - BetterZoom.MinGameZoom;
@@ -266,34 +266,34 @@ internal static class SettingsEdits
 
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchLdarg(1),
-			i => i.MatchLdloc(43),
-			i => i.MatchLdloc(36),
-			i => i.MatchLdloc(24),
-			i => i.MatchLdloc(25),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
-			i => i.MatchLdloc(36),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
 			i => i.MatchLdcR4(0.75f),
 			i => i.MatchMul(),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
-			i => i.MatchLdloc(36),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
-			i => i.MatchLdloc(13),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchSub(),
-			i => i.MatchLdloc(14),
-			i => i.MatchLdloc(13),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchSub(),
 			i => i.MatchDiv(),
-			i => i.MatchLdloca(29),
+			i => i.Match(OpCodes.Ldloca_S),
 			i => i.MatchInitobj<Color>(),
-			i => i.MatchLdloc(29),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchCall(typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide), BindingFlags.Public | BindingFlags.Static)),
-			i => i.MatchBrfalse(out _),
+			i => i.Match(OpCodes.Brfalse_S),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock), BindingFlags.Public | BindingFlags.Static)),
 			i => i.MatchLdcI4(-1),
-			i => i.MatchBneUn(out _)
+			i => i.Match(OpCodes.Bne_Un_S)
 		)) {
-			throw new($"IL edit at BetterZoom.SettingsEdits::HookHoveringUIScaleText failed! Please contact NotLe0n!");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(HookHoveringUIScaleText)}");
 		}
 
 		// Add hover text
@@ -342,11 +342,11 @@ internal static class SettingsEdits
 
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchLdarg(1),
-			i => i.MatchLdloc(6),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdsfld<Main>("temporaryGUIScaleSlider"),
 			i => i.MatchLdcR4(0.5f)
 		    )) {
-			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseUIScaleBound failed! Please contact NotLe0n!");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 
 		c.Prev.Operand = BetterZoom.MIN_UI_ZOOM;
@@ -393,7 +393,7 @@ internal static class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.5f))) {
-			throw new("IL edit at BetterZoom.SettingsEdits::IncreaseUIScaleBound failed! Please contact NotLe0n!");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 
 		c.Prev.Operand = BetterZoom.MAX_UI_ZOOM - BetterZoom.MIN_UI_ZOOM;

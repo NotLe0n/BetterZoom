@@ -6,7 +6,7 @@
 Comment on the forum post or join my discord if you have any problems: [url=https://discord.gg/NX4DVzz2v6]link[/url]
 This mod is open source on [url=https://github.com/NotLe0n/BetterZoom]GitHub[/url]. If you have a GitHub account, please give it a star!
 
-The Camera Control portion of this mod has been moved to its seperate mod called 
+The Camera Control portion of this mod has been moved to its separate mod called 
 "[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2831018225]Camera Control[/url]". If you are a content creator, go check it out!
 
 [h1]How to use:[/h1]

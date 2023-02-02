@@ -12,6 +12,12 @@ The Camera Control portion of this mod has been moved to its seperate mod called
 <h1>How to use:</h1>
 
 <h2>In Settings:</h2>
+Clicking on the Zoom or UIScale text next to the sliders will reset the value to 100%.
+
+You can toggle between slider and exact input using the toggle button next to the header text "Zoom".
+The text box only takes 3 numbers and pressing the Enter key or clicking away will submit the change.
+
+**NOTE: You can enter any 3 digit number into the text box, including possibly invalid ones, which may cause a crash.**
 
 <h3>Zoom:</h3>
 Changing the Zoom slider or Pressing the plus or minus keys on your keyboard (not the ones on the numpad) will zoom your game in and out just like normal,

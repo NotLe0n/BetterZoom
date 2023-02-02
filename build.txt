@@ -1,6 +1,6 @@
 displayName = Better Zoom
 author = NotLe0n
-version = 4.2.0
+version = 4.3.0
 hideCode = false
 hideResources = false
 includeSource = false

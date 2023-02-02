@@ -102,7 +102,7 @@ internal static class SettingsEdits
 		c.EmitDelegate(DrawInputModeToggle);
 	}
 
-	private static bool textInput = true;
+	private static bool _textInput;
 	
 	private static void DrawInputModeToggle(SpriteBatch sb, Vector2 v, Vector2 v2, int i)
 	{
@@ -110,7 +110,7 @@ internal static class SettingsEdits
 		var pos = v + v2 * (1+i) + new Vector2(zoomTextDim.X, -zoomTextDim.Y / 2);
 		var btnRect = new Rectangle((int)pos.X, (int)pos.Y, 20, 20);
 
-		if (textInput) {
+		if (_textInput) {
 			sb.Draw(SliderButtonAsset.Value, btnRect, Color.White);
 		}
 		else {
@@ -123,7 +123,7 @@ internal static class SettingsEdits
 			}
 
 			if (Main.mouseLeft && Main.mouseLeftRelease) {
-				textInput = !textInput;
+				_textInput = !_textInput;
 				SoundEngine.PlaySound(SoundID.MenuTick);
 			}
 				
@@ -134,7 +134,7 @@ internal static class SettingsEdits
 	private static void ModifyZoomSlider(ILCursor c)
 	{
 		HookHoveringZoomText(c);
-		IncreaseZoomBound(c);
+		ModifyZoomInput(c);
 	}
 
 	// Adds a hover text and a click action which resets the game zoom to 100%
@@ -230,45 +230,79 @@ internal static class SettingsEdits
 	}
 
 	// Changes the zoom slider to allow for a larger range of values
-	private static void IncreaseZoomBound(ILCursor c)
+	private static void ModifyZoomInput(ILCursor c)
 	{
+		var inputBox = new ZoomInputBox(Main.GameZoomTarget);
+
 		/*
-			C# (L-502):
+			C# (L-516):
 				before:
 					float num14 = DrawValueBar(sb, scale, Main.GameZoomTarget - 1f);
 				after:
-					float num14 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.GameZoomTarget - MIN_GAME_ZOOM) / (MAX_GAME_ZOOM - MIN_GAME_ZOOM), 0, 1));
-			IL:
+					float num14;
+					if (!_textInput) {
+						num14 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.GameZoomTarget - MIN_GAME_ZOOM) / (MAX_GAME_ZOOM - MIN_GAME_ZOOM), 0, 1));
+					}
+					else {
+						...
+						num14 = DrawInputTextBox(...);
+					}
+			IL (1242):
 				before:
-					IL_1495: ldarg		1
-					IL_1496: ldloc.s	6
-					IL_1498: ldsfld		float32 Terraria.Main::GameZoomTarget
-					IL_149d: ldc.r4		1
-					IL_14a2: sub
-					IL_14a3: ldc.i4		0
-					IL_14a4: ldnull
+					IL_1242: ldarg		1
+					IL_1243: ldloc.s	6
+					IL_1245: ldsfld		float32 Terraria.Main::GameZoomTarget
+					IL_124A: ldc.r4		1
+					IL_124F: sub
+					IL_1250: ldc.i4		0
+					IL_1251: ldnull
+					IL_1252: call      float32 Terraria.IngameOptions::DrawValueBar(...)
+					IL_1257: stloc.s   num14
 				after:
-					IL_1495: ldarg		1
-					IL_1496: ldloc.s	6
-					IL_1498: ldsfld		float32 Terraria.Main::GameZoomTarget
-				[~]	IL_149d: ldc.r4		MIN_GAME_ZOOM
-					IL_14a2: sub
-				[+]	IL_14a3: ldc.r4		MAX_GAME_ZOOM - MIN_GAME_ZOOM
-				[+]	IL_14a8: div
-				[+]	IL_14a9: ldc.r4		0.0
-				[+]	IL_14ae: ldc.r4		1
-				[+]	IL_14b3: call		float32 [FNA]Microsoft.Xna.Framework.MathHelper::Clamp(float32, float32, float32)
-					IL_14b8: ldc.i4		0
-					IL_14b9: ldnull
+				[+] IL_####: ldsfld		bool BetterZoom.SettingsEdits::textInput
+				[+] IL_####: brtrue		drawInputBoxLabel
+					IL_1242: ldarg		1
+					IL_1243: ldloc.s	6
+					IL_1245: ldsfld		float32 Terraria.Main::GameZoomTarget
+				[~]	IL_####: ldc.r4		MIN_GAME_ZOOM
+					IL_124F: sub
+				[+]	IL_####: ldc.r4		MAX_GAME_ZOOM - MIN_GAME_ZOOM
+				[+]	IL_####: div
+				[+]	IL_####: ldc.r4		0.0
+				[+]	IL_####: ldc.r4		1
+				[+]	IL_####: call		float32 [FNA]Microsoft.Xna.Framework.MathHelper::Clamp(float32, float32, float32)
+					IL_1250: ldc.i4		0
+					IL_1251: ldnull
+					IL_1252: call      float32 Terraria.IngameOptions::DrawValueBar(...)
+					IL_1257: stloc.s   num14
+				[+] IL_####: br	       afterBlock
+				[+] drawInputBoxLabel: ldarg.1
+				[+] IL_####: ldloc	   6
+				[+] IL_####: call	   <delegate>
+				[+] afterblock:
 		*/
+		
+		if (!c.TryGotoNext(MoveType.Before,
+			    i => i.MatchLdarg(1),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdsfld<Main>("GameZoomTarget"),
+			    i => i.MatchLdcR4(1)
+		    )) {
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+		}
+		
+		// #### if (!textInput) {
+		var drawInputBoxLabel = c.DefineLabel();
+		c.Emit(OpCodes.Ldsfld, typeof(SettingsEdits).GetField(nameof(_textInput), BindingFlags.Static | BindingFlags.NonPublic));
+		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
 
 		if (!c.TryGotoNext(MoveType.After,
-			i => i.MatchLdarg(1),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdsfld<Main>("GameZoomTarget"),
-			i => i.MatchLdcR4(1)
+			    i => i.MatchLdarg(1),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdsfld<Main>("GameZoomTarget"),
+			    i => i.MatchLdcR4(1)
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseZoomBound)}");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
 		c.Previous.Operand = BetterZoom.MinGameZoom;
@@ -276,7 +310,7 @@ internal static class SettingsEdits
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchSub()
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseZoomBound)}");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
 		c.Emit(OpCodes.Ldc_R4, BetterZoom.MaxGameZoom - BetterZoom.MinGameZoom);
@@ -284,8 +318,43 @@ internal static class SettingsEdits
 		c.Emit(OpCodes.Ldc_R4, 0.0f);
 		c.Emit(OpCodes.Ldc_R4, 1.0f);
 		c.Emit(OpCodes.Call, typeof(MathHelper).GetMethod("Clamp"));
-		c.Index++;
 
+		if (!c.TryGotoNext(MoveType.After,
+			    i => i.MatchLdcI4(0),
+			    i => i.MatchLdnull(),
+			    i => i.MatchCall(typeof(IngameOptions).GetMethod("DrawValueBar")),
+			    i => i.Match(OpCodes.Stloc_S)
+		    )) {
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+		}
+
+		var afterBlock = c.DefineLabel();
+		c.Emit(OpCodes.Br, afterBlock);
+		// #### }
+		
+		
+		// #### else {
+		c.MarkLabel(drawInputBoxLabel);
+
+		c.Emit(OpCodes.Ldarg_1); // sb
+		c.Emit(OpCodes.Ldloc, 6); // scale
+		c.EmitDelegate((SpriteBatch sb, float scale) =>
+		{
+			if (!inputBox.Focused) {
+				inputBox.ZoomValue = Main.GameZoomTarget;
+			}
+
+			inputBox.OnChange += zoomVal => Main.GameZoomTarget = zoomVal;
+			
+			return DrawInputTextBox(inputBox, sb, scale);
+		});
+
+		c.Emit(OpCodes.Stloc, 41);
+
+		c.MarkLabel(afterBlock);
+
+		// ##### }
+		
 		/* 
 			C# (L-506):
 				before:
@@ -312,7 +381,7 @@ internal static class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.0f))) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseZoomBound)}");
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
 		c.Prev.Operand = BetterZoom.MaxGameZoom - BetterZoom.MinGameZoom;
@@ -423,12 +492,21 @@ internal static class SettingsEdits
 	// Changes the ui scale slider to allow for a larger range of values
 	private static void IncreaseUIScaleBound(ILCursor c)
 	{
+		var inputBox = new ZoomInputBox(Main.UIScale);
+
 		/*
 			C# (L-537):
 				before:
 					float num15 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.temporaryGUIScaleSlider - 0.5f) / 1.5f, 0f, 1f));
 				after:
-					float num15 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.temporaryGUIScaleSlider - MIN_UI_ZOOM) / (MAX_UI_ZOOM - MIN_UI_ZOOM), 0f, 1f));
+					float num15;
+					if(!_textInput) {
+						num15 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.temporaryGUIScaleSlider - MIN_UI_ZOOM) / (MAX_UI_ZOOM - MIN_UI_ZOOM), 0f, 1f));
+					}
+					else {
+						...
+						num15 = DrawInputTextBox(...);
+					}
 			IL:
 				before:
 					IL_16c0: ldarg		1
@@ -440,6 +518,8 @@ internal static class SettingsEdits
 					IL_16d3: div
 					IL_16d4: ldc.r4		0.0
 				after:
+				[+] IL_####: ldsfld		bool BetterZoom.SettingsEdits::textInput
+				[+] IL_####: brtrue		drawInputBoxLabel
 					IL_16c0: ldarg		1
 					IL_16c1: ldloc.s	6
 					IL_16c3: ldsfld		float32 Terraria.Main::temporaryGUIScaleSlider
@@ -448,8 +528,31 @@ internal static class SettingsEdits
 				[~]	IL_16ce: ldc.r4		MAX_UI_ZOOM - MIN_UI_ZOOM
 					IL_16d3: div
 					IL_16d4: ldc.r4		0.0
+					IL_16e0: ldc.i4		0
+					IL_16e1: ldnull
+					IL_16e2: call      float32 Terraria.IngameOptions::DrawValueBar(...)
+					IL_16e7: stloc.s   num14
+				[+] IL_####: br	       afterBlock
+				[+] drawInputBoxLabel: ldarg.1
+				[+] IL_####: ldloc	   6
+				[+] IL_####: call	   <delegate>
+				[+] afterblock:
 		*/
 
+		if (!c.TryGotoNext(MoveType.Before,
+			    i => i.MatchLdarg(1),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdsfld<Main>("temporaryGUIScaleSlider"),
+			    i => i.MatchLdcR4(0.5f)
+		    )) {
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
+		}
+		
+		// #### if (!textInput) {
+		var drawInputBoxLabel = c.DefineLabel();
+		c.Emit(OpCodes.Ldsfld, typeof(SettingsEdits).GetField(nameof(_textInput), BindingFlags.Static | BindingFlags.NonPublic));
+		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
+		
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchLdarg(1),
 			i => i.Match(OpCodes.Ldloc_S),
@@ -471,7 +574,40 @@ internal static class SettingsEdits
 
 		c.Next.Operand = BetterZoom.MAX_UI_ZOOM - BetterZoom.MIN_UI_ZOOM;
 		c.Index++;
+		
+		if (!c.TryGotoNext(MoveType.After,
+			    i => i.MatchLdcI4(0),
+			    i => i.MatchLdnull(),
+			    i => i.MatchCall(typeof(IngameOptions).GetMethod("DrawValueBar")),
+			    i => i.Match(OpCodes.Stloc_S)
+		    )) {
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+		}
 
+		var afterBlock = c.DefineLabel();
+		c.Emit(OpCodes.Br, afterBlock);
+		// #### }
+		
+		// #### else {
+		c.MarkLabel(drawInputBoxLabel);
+
+		c.Emit(OpCodes.Ldarg_1); // sb
+		c.Emit(OpCodes.Ldloc, 6); // scale
+		c.EmitDelegate((SpriteBatch sb, float scale) =>
+		{
+			if (!inputBox.Focused) {
+				inputBox.ZoomValue = Main.UIScale;
+			}
+
+			inputBox.OnChange += zoomVal => Main.UIScale = zoomVal;
+			
+			return DrawInputTextBox(inputBox, sb, scale);
+		});
+
+		c.Emit(OpCodes.Stloc, 44);
+
+		c.MarkLabel(afterBlock);
+		
 		/*
 			C# (L-541):
 				before:
@@ -518,5 +654,17 @@ internal static class SettingsEdits
 			IL_1737: ldc.r4		0.5
 		*/
 		c.Next.Operand = BetterZoom.MIN_UI_ZOOM;
+	}
+
+	private static float DrawInputTextBox(ZoomInputBox inputBox, SpriteBatch sb, float scale)
+	{
+		var colorBarSize = TextureAssets.ColorBar.Size() * scale;
+		IngameOptions.valuePosition.X -= colorBarSize.X;
+		IngameOptions.valuePosition.Y -= colorBarSize.Y;
+
+		var pos = new Vector2(IngameOptions.valuePosition.X, IngameOptions.valuePosition.Y);
+		inputBox.Draw(sb, pos, 135, 20, scale);
+
+		return inputBox.Focused ? 0 : 1;
 	}
 }

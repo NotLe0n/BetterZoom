@@ -1,8 +1,15 @@
 ﻿using System.Reflection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace BetterZoom.Edits;
 
@@ -17,8 +24,111 @@ internal static class SettingsEdits
 	{
 		var c = new ILCursor(il);
 
+		AddInputModeToggle(c);
 		ModifyZoomSlider(c);
 		ModifyUIScaleSlider(c);
+	}
+	
+	private static readonly Asset<Texture2D> SliderButtonAsset = ModContent.Request<Texture2D>("BetterZoom/src/SliderButton");
+	private static readonly Asset<Texture2D> TextInputAsset = ModContent.Request<Texture2D>("BetterZoom/src/TextInputButton");
+	private static readonly Asset<Texture2D> ButtonHoveredAsset = ModContent.Request<Texture2D>("BetterZoom/src/ButtonHovered");
+
+	private static void AddInputModeToggle(ILCursor c)
+	{
+		/*
+			C#:
+				IngameOptions.DrawRightSide(sb, Language.GetTextValue("GameUI.ZoomCategory"), num12, vector3, vector4, IngameOptions.rightScale[num12], 1f, default(Color));
+				IngameOptions.skipRightSlot[num12] = true;
+				
+			[+] DrawInputModeToggle(sb, vector3, vector4, num12);
+				
+				num12++;
+				vector3.X -= (float)num;
+			IL:
+				IL_110D: ldstr     "GameUI.ZoomCategory"
+				IL_1112: call      string Terraria.Localization.Language::GetTextValue(string)
+				IL_1117: ldloc.s   num13
+				IL_1119: ldloc.s   vector3
+				IL_111B: ldloc.s   vector4
+				IL_111D: ldsfld    float32[] Terraria.IngameOptions::rightScale
+				IL_1122: ldloc.s   num13
+				IL_1124: ldelem.r4
+				IL_1125: ldc.r4    1
+				IL_112A: ldloca.s  V_29
+				IL_112C: initobj   [FNA]Microsoft.Xna.Framework.Color
+				IL_1132: ldloc.s   V_29
+				IL_1134: call      bool Terraria.IngameOptions::DrawRightSide(class [FNA]Microsoft.Xna.Framework.Graphics.SpriteBatch, string, int32, valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32, float32, valuetype [FNA]Microsoft.Xna.Framework.Color)
+				IL_1139: pop
+				IL_113A: ldsfld    bool[] Terraria.IngameOptions::skipRightSlot
+				IL_113F: ldloc.s   num13
+				IL_1141: ldc.i4.1
+				IL_1142: stelem.i1
+								<----- Here
+				[+]	NEW: ldarg	   1
+				[+]	NEW: ldloc     24
+				[+]	NEW: ldloc     25
+				[+]	NEW: ldloc     36
+				[+]	NEW: call	   DrawInputModeToggle
+		*/
+		
+		if (!c.TryGotoNext(MoveType.After,
+			i => i.MatchLdstr("GameUI.ZoomCategory"),
+			i => i.MatchCall(typeof(Language).GetMethod("GetTextValue", 0, new[] { typeof(string) })),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdloc(24),
+			i => i.MatchLdloc(25),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale")),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdelemR4(),
+			i => i.MatchLdcR4(1),
+			i => i.MatchLdloca(29),
+			i => i.MatchInitobj<Color>(),
+			i => i.MatchLdloc(29),
+			i => i.MatchCall(typeof(IngameOptions).GetMethod("DrawRightSide")),
+			i => i.MatchPop(),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField("skipRightSlot")),
+			i => i.MatchLdloc(36),
+			i => i.MatchLdcI4(1),
+			i => i.MatchStelemI1()
+		    )) 
+		{
+			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(AddInputModeToggle)}");
+		}
+
+		c.Emit(OpCodes.Ldarg, 1);
+		c.Emit(OpCodes.Ldloc, 24);
+		c.Emit(OpCodes.Ldloc, 25);
+		c.Emit(OpCodes.Ldloc, 36);
+		c.EmitDelegate(DrawInputModeToggle);
+	}
+
+	private static bool textInput = true;
+	
+	private static void DrawInputModeToggle(SpriteBatch sb, Vector2 v, Vector2 v2, int i)
+	{
+		var zoomTextDim = FontAssets.MouseText.Value.MeasureString(Language.GetTextValue("GameUI.ZoomCategory"));
+		var pos = v + v2 * (1+i) + new Vector2(zoomTextDim.X, -zoomTextDim.Y / 2);
+		var btnRect = new Rectangle((int)pos.X, (int)pos.Y, 20, 20);
+
+		if (textInput) {
+			sb.Draw(SliderButtonAsset.Value, btnRect, Color.White);
+		}
+		else {
+			sb.Draw(TextInputAsset.Value, btnRect, Color.White);
+		}
+
+		if (btnRect.Contains(Main.MouseScreen.ToPoint())) {
+			if (!btnRect.Contains(new Point(Main.lastMouseX, Main.lastMouseY))) {
+				SoundEngine.PlaySound(SoundID.MenuTick);
+			}
+
+			if (Main.mouseLeft && Main.mouseLeftRelease) {
+				textInput = !textInput;
+				SoundEngine.PlaySound(SoundID.MenuTick);
+			}
+				
+			sb.Draw(ButtonHoveredAsset.Value, btnRect, Main.OurFavoriteColor);
+		}
 	}
 
 	private static void ModifyZoomSlider(ILCursor c)

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace BetterZoom;
 
-public class CameraSystem : ModSystem
+public sealed class CameraSystem : ModSystem
 {
 	public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
 	{

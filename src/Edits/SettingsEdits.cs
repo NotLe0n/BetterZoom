@@ -29,9 +29,9 @@ internal static class SettingsEdits
 		ModifyUIScaleSlider(c);
 	}
 	
-	private static readonly Asset<Texture2D> SliderButtonAsset = ModContent.Request<Texture2D>("BetterZoom/src/SliderButton");
-	private static readonly Asset<Texture2D> TextInputAsset = ModContent.Request<Texture2D>("BetterZoom/src/TextInputButton");
-	private static readonly Asset<Texture2D> ButtonHoveredAsset = ModContent.Request<Texture2D>("BetterZoom/src/ButtonHovered");
+	private static readonly Asset<Texture2D> SliderButtonAsset = ModContent.Request<Texture2D>("BetterZoom/Assets/SliderButton");
+	private static readonly Asset<Texture2D> TextInputAsset = ModContent.Request<Texture2D>("BetterZoom/Assets/TextInputButton");
+	private static readonly Asset<Texture2D> ButtonHoveredAsset = ModContent.Request<Texture2D>("BetterZoom/Assets/ButtonHovered");
 
 	private static void AddInputModeToggle(ILCursor c)
 	{
@@ -344,7 +344,10 @@ internal static class SettingsEdits
 				inputBox.ZoomValue = Main.GameZoomTarget;
 			}
 
-			inputBox.OnChange += zoomVal => Main.GameZoomTarget = zoomVal;
+			inputBox.OnChange += zoomVal =>
+			{
+				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, BetterZoom.MinGameZoom, BetterZoom.MaxGameZoom);
+			};
 			
 			return DrawInputTextBox(inputBox, sb, scale);
 		});
@@ -599,7 +602,10 @@ internal static class SettingsEdits
 				inputBox.ZoomValue = Main.UIScale;
 			}
 
-			inputBox.OnChange += zoomVal => Main.UIScale = zoomVal;
+			inputBox.OnChange += zoomVal =>
+			{
+				Main.UIScale = MathHelper.Clamp(zoomVal, BetterZoom.MIN_UI_ZOOM, BetterZoom.MAX_UI_ZOOM);
+			};
 			
 			return DrawInputTextBox(inputBox, sb, scale);
 		});

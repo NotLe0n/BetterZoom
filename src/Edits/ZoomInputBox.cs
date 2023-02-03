@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,7 +20,7 @@ internal sealed class ZoomInputBox
 	public ZoomInputBox(float initialValue)
 	{
 		ZoomValue = initialValue;
-		_zoomString = $"{initialValue:p0}";
+		_zoomString = $"{initialValue:p2}";
 	}
 	
 	public void Draw(SpriteBatch sb, Vector2 pos, int width, int height, float scale1)
@@ -49,7 +48,9 @@ internal sealed class ZoomInputBox
 			Main.instance.HandleIME();
 			
 			string input = Main.GetInputText(_zoomString);
-			if (input.Length <= 3 && input.ToCharArray().All(char.IsDigit)) {
+			
+			// only allow floats beween 0 and 1000
+			if ((float.TryParse(input, out float num) || input == "") && num / 1000f is <= 1 and >= 0) {
 				_zoomString = input;
 			}
 
@@ -65,7 +66,7 @@ internal sealed class ZoomInputBox
 			}
 		}
 		else {
-			_zoomString = $"{ZoomValue:p0}";
+			_zoomString = $"{ZoomValue:p2}";
 		}
 
 		// Draw string

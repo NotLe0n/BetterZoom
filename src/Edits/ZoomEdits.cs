@@ -6,7 +6,7 @@ using Terraria.GameInput;
 
 namespace BetterZoom.Edits;
 
-internal class ZoomEdits
+internal static class ZoomEdits
 {
 	// Manual Hooks because 'On' doesn't have that one for some reason
 	internal delegate float orig_get_UIScaleMax(Main self);

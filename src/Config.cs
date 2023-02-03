@@ -3,7 +3,7 @@ using Terraria.ModLoader.Config;
 
 namespace BetterZoom;
 
-internal class Config : ModConfig
+internal sealed class Config : ModConfig
 {
 	public static Config Instance;
 

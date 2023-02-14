@@ -47,7 +47,7 @@ internal static class SettingsEdits
 			IL:
 				IL_110D: ldstr     "GameUI.ZoomCategory"
 				IL_1112: call      string Terraria.Localization.Language::GetTextValue(string)
-				IL_1117: ldloc.s   num13
+				IL_1117: ldloc.s   num12
 				IL_1119: ldloc.s   vector3
 				IL_111B: ldloc.s   vector4
 				IL_111D: ldsfld    float32[] Terraria.IngameOptions::rightScale
@@ -60,34 +60,35 @@ internal static class SettingsEdits
 				IL_1134: call      bool Terraria.IngameOptions::DrawRightSide(class [FNA]Microsoft.Xna.Framework.Graphics.SpriteBatch, string, int32, valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32, float32, valuetype [FNA]Microsoft.Xna.Framework.Color)
 				IL_1139: pop
 				IL_113A: ldsfld    bool[] Terraria.IngameOptions::skipRightSlot
-				IL_113F: ldloc.s   num13
+				IL_113F: ldloc.s   num12
 				IL_1141: ldc.i4.1
 				IL_1142: stelem.i1
 								<----- Here
 				[+]	NEW: ldarg	   1
-				[+]	NEW: ldloc     24
-				[+]	NEW: ldloc     25
-				[+]	NEW: ldloc     36
+				[+]	NEW: ldloc     vector3
+				[+]	NEW: ldloc     vector4
+				[+]	NEW: ldloc     num12
 				[+]	NEW: call	   DrawInputModeToggle
 		*/
-		
+
+		int vector3 = 0, vector4 = 0, num12 = 0;
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchLdstr("GameUI.ZoomCategory"),
 			i => i.MatchCall(typeof(Language).GetMethod("GetTextValue", 0, new[] { typeof(string) })),
-			i => i.MatchLdloc(36),
-			i => i.MatchLdloc(24),
-			i => i.MatchLdloc(25),
+			i => i.MatchLdloc(out num12),
+			i => i.MatchLdloc(out vector3),
+			i => i.MatchLdloc(out vector4),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale")),
-			i => i.MatchLdloc(36),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
 			i => i.MatchLdcR4(1),
-			i => i.MatchLdloca(29),
+			i => i.Match(OpCodes.Ldloca_S),
 			i => i.MatchInitobj<Color>(),
-			i => i.MatchLdloc(29),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchCall(typeof(IngameOptions).GetMethod("DrawRightSide")),
 			i => i.MatchPop(),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField("skipRightSlot")),
-			i => i.MatchLdloc(36),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdcI4(1),
 			i => i.MatchStelemI1()
 		    )) 
@@ -96,9 +97,9 @@ internal static class SettingsEdits
 		}
 
 		c.Emit(OpCodes.Ldarg, 1);
-		c.Emit(OpCodes.Ldloc, 24);
-		c.Emit(OpCodes.Ldloc, 25);
-		c.Emit(OpCodes.Ldloc, 36);
+		c.Emit(OpCodes.Ldloc, vector3);
+		c.Emit(OpCodes.Ldloc, vector4);
+		c.Emit(OpCodes.Ldloc, num12);
 		c.EmitDelegate(DrawInputModeToggle);
 	}
 

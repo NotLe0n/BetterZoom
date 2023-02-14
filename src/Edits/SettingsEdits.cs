@@ -173,12 +173,15 @@ internal static class SettingsEdits
 				IL_11e6: initobj [FNA]Microsoft.Xna.Framework.Color
 				IL_11ec: ldloc.s 29
 				IL_11ee: call bool Terraria.IngameOptions::DrawRightSide(class [FNA]Microsoft.Xna.Framework.Graphics.SpriteBatch, string, int32, valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32, float32, valuetype [FNA]Microsoft.Xna.Framework.Color)
+				IL_xxxx: [+] stloc.s V_126
+				IL_xxxx: [+] ldloc.s V_126
 				IL_11f3: brfalse.s IL_120a
+				IL_xxxx: nop
 
 				// if (rightLock == -1)
 				IL_11f5: ldsfld int32 Terraria.IngameOptions::rightLock
 				IL_11fa: ldc.i4.m1
-				IL_11fb: bne.un.s IL_1203
+				IL_11fb: ceq
 						<=== here
 			[+]		   : ldstr "Click to reset to 100%"
 			[+]		   : stsfld string Terraria.IngameOptions::_mouseOverText
@@ -209,10 +212,13 @@ internal static class SettingsEdits
 			i => i.MatchInitobj<Color>(),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchCall(typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide), BindingFlags.Public | BindingFlags.Static)),
+			i => i.Match(OpCodes.Stloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.Match(OpCodes.Brfalse_S),
+			i => i.Match(OpCodes.Nop),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock), BindingFlags.Public | BindingFlags.Static)),
 			i => i.MatchLdcI4(-1),
-			i => i.Match(OpCodes.Bne_Un_S)
+			i => i.Match(OpCodes.Ceq)
 		)) {
 			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(HookHoveringZoomText)}");
 		}
@@ -435,12 +441,20 @@ internal static class SettingsEdits
 				IL_13cc: initobj [FNA]Microsoft.Xna.Framework.Color
 				IL_13d2: ldloc.s 29
 				IL_13d4: call bool Terraria.IngameOptions::DrawRightSide(class [FNA]Microsoft.Xna.Framework.Graphics.SpriteBatch, string, int32, valuetype [FNA]Microsoft.Xna.Framework.Vector2, valuetype [FNA]Microsoft.Xna.Framework.Vector2, float32, float32, valuetype [FNA]Microsoft.Xna.Framework.Color)
-				IL_13d9: brfalse.s IL_13f0
+				IL_xxxx: stloc.s      V_134
+				IL_xxxx: ldloc.s      V_134
+				IL_13d9: brfalse.s	  IL_13f0	
+				
+				IL_xxxx: nop
 
 				// if (rightLock == -1)
 				IL_13db: ldsfld int32 Terraria.IngameOptions::rightLock
 				IL_13e0: ldc.i4.m1
-				IL_13e1: bne.un.s IL_13e9
+				IL_13e1: ceq IL_13e9
+				IL_xxxx: stloc
+				IL_xxxx: ldloc
+				IL_xxxx: brfalse.s
+				
 						<=== here
 			[+]		   : ldstr "Click to reset to 100%"
 			[+]		   : stsfld string Terraria.IngameOptions::_mouseOverText
@@ -471,10 +485,16 @@ internal static class SettingsEdits
 			i => i.MatchInitobj<Color>(),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchCall(typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide), BindingFlags.Public | BindingFlags.Static)),
+			i => i.Match(OpCodes.Stloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
 			i => i.Match(OpCodes.Brfalse_S),
+			i => i.MatchNop(),
 			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock), BindingFlags.Public | BindingFlags.Static)),
 			i => i.MatchLdcI4(-1),
-			i => i.Match(OpCodes.Bne_Un_S)
+			i => i.Match(OpCodes.Ceq),
+			i => i.Match(OpCodes.Stloc_S),
+			i => i.Match(OpCodes.Ldloc_S),
+			i => i.Match(OpCodes.Brfalse_S)
 		)) {
 			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(HookHoveringUIScaleText)}");
 		}

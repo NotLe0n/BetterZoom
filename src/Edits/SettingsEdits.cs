@@ -17,7 +17,7 @@ internal static class SettingsEdits
 {
 	public static void Load()
 	{
-		IL.Terraria.IngameOptions.Draw += IngameOptions_Draw;
+		IL_IngameOptions.Draw += IngameOptions_Draw;
 	}
 
 	private static void IngameOptions_Draw(ILContext il)

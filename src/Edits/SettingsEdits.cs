@@ -218,7 +218,7 @@ internal static class SettingsEdits
 		}
 
 		// Add hover text
-		c.Emit(OpCodes.Ldstr, "Click to reset to 100%");
+		c.EmitDelegate(() => Language.GetTextValue("Mods.BetterZoom.Settings.Reset.Tooltip"));
 		c.Emit(OpCodes.Stsfld, typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static));
 
 		// Add click action
@@ -480,7 +480,7 @@ internal static class SettingsEdits
 		}
 
 		// Add hover text
-		c.Emit(OpCodes.Ldstr, "Click to reset to 100%");
+		c.EmitDelegate(() => Language.GetTextValue("Mods.BetterZoom.Settings.Reset.Tooltip"));
 		c.Emit(OpCodes.Stsfld, typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static));
 
 		// Add click action

@@ -1,0 +1,35 @@
+Configs: {
+	Config: {
+		maxZoom: {
+			Tooltip:
+				'''
+				Ändert den maximalen Zoom Wert, den du setzen kannst.
+				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
+				'''
+			Label: Maximaler Zoom
+		}
+
+		minZoom: {
+			Tooltip:
+				'''
+				Ändert den minimalen Zoom Wert, den du setzen kannst.
+				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
+				'''
+			Label: Minimaler Zoom
+		}
+
+		cursorScale: {
+			Tooltip: Ändert die größe des Zeigers.
+			Label: Zeigergröße
+		}
+
+		scaleBackground: {
+			Tooltip: Bestimmt ob der Hintergrund auch zoomen soll.
+			Label: Hintergrund skalieren
+		}
+
+		DisplayName: Einstellungen
+	}
+}
+
+Settings.Reset.Tooltip: Klicken, um auf 100% zurückzusetzen.

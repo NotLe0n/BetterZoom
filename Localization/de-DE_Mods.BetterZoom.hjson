@@ -1,9 +1,21 @@
 Configs: {
 	Config: {
+		DisplayName: Einstellungen
+
+		scaleBackground: {
+			Tooltip: Bestimmt ob der Hintergrund auch zoomen soll.
+			Label: Hintergrund skalieren
+		}
+
+		cursorScale: {
+			Tooltip: Ändert die größe des Zeigers.
+			Label: Zeigergröße
+		}
+
 		maxZoom: {
 			Tooltip:
 				'''
-				Ändert den maximalen Zoom Wert, den du setzen kannst.
+				Ändert den maximalen Zoom Wert den du setzen kannst.
 				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
 				'''
 			Label: Maximaler Zoom
@@ -12,23 +24,29 @@ Configs: {
 		minZoom: {
 			Tooltip:
 				'''
-				Ändert den minimalen Zoom Wert, den du setzen kannst.
+				Ändert den minimalen Zoom Wert den du setzen kannst.
 				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
 				'''
 			Label: Minimaler Zoom
 		}
 
-		cursorScale: {
-			Tooltip: Ändert die größe des Zeigers.
-			Label: Zeigergröße
+		minUIScale: {
+			Tooltip:
+				'''
+				Ändert den maximalen UI-Skala Wert den du setzen kannst.
+				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
+				'''
+			Label: Maximale UI-Skala
 		}
 
-		scaleBackground: {
-			Tooltip: Bestimmt ob der Hintergrund auch zoomen soll.
-			Label: Hintergrund skalieren
+		maxUIScale: {
+			Tooltip:
+				'''
+				Ändert den maximalen UI-Skala Wert den du setzen kannst.
+				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
+				'''
+			Label: Maximale UI-Skala
 		}
-
-		DisplayName: Einstellungen
 	}
 }
 

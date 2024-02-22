@@ -1,5 +1,17 @@
 Configs: {
 	Config: {
+		DisplayName: Config
+
+		scaleBackground: {
+			Tooltip: This toggles if the background should zoom too
+			Label: Scale Background
+		}
+
+		cursorScale: {
+			Tooltip: This changes the size of your cursor
+			Label: Cursor Scale
+		}
+
 		maxZoom: {
 			Tooltip:
 				'''
@@ -18,17 +30,23 @@ Configs: {
 			Label: Min Zoom
 		}
 
-		cursorScale: {
-			Tooltip: This changes the size of your cursor
-			Label: Cursor Scale
+		minUIScale: {
+			Tooltip:
+				'''
+				This changes the minimum amount of UI scale you can set
+				You need to set this in the mod menu, since it requires a reload
+				'''
+			Label: Min UI Scale
 		}
 
-		scaleBackground: {
-			Tooltip: This toggles if the background should zoom too
-			Label: Scale Background
+		maxUIScale: {
+			Tooltip:
+				'''
+				This changes the maximal amount of UI scale you can set
+				You need to set this in the mod menu, since it requires a reload
+				'''
+			Label: Max UI Scale
 		}
-
-		DisplayName: Config
 	}
 }
 

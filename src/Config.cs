@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
+// ReSharper disable InconsistentNaming
+#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
+
 namespace BetterZoom;
 
 internal sealed class Config : ModConfig
 {
-	public static Config Instance;
-
 	public override ConfigScope Mode => ConfigScope.ClientSide;
 	
 	public bool scaleBackground;
@@ -26,17 +27,26 @@ internal sealed class Config : ModConfig
 	[DefaultValue(10f)]
 	public float maxZoom;
 
+	[Range(0.3f, 4f)]
+	[DefaultValue(0.3f)]
+	[ReloadRequired]
+	public float minUIScale;
+	
+	[ReloadRequired]
+	[Range(0.3f, 6f)]
+	[DefaultValue(6f)]
+	public float maxUIScale;
+	
 	public override void OnChanged()
 	{
 		if (minZoom > maxZoom) {
 			minZoom = maxZoom;
 		}
+		
+		if (minUIScale > maxUIScale) {
+			minUIScale = maxUIScale;
+		}
+		
 		base.OnChanged();
-	}
-
-	public override void OnLoaded()
-	{
-		Instance = this;
-		base.OnLoaded();
 	}
 }

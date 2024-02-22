@@ -11,8 +11,8 @@ namespace BetterZoom.Edits;
 
 internal sealed class ZoomInputBox
 {
-	private int _textBoxCounter;
-	private string _zoomString;
+	private int textBoxCounter;
+	private string zoomString;
 	public float ZoomValue { get; set; }
 	public bool Focused { get; private set; }
 	public event Action<float> OnChange;
@@ -20,7 +20,7 @@ internal sealed class ZoomInputBox
 	public ZoomInputBox(float initialValue)
 	{
 		ZoomValue = initialValue;
-		_zoomString = $"{initialValue:p2}";
+		zoomString = $"{initialValue:p2}";
 	}
 	
 	public void Draw(SpriteBatch sb, Vector2 pos, int width, int height, float scale1)
@@ -33,7 +33,7 @@ internal sealed class ZoomInputBox
 			if (new Rectangle((int)pos.X, (int)pos.Y, width, height).Contains(Main.MouseScreen.ToPoint())) {
 				if (!Focused) {
 					Focused = true;
-					_zoomString = _zoomString[..^1];
+					zoomString = zoomString[..^1];
 					SoundEngine.PlaySound(SoundID.MenuTick);
 				}
 			}
@@ -47,11 +47,11 @@ internal sealed class ZoomInputBox
 			Terraria.GameInput.PlayerInput.WritingText = true;
 			Main.instance.HandleIME();
 			
-			string input = Main.GetInputText(_zoomString);
+			string input = Main.GetInputText(zoomString);
 			
 			// only allow floats beween 0 and 1000
 			if ((float.TryParse(input, out float num) || input == "") && num / 1000f is <= 1 and >= 0) {
-				_zoomString = input;
+				zoomString = input;
 			}
 
 			if (Main.inputText.IsKeyDown(Keys.Enter) && !Main.oldInputText.IsKeyDown(Keys.Enter)) {
@@ -59,26 +59,26 @@ internal sealed class ZoomInputBox
 			}
 
 			// Text box caret
-			_textBoxCounter = ++_textBoxCounter % 61;
-			if (_textBoxCounter < 30) {
-				var textSize = FontAssets.MouseText.Value.MeasureString(_zoomString) * scale1;
+			textBoxCounter = ++textBoxCounter % 61;
+			if (textBoxCounter < 30) {
+				var textSize = FontAssets.MouseText.Value.MeasureString(zoomString) * scale1;
 				Utils.DrawBorderString(sb, "I", pos + new Vector2(textSize.X + 5, 2), Color.White, scale1);
 			}
 		}
 		else {
-			_zoomString = $"{ZoomValue:p2}";
+			zoomString = $"{ZoomValue:p2}";
 		}
 
 		// Draw string
-		Utils.DrawBorderString(sb, _zoomString, pos + new Vector2(5, 2), Color.White, scale1);
+		Utils.DrawBorderString(sb, zoomString, pos + new Vector2(5, 2), Color.White, scale1);
 	}
 
 	private void Unfocus()
 	{
 		Focused = false;
-		_textBoxCounter = 0;
+		textBoxCounter = 0;
 		
-		if (float.TryParse(_zoomString, out float newZoom)) {
+		if (float.TryParse(zoomString, out float newZoom)) {
 			ZoomValue = newZoom / 100f;
 			OnChange?.Invoke(ZoomValue);
 

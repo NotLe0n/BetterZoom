@@ -18,9 +18,7 @@ _________________________
 [c/FFE900:In Settings:]
 Clicking on the Zoom or UIScale text next to the sliders will reset the value to 100%.
 You can toggle between slider and exact input using the toggle button next to the header text "Zoom".
-The text box only takes 3 numbers and pressing the Enter key or clicking away will submit the change.
-
-NOTE: You can enter any 3 digit number into the text box, including possibly invalid ones, which may cause a crash. 
+The text box only takes numbers from 0 to 1000 and pressing the Enter key or clicking away will submit the change.
 
 Zoom:
 [c/C4C4C4:    Changing the Zoom slider or Pressing the]
@@ -31,7 +29,7 @@ Zoom:
 [c/C4C4C4:    you can zoom from 30% to 1000%]
 
 [c/FF0000: When you zoom out the tiles don't load any further.]
-[c/FF0000: This is not a bug!]
+[c/FF0000: This is not a bug, but a limitation Terraria has!]
 
 UI Scale: 
 [c/C4C4C4:    You can change the UI Scale from 30% to 600%.]
@@ -50,3 +48,12 @@ Min Zoom (default: 0.3x):
 
 Max Zoom (default: 10x):
 [c/C4C4C4:    This changes the maximal amount of zoom.]
+
+Min Zoom (default: 0.3x):
+[c/C4C4C4:    This changes the minimum amount of zoom.]
+
+Max Zoom (default: 10x):
+[c/C4C4C4:    This changes the maximal amount of zoom.]
+
+
+If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.

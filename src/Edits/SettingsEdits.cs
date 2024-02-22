@@ -15,6 +15,8 @@ namespace BetterZoom.Edits;
 
 internal static class SettingsEdits
 {
+	private static readonly Config config = ModContent.GetInstance<Config>();
+	
 	public static void Load()
 	{
 		IL_IngameOptions.Draw += IngameOptions_Draw;
@@ -103,7 +105,7 @@ internal static class SettingsEdits
 		c.EmitDelegate(DrawInputModeToggle);
 	}
 
-	private static bool _textInput;
+	private static bool textInput;
 	
 	private static void DrawInputModeToggle(SpriteBatch sb, Vector2 v, Vector2 v2, int i)
 	{
@@ -111,7 +113,7 @@ internal static class SettingsEdits
 		var pos = v + v2 * (1+i) + new Vector2(zoomTextDim.X, -zoomTextDim.Y / 2);
 		var btnRect = new Rectangle((int)pos.X, (int)pos.Y, 20, 20);
 
-		if (_textInput) {
+		if (textInput) {
 			sb.Draw(SliderButtonAsset.Value, btnRect, Color.White);
 		}
 		else {
@@ -124,7 +126,7 @@ internal static class SettingsEdits
 			}
 
 			if (Main.mouseLeft && Main.mouseLeftRelease) {
-				_textInput = !_textInput;
+				textInput = !textInput;
 				SoundEngine.PlaySound(SoundID.MenuTick);
 			}
 				
@@ -241,8 +243,8 @@ internal static class SettingsEdits
 					float num14 = DrawValueBar(sb, scale, Main.GameZoomTarget - 1f);
 				after:
 					float num14;
-					if (!_textInput) {
-						num14 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.GameZoomTarget - MIN_GAME_ZOOM) / (MAX_GAME_ZOOM - MIN_GAME_ZOOM), 0, 1));
+					if (!textInput) {
+						num14 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.GameZoomTarget - minZoom) / (maxZoom - minZoom), 0, 1));
 					}
 					else {
 						...
@@ -265,9 +267,9 @@ internal static class SettingsEdits
 					IL_1242: ldarg		1
 					IL_1243: ldloc.s	6
 					IL_1245: ldsfld		float32 Terraria.Main::GameZoomTarget
-				[~]	IL_####: ldc.r4		MIN_GAME_ZOOM
+				[~]	IL_####: ldc.r4		minZoom
 					IL_124F: sub
-				[+]	IL_####: ldc.r4		MAX_GAME_ZOOM - MIN_GAME_ZOOM
+				[+]	IL_####: ldc.r4		maxZoom - minZoom
 				[+]	IL_####: div
 				[+]	IL_####: ldc.r4		0.0
 				[+]	IL_####: ldc.r4		1
@@ -294,7 +296,7 @@ internal static class SettingsEdits
 		
 		// #### if (!textInput) {
 		var drawInputBoxLabel = c.DefineLabel();
-		c.Emit(OpCodes.Ldsfld, typeof(SettingsEdits).GetField(nameof(_textInput), BindingFlags.Static | BindingFlags.NonPublic));
+		c.Emit(OpCodes.Ldsfld, typeof(SettingsEdits).GetField(nameof(textInput), BindingFlags.Static | BindingFlags.NonPublic));
 		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
 
 		if (!c.TryGotoNext(MoveType.After,
@@ -306,7 +308,7 @@ internal static class SettingsEdits
 			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.Previous.Operand = BetterZoom.MinGameZoom;
+		c.Previous.Operand = config.minZoom;
 
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchSub()
@@ -314,7 +316,7 @@ internal static class SettingsEdits
 			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.Emit(OpCodes.Ldc_R4, BetterZoom.MaxGameZoom - BetterZoom.MinGameZoom);
+		c.Emit(OpCodes.Ldc_R4, config.maxZoom - config.minZoom);
 		c.Emit(OpCodes.Div);
 		c.Emit(OpCodes.Ldc_R4, 0.0f);
 		c.Emit(OpCodes.Ldc_R4, 1.0f);
@@ -347,7 +349,7 @@ internal static class SettingsEdits
 
 			inputBox.OnChange += zoomVal =>
 			{
-				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, BetterZoom.MinGameZoom, BetterZoom.MaxGameZoom);
+				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, config.minZoom, config.maxZoom);
 			};
 			
 			return DrawInputTextBox(inputBox, sb, scale);
@@ -364,7 +366,7 @@ internal static class SettingsEdits
 				before:
 					Main.GameZoomTarget = num14 + 1f;
 				after:
-					Main.GameZoomTarget = num14 * (MAX_GAME_ZOOM - MIN_GAME_ZOOM) + MIN_GAME_ZOOM;
+					Main.GameZoomTarget = num14 * (maxZoom - minZoom) + minZoom;
 			IL:
 				before:
 					IL_14ea: ldloc.s		128
@@ -377,9 +379,9 @@ internal static class SettingsEdits
 					IL_14ea: ldloc.s		128
 					IL_14ec: brfalse.s		IL_14fb
 					IL_1503: ldloc.s		96
-				[~]	IL_1505: ldc.r4			MAX_GAME_ZOOM - MIN_GAME_ZOOM
+				[~]	IL_1505: ldc.r4			maxZoom - minZoom
 				[+]	IL_150a: mul
-				[+]	IL_150b: ldc.r4			MIN_GAME_ZOOM
+				[+]	IL_150b: ldc.r4			minZoom
 					IL_1510: add
 					IL_1511: stsfld			float32 Terraria.Main::GameZoomTarget
 		*/
@@ -388,10 +390,10 @@ internal static class SettingsEdits
 			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.Prev.Operand = BetterZoom.MaxGameZoom - BetterZoom.MinGameZoom;
+		c.Prev.Operand = config.maxZoom - config.minZoom;
 
 		c.Emit(OpCodes.Mul);
-		c.Emit(OpCodes.Ldc_R4, BetterZoom.MinGameZoom);
+		c.Emit(OpCodes.Ldc_R4, config.minZoom);
 	}
 
 	private static void ModifyUIScaleSlider(ILCursor c)
@@ -504,8 +506,8 @@ internal static class SettingsEdits
 					float num15 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.temporaryGUIScaleSlider - 0.5f) / 1.5f, 0f, 1f));
 				after:
 					float num15;
-					if(!_textInput) {
-						num15 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.temporaryGUIScaleSlider - MIN_UI_ZOOM) / (MAX_UI_ZOOM - MIN_UI_ZOOM), 0f, 1f));
+					if(!textInput) {
+						num15 = DrawValueBar(sb, scale, MathHelper.Clamp((Main.temporaryGUIScaleSlider - minUIScale) / (maxUIScale - minUIScale), 0f, 1f));
 					}
 					else {
 						...
@@ -527,9 +529,9 @@ internal static class SettingsEdits
 					IL_16c0: ldarg		1
 					IL_16c1: ldloc.s	6
 					IL_16c3: ldsfld		float32 Terraria.Main::temporaryGUIScaleSlider
-				[~]	IL_16c8: ldc.r4		MIN_UI_ZOOM
+				[~]	IL_16c8: ldc.r4		minUIScale
 					IL_16cd: sub
-				[~]	IL_16ce: ldc.r4		MAX_UI_ZOOM - MIN_UI_ZOOM
+				[~]	IL_16ce: ldc.r4		maxUIScale - minUIScale
 					IL_16d3: div
 					IL_16d4: ldc.r4		0.0
 					IL_16e0: ldc.i4		0
@@ -554,7 +556,7 @@ internal static class SettingsEdits
 		
 		// #### if (!textInput) {
 		var drawInputBoxLabel = c.DefineLabel();
-		c.Emit(OpCodes.Ldsfld, typeof(SettingsEdits).GetField(nameof(_textInput), BindingFlags.Static | BindingFlags.NonPublic));
+		c.Emit(OpCodes.Ldsfld, typeof(SettingsEdits).GetField(nameof(textInput), BindingFlags.Static | BindingFlags.NonPublic));
 		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
 		
 		if (!c.TryGotoNext(MoveType.After,
@@ -566,17 +568,17 @@ internal static class SettingsEdits
 			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 
-		c.Prev.Operand = BetterZoom.MIN_UI_ZOOM;
+		c.Prev.Operand = config.minUIScale;
 		c.Index++;
 		/* Current Position:
 
-			IL_16c8: ldc.r4		MIN_UI_ZOOM		(0.5)
+			IL_16c8: ldc.r4		minUIScale		(0.5)
 			IL_16cd: sub
 				<--- here
 			IL_16ce: ldc.r4		1.5
 		*/
 
-		c.Next.Operand = BetterZoom.MAX_UI_ZOOM - BetterZoom.MIN_UI_ZOOM;
+		c.Next.Operand = config.maxUIScale - config.minUIScale;
 		c.Index++;
 		
 		if (!c.TryGotoNext(MoveType.After,
@@ -605,7 +607,7 @@ internal static class SettingsEdits
 
 			inputBox.OnChange += zoomVal =>
 			{
-				Main.UIScale = MathHelper.Clamp(zoomVal, BetterZoom.MIN_UI_ZOOM, BetterZoom.MAX_UI_ZOOM);
+				Main.UIScale = MathHelper.Clamp(zoomVal, config.minUIScale, config.maxUIScale);
 			};
 			
 			return DrawInputTextBox(inputBox, sb, scale);
@@ -620,7 +622,7 @@ internal static class SettingsEdits
 				before:
 					Main.temporaryGUIScaleSlider = num15 * 1.5f + 0.5f;
 				after:
-					Main.temporaryGUIScaleSlider = num15 * (MAX_UI_ZOOM - MIN_UI_ZOOM) + MIN_UI_ZOOM;
+					Main.temporaryGUIScaleSlider = num15 * (maxUIScale - minUIScale) + minUIScale;
 			IL:
 				before:
 					IL_1728: stloc.s		137
@@ -637,9 +639,9 @@ internal static class SettingsEdits
 					IL_172a: ldloc.s		137
 					IL_172c: brfalse.s		IL_1764
 					IL_172f: ldloc.s		99
-				[~]	IL_1731: ldc.r4			MAX_UI_ZOOM - MIN_UI_ZOOM
+				[~]	IL_1731: ldc.r4			maxUIScale - minUIScale
 					IL_1736: mul
-				[~]	IL_1737: ldc.r4			MIN_UI_ZOOM
+				[~]	IL_1737: ldc.r4			minUIScale
 					IL_173c: add
 					IL_173d: stsfld			float32 Terraria.Main::temporaryGUIScaleSlider
 
@@ -649,18 +651,18 @@ internal static class SettingsEdits
 			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 
-		c.Prev.Operand = BetterZoom.MAX_UI_ZOOM - BetterZoom.MIN_UI_ZOOM;
+		c.Prev.Operand = config.maxUIScale - config.minUIScale;
 
 		c.Index++;
 
 		/* Current Position
 
-			IL_1731: ldc.r4		MAX_UI_ZOOM - MIN_UI_ZOOM		(1.5)
+			IL_1731: ldc.r4		maxUIScale - minUIScale		(1.5)
 			IL_1736: mul
 					<--- here
 			IL_1737: ldc.r4		0.5
 		*/
-		c.Next.Operand = BetterZoom.MIN_UI_ZOOM;
+		c.Next.Operand = config.minUIScale;
 	}
 
 	private static float DrawInputTextBox(ZoomInputBox inputBox, SpriteBatch sb, float scale)

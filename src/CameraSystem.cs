@@ -7,6 +7,8 @@ namespace BetterZoom;
 
 public sealed class CameraSystem : ModSystem
 {
+	private static readonly Config config = ModContent.GetInstance<Config>();
+	
 	public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
 	{
 		if (Main.gameMenu) {
@@ -14,10 +16,10 @@ public sealed class CameraSystem : ModSystem
 		}
 
 		//Zoom with background if above one
-		if (Config.Instance.scaleBackground) {
+		if (config.scaleBackground) {
 			Main.BackgroundViewMatrix.Zoom = new Vector2(Main.GameZoomTarget);
 		}
 
-		Main.cursorScale = Config.Instance.cursorScale;
+		Main.cursorScale = config.cursorScale;
 	}
 }

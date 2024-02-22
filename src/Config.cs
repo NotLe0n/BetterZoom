@@ -27,7 +27,7 @@ internal sealed class Config : ModConfig
 	[DefaultValue(10f)]
 	public float maxZoom;
 
-	[Range(0.3f, 4f)]
+	[Range(0.3f, 6f)]
 	[DefaultValue(0.3f)]
 	[ReloadRequired]
 	public float minUIScale;

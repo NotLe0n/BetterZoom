@@ -44,16 +44,16 @@ Cursor Scale (default: 1x):
 [c/C4C4C4:    This changes the size of your cursor.]
 
 Min Zoom (default: 0.3x):
-[c/C4C4C4:    This changes the minimum amount of zoom.]
+[c/C4C4C4:    This changes the minimum amount of zoom you can set.]
 
 Max Zoom (default: 10x):
-[c/C4C4C4:    This changes the maximal amount of zoom.]
+[c/C4C4C4:    This changes the maximal amount of zoom you can set.]
 
-Min Zoom (default: 0.3x):
-[c/C4C4C4:    This changes the minimum amount of zoom.]
+Min UI Scale (default: 0.3x):
+[c/C4C4C4:    This changes the minimum amount of UI scale you can set.]
 
-Max Zoom (default: 10x):
-[c/C4C4C4:    This changes the maximal amount of zoom.]
+Max UI Scale (default: 6x):
+[c/C4C4C4:    This changes the maximal amount of UI scale you can set.]
 
 
 If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.

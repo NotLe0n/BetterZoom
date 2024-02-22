@@ -39,6 +39,12 @@ This changes the minimum amount of zoom you can set.
 [h3]Max Zoom (default: 10x):[/h3]
 This changes the maximal amount of zoom you can set.
 
+[h3]Min UI Scale (default: 0.3x):[/h3]
+This changes the minimum amount of UI Scale you can set.
+
+[h3]Max UI Scale (default: 6x):[/h3]
+This changes the maximal amount of UI Scale you can set.
+
 
 If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values 
 inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.

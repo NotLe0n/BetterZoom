@@ -9,24 +9,17 @@ namespace BetterZoom.Edits;
 internal static class ZoomEdits
 {
 	// Manual Hooks because 'On' doesn't have that one for some reason
-	internal delegate float orig_get_UIScaleMax(Main self);
-	internal delegate float hook_get_UIScaleMax(orig_get_UIScaleMax orig, Main self);
-
+	private delegate float orig_get_UIScaleMax(Main self);
 	private static readonly MethodInfo m_UIScaleMax = typeof(Main).GetMethod("get_UIScaleMax", BindingFlags.Public | BindingFlags.Instance);
-
-	internal static event hook_get_UIScaleMax On_get_UIScaleMax {
-		add => HookEndpointManager.Add(m_UIScaleMax, value);
-		remove => HookEndpointManager.Remove(m_UIScaleMax, value);
-	}
-
+	
 	public static void Load()
 	{
-		On.Terraria.Main.UpdateViewZoomKeys += Main_UpdateViewZoomKeys;
-		IL.Terraria.Main.DoDraw += ModifyZoomBounds;
-		On_get_UIScaleMax += ModifyUIScaleBounds;
+		On_Main.UpdateViewZoomKeys += Main_UpdateViewZoomKeys;
+		IL_Main.DoDraw += ModifyZoomBounds;
+		Terraria.ModLoader.MonoModHooks.Add(m_UIScaleMax, ModifyUIScaleBounds);
 	}
 
-	private static void Main_UpdateViewZoomKeys(On.Terraria.Main.orig_UpdateViewZoomKeys orig, Main self)
+	private static void Main_UpdateViewZoomKeys(On_Main.orig_UpdateViewZoomKeys orig, Main self)
 	{
 		if (Main.inFancyUI) {
 			return;

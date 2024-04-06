@@ -50,4 +50,11 @@ Configs: {
 	}
 }
 
-Settings.Reset.Tooltip: Click to reset to 100%
+Settings: {
+	Reset.Tooltip: Click to reset to 100%
+
+	InputToggle: {
+		Slider.Tooltip: Slider
+		Precise.Tooltip: Precise Input
+	}
+}

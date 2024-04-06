@@ -31,6 +31,8 @@ Zoom:
 [c/FF0000: When you zoom out the tiles don't load any further.]
 [c/FF0000: This is not a bug, but a limitation Terraria has!]
 
+If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.
+
 UI Scale: 
 [c/C4C4C4:    You can change the UI Scale from 30% to 600%.]
 [c/C4C4C4:    You can also change this by holding shift while]
@@ -55,5 +57,9 @@ Min UI Scale (default: 0.3x):
 Max UI Scale (default: 6x):
 [c/C4C4C4:    This changes the maximal amount of UI scale you can set.]
 
+_________________________
 
-If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.
+[c/FFE900:                                LICENSE:]
+_________________________
+This mod is licensed under the GNU GPLv3 license.
+If you use any code from this mod you have to open source it under the same license and give credit in your mod's description.

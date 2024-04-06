@@ -50,4 +50,11 @@ Configs: {
 	}
 }
 
-Settings.Reset.Tooltip: Klicken, um auf 100% zurückzusetzen.
+Settings: {
+	Reset.Tooltip: Klicken, um auf 100% zurückzusetzen.
+
+	InputToggle: {
+		Slider.Tooltip: Schieberegler
+		Precise.Tooltip: Genaue Eingabe
+	}
+}

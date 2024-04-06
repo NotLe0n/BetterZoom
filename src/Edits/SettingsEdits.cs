@@ -15,7 +15,7 @@ namespace BetterZoom.Edits;
 
 internal static class SettingsEdits
 {
-	private static readonly Config config = ModContent.GetInstance<Config>();
+	private static readonly Config Config = ModContent.GetInstance<Config>();
 	
 	public static void Load()
 	{
@@ -35,6 +35,13 @@ internal static class SettingsEdits
 	private static readonly Asset<Texture2D> TextInputAsset = ModContent.Request<Texture2D>("BetterZoom/Assets/TextInputButton");
 	private static readonly Asset<Texture2D> ButtonHoveredAsset = ModContent.Request<Texture2D>("BetterZoom/Assets/ButtonHovered");
 
+    // Reflections
+    private static readonly FieldInfo RightScaleField = typeof(IngameOptions).GetField(nameof(IngameOptions.rightScale));
+    private static readonly FieldInfo RightLockField = typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock));
+    private static readonly FieldInfo MouseOverTextField = typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static);
+    private static readonly MethodInfo DrawRightSideMethod = typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide));
+    private static readonly MethodInfo DrawValueBarMethod = typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawValueBar));
+    
 	private static void AddInputModeToggle(ILCursor c)
 	{
 		/*
@@ -80,22 +87,22 @@ internal static class SettingsEdits
 			i => i.MatchLdloc(out num12),
 			i => i.MatchLdloc(out vector3),
 			i => i.MatchLdloc(out vector4),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale")),
+			i => i.MatchLdsfld(RightScaleField),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
 			i => i.MatchLdcR4(1),
 			i => i.Match(OpCodes.Ldloca_S),
 			i => i.MatchInitobj<Color>(),
 			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchCall(typeof(IngameOptions).GetMethod("DrawRightSide")),
+			i => i.MatchCall(DrawRightSideMethod),
 			i => i.MatchPop(),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField("skipRightSlot")),
+			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.skipRightSlot))),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdcI4(1),
 			i => i.MatchStelemI1()
 		    )) 
 		{
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(AddInputModeToggle)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(AddInputModeToggle)}");
 		}
 
 		c.Emit(OpCodes.Ldarg, 1);
@@ -106,6 +113,7 @@ internal static class SettingsEdits
 	}
 
 	private static bool textInput;
+    private static readonly FieldInfo TextInputField = typeof(SettingsEdits).GetField(nameof(textInput), BindingFlags.Static | BindingFlags.NonPublic);
 	
 	private static void DrawInputModeToggle(SpriteBatch sb, Vector2 v, Vector2 v2, int i)
 	{
@@ -129,7 +137,16 @@ internal static class SettingsEdits
 				textInput = !textInput;
 				SoundEngine.PlaySound(SoundID.MenuTick);
 			}
-				
+
+            string tooltip;
+            if (textInput) {
+                tooltip = Language.GetTextValue("Mods.BetterZoom.Settings.InputToggle.Slider.Tooltip");
+            }
+            else {
+                tooltip = Language.GetTextValue("Mods.BetterZoom.Settings.InputToggle.Precise.Tooltip");
+            }
+            
+            MouseOverTextField.SetValue(null, tooltip);
 			sb.Draw(ButtonHoveredAsset.Value, btnRect, Main.OurFavoriteColor);
 		}
 	}
@@ -193,12 +210,12 @@ internal static class SettingsEdits
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdsfld(RightScaleField),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
 			i => i.MatchLdcR4(0.85f),
 			i => i.MatchMul(),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdsfld(RightScaleField),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
 			i => i.Match(OpCodes.Ldloc_S),
@@ -210,18 +227,18 @@ internal static class SettingsEdits
 			i => i.Match(OpCodes.Ldloca_S),
 			i => i.MatchInitobj<Color>(),
 			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchCall(typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide), BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchCall(DrawRightSideMethod),
 			i => i.Match(OpCodes.Brfalse_S),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock), BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdsfld(RightLockField),
 			i => i.MatchLdcI4(-1),
 			i => i.Match(OpCodes.Bne_Un_S)
 		)) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(HookHoveringZoomText)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(HookHoveringZoomText)}");
 		}
 
 		// Add hover text
 		c.EmitDelegate(() => Language.GetTextValue("Mods.BetterZoom.Settings.Reset.Tooltip"));
-		c.Emit(OpCodes.Stsfld, typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static));
+		c.Emit(OpCodes.Stsfld, MouseOverTextField);
 
 		// Add click action
 		c.EmitDelegate(() =>
@@ -288,47 +305,47 @@ internal static class SettingsEdits
 		if (!c.TryGotoNext(MoveType.Before,
 			    i => i.MatchLdarg(1),
 			    i => i.Match(OpCodes.Ldloc_S),
-			    i => i.MatchLdsfld<Main>("GameZoomTarget"),
+			    i => i.MatchLdsfld<Main>(nameof(Main.GameZoomTarget)),
 			    i => i.MatchLdcR4(1)
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 		
 		// #### if (!textInput) {
 		var drawInputBoxLabel = c.DefineLabel();
-		c.Emit(OpCodes.Ldsfld, typeof(SettingsEdits).GetField(nameof(textInput), BindingFlags.Static | BindingFlags.NonPublic));
+		c.Emit(OpCodes.Ldsfld, TextInputField);
 		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
 
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchLdarg(1),
 			    i => i.Match(OpCodes.Ldloc_S),
-			    i => i.MatchLdsfld<Main>("GameZoomTarget"),
+			    i => i.MatchLdsfld<Main>(nameof(Main.GameZoomTarget)),
 			    i => i.MatchLdcR4(1)
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.Previous.Operand = config.minZoom;
+		c.Previous.Operand = Config.minZoom;
 
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchSub()
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.Emit(OpCodes.Ldc_R4, config.maxZoom - config.minZoom);
+		c.Emit(OpCodes.Ldc_R4, Config.maxZoom - Config.minZoom);
 		c.Emit(OpCodes.Div);
 		c.Emit(OpCodes.Ldc_R4, 0.0f);
 		c.Emit(OpCodes.Ldc_R4, 1.0f);
-		c.Emit(OpCodes.Call, typeof(MathHelper).GetMethod("Clamp"));
+		c.Emit(OpCodes.Call, typeof(MathHelper).GetMethod(nameof(MathHelper.Clamp)));
 
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchLdcI4(0),
 			    i => i.MatchLdnull(),
-			    i => i.MatchCall(typeof(IngameOptions).GetMethod("DrawValueBar")),
+			    i => i.MatchCall(DrawValueBarMethod),
 			    i => i.Match(OpCodes.Stloc_S)
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
 		var afterBlock = c.DefineLabel();
@@ -349,7 +366,7 @@ internal static class SettingsEdits
 
 			inputBox.OnChange += zoomVal =>
 			{
-				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, config.minZoom, config.maxZoom);
+				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, Config.minZoom, Config.maxZoom);
 			};
 			
 			return DrawInputTextBox(inputBox, sb, scale);
@@ -387,13 +404,13 @@ internal static class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.0f))) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.Prev.Operand = config.maxZoom - config.minZoom;
+		c.Prev.Operand = Config.maxZoom - Config.minZoom;
 
 		c.Emit(OpCodes.Mul);
-		c.Emit(OpCodes.Ldc_R4, config.minZoom);
+		c.Emit(OpCodes.Ldc_R4, Config.minZoom);
 	}
 
 	private static void ModifyUIScaleSlider(ILCursor c)
@@ -455,12 +472,12 @@ internal static class SettingsEdits
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdsfld(RightScaleField),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
 			i => i.MatchLdcR4(0.75f),
 			i => i.MatchMul(),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField("rightScale", BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdsfld(RightScaleField),
 			i => i.Match(OpCodes.Ldloc_S),
 			i => i.MatchLdelemR4(),
 			i => i.Match(OpCodes.Ldloc_S),
@@ -472,18 +489,18 @@ internal static class SettingsEdits
 			i => i.Match(OpCodes.Ldloca_S),
 			i => i.MatchInitobj<Color>(),
 			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchCall(typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide), BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchCall(DrawRightSideMethod),
 			i => i.Match(OpCodes.Brfalse_S),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock), BindingFlags.Public | BindingFlags.Static)),
+			i => i.MatchLdsfld(RightLockField),
 			i => i.MatchLdcI4(-1),
 			i => i.Match(OpCodes.Bne_Un_S)
 		)) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(HookHoveringUIScaleText)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(HookHoveringUIScaleText)}");
 		}
 
 		// Add hover text
 		c.EmitDelegate(() => Language.GetTextValue("Mods.BetterZoom.Settings.Reset.Tooltip"));
-		c.Emit(OpCodes.Stsfld, typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static));
+		c.Emit(OpCodes.Stsfld, MouseOverTextField);
 
 		// Add click action
 		c.EmitDelegate(() =>
@@ -548,27 +565,27 @@ internal static class SettingsEdits
 		if (!c.TryGotoNext(MoveType.Before,
 			    i => i.MatchLdarg(1),
 			    i => i.Match(OpCodes.Ldloc_S),
-			    i => i.MatchLdsfld<Main>("temporaryGUIScaleSlider"),
+			    i => i.MatchLdsfld<Main>(nameof(Main.temporaryGUIScaleSlider)),
 			    i => i.MatchLdcR4(0.5f)
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 		
 		// #### if (!textInput) {
 		var drawInputBoxLabel = c.DefineLabel();
-		c.Emit(OpCodes.Ldsfld, typeof(SettingsEdits).GetField(nameof(textInput), BindingFlags.Static | BindingFlags.NonPublic));
+		c.Emit(OpCodes.Ldsfld, TextInputField);
 		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
 		
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchLdarg(1),
 			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdsfld<Main>("temporaryGUIScaleSlider"),
+			i => i.MatchLdsfld<Main>(nameof(Main.temporaryGUIScaleSlider)),
 			i => i.MatchLdcR4(0.5f)
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 
-		c.Prev.Operand = config.minUIScale;
+		c.Prev.Operand = Config.minUIScale;
 		c.Index++;
 		/* Current Position:
 
@@ -578,16 +595,16 @@ internal static class SettingsEdits
 			IL_16ce: ldc.r4		1.5
 		*/
 
-		c.Next.Operand = config.maxUIScale - config.minUIScale;
+		c.Next!.Operand = Config.maxUIScale - Config.minUIScale;
 		c.Index++;
 		
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchLdcI4(0),
 			    i => i.MatchLdnull(),
-			    i => i.MatchCall(typeof(IngameOptions).GetMethod("DrawValueBar")),
+			    i => i.MatchCall(DrawValueBarMethod),
 			    i => i.Match(OpCodes.Stloc_S)
 		    )) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
 		var afterBlock = c.DefineLabel();
@@ -607,7 +624,7 @@ internal static class SettingsEdits
 
 			inputBox.OnChange += zoomVal =>
 			{
-				Main.UIScale = MathHelper.Clamp(zoomVal, config.minUIScale, config.maxUIScale);
+				Main.UIScale = MathHelper.Clamp(zoomVal, Config.minUIScale, Config.maxUIScale);
 			};
 			
 			return DrawInputTextBox(inputBox, sb, scale);
@@ -648,10 +665,10 @@ internal static class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.5f))) {
-			throw new ILEditException($"BetterZoom.{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
+			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 
-		c.Prev.Operand = config.maxUIScale - config.minUIScale;
+		c.Prev.Operand = Config.maxUIScale - Config.minUIScale;
 
 		c.Index++;
 
@@ -662,7 +679,7 @@ internal static class SettingsEdits
 					<--- here
 			IL_1737: ldc.r4		0.5
 		*/
-		c.Next.Operand = config.minUIScale;
+		c.Next.Operand = Config.minUIScale;
 	}
 
 	private static float DrawInputTextBox(ZoomInputBox inputBox, SpriteBatch sb, float scale)

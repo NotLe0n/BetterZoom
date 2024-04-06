@@ -25,6 +25,9 @@ When you zoom out the tiles don't load any further. This is not a bug, but a lim
 [h3]UI Scale: [/h3]
 You can now change the UI Scale from 30% to 600%. You can also change this by holding shift while pressing plus or minus.
 
+If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values 
+inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.
+
 [h2]Mod Config:[/h2]
 
 [h3]Background Scale (default: 'off'):[/h3]
@@ -45,6 +48,6 @@ This changes the minimum amount of UI Scale you can set.
 [h3]Max UI Scale (default: 6x):[/h3]
 This changes the maximal amount of UI Scale you can set.
 
-
-If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values 
-inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.
+[h1]License[/h1]
+This mod is licensed under the GNU GPLv3 license.
+If you use any code from this mod you have to open source it under the same license and give credit in your mod's description.

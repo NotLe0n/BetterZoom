@@ -25,9 +25,9 @@ internal sealed class ZoomInputBox
 	
 	public void Draw(SpriteBatch sb, Vector2 pos, int width, int height, float scale1)
 	{
-		const int edgeWidth = 5;
+		const int EdgeWidth = 5;
 
-		Utils.DrawSplicedPanel(sb, TextureAssets.TextBack.Value, (int)pos.X, (int)pos.Y, width, height, edgeWidth, edgeWidth, edgeWidth, edgeWidth, Color.White);
+		Utils.DrawSplicedPanel(sb, TextureAssets.TextBack.Value, (int)pos.X, (int)pos.Y, width, height, EdgeWidth, EdgeWidth, EdgeWidth, EdgeWidth, Color.White);
 		
 		if (Main.mouseLeft) {
 			if (new Rectangle((int)pos.X, (int)pos.Y, width, height).Contains(Main.MouseScreen.ToPoint())) {
@@ -49,7 +49,7 @@ internal sealed class ZoomInputBox
 			
 			string input = Main.GetInputText(zoomString);
 			
-			// only allow floats beween 0 and 1000
+			// only allow floats between 0 and 1000
 			if ((float.TryParse(input, out float num) || input == "") && num / 1000f is <= 1 and >= 0) {
 				zoomString = input;
 			}

@@ -8,18 +8,18 @@ namespace BetterZoom.Edits;
 
 internal static class ZoomEdits
 {
-	private static readonly Config config = ModContent.GetInstance<Config>();
+	private static readonly Config Config = ModContent.GetInstance<Config>();
 	
 	// Manual Hooks because 'On' doesn't have that one for some reason
 	private delegate float orig_get_UIScaleMax(Main self);
 
-	private static readonly MethodInfo m_UIScaleMax = typeof(Main).GetMethod("get_UIScaleMax", BindingFlags.Public | BindingFlags.Instance);
+	private static readonly MethodInfo UIScaleMax = typeof(Main).GetMethod("get_UIScaleMax", BindingFlags.Public | BindingFlags.Instance);
 
 	public static void Load()
 	{
 		On_Main.UpdateViewZoomKeys += Main_UpdateViewZoomKeys;
 		IL_Main.DoDraw += ModifyZoomBounds;
-		Terraria.ModLoader.MonoModHooks.Add(m_UIScaleMax, ModifyUIScaleBounds);
+		MonoModHooks.Add(UIScaleMax, ModifyUIScaleBounds);
 	}
 
 	private static void Main_UpdateViewZoomKeys(On_Main.orig_UpdateViewZoomKeys orig, Main self)
@@ -32,23 +32,23 @@ internal static class ZoomEdits
 
 		if (!Main.keyState.PressingShift()) { // <new />
 			if (PlayerInput.Triggers.Current.ViewZoomIn) {
-				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget + num, config.minZoom, config.maxZoom); // changed
+				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget + num, Config.minZoom, Config.maxZoom); // changed
 			}
 
 			if (PlayerInput.Triggers.Current.ViewZoomOut) {
-				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget - num, config.minZoom, config.maxZoom); // changed
+				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget - num, Config.minZoom, Config.maxZoom); // changed
 			}
 		} // <new>
 		else
 		{
 			float num1 = 0.01f * Main.UIScale;
 			if (PlayerInput.Triggers.Current.ViewZoomIn) {
-				Main.UIScale = Utils.Clamp(Main.UIScale + num1, config.minUIScale, config.maxUIScale);
+				Main.UIScale = Utils.Clamp(Main.UIScale + num1, Config.minUIScale, Config.maxUIScale);
 				Main.temporaryGUIScaleSlider = Main.UIScale;
 			}
 
 			if (PlayerInput.Triggers.Current.ViewZoomOut) {
-				Main.UIScale = Utils.Clamp(Main.UIScale - num1, config.minUIScale, config.maxUIScale);
+				Main.UIScale = Utils.Clamp(Main.UIScale - num1, Config.minUIScale, Config.maxUIScale);
 				Main.temporaryGUIScaleSlider = Main.UIScale;
 			} // </new>
 		}
@@ -56,7 +56,7 @@ internal static class ZoomEdits
 
 	private static float ModifyUIScaleBounds(orig_get_UIScaleMax orig, Main self)
 	{
-		return config.maxUIScale;
+		return Config.maxUIScale;
 	}
 
 	private static void ModifyZoomBounds(ILContext il)
@@ -92,10 +92,10 @@ internal static class ZoomEdits
 			i => i.MatchLdsfld<Main>("GameZoomTarget"),
 			i => i.MatchLdcR4(1)
 		)) {
-			throw new ILEditException($"BetterZoom.{nameof(ZoomEdits)}::{nameof(ModifyZoomBounds)}");
+			throw new ILEditException($"{nameof(ZoomEdits)}::{nameof(ModifyZoomBounds)}");
 		}
 
-		c.Prev.Operand = config.minZoom;
+		c.Prev.Operand = Config.minZoom;
 
 		c.Index++;
 
@@ -105,6 +105,6 @@ internal static class ZoomEdits
 				<--- here
 		*/
 
-		c.Prev.Operand = config.maxZoom;
+		c.Prev.Operand = Config.maxZoom;
 	}
 }

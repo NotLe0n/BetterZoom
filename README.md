@@ -35,3 +35,7 @@ This toggles if the background should zoom too.
 
 <h3>Cursor Scale (default: 1x):</h3>
 This changes the size of your cursor.
+
+<h1>License</h1>
+This mod is licensed under the GNU GPLv3 license.
+If you use any code from this mod you have to open source it under the same license and give credit in your mod's description.

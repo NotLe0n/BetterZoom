@@ -50,4 +50,11 @@ Configs: {
 	}
 }
 
-Settings.Reset.Tooltip: Нажмите, чтобы сбросить до 100%.
+Settings: {
+	Reset.Tooltip: Нажмите, чтобы сбросить до 100%.
+
+	InputToggle: {
+		Slider.Tooltip: Слайдер
+		Precise.Tooltip: Точный ввод
+	}
+}

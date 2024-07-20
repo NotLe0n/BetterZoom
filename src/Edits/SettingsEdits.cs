@@ -83,7 +83,7 @@ internal static class SettingsEdits
 		int vector3 = 0, vector4 = 0, num12 = 0;
 		if (!c.TryGotoNext(MoveType.After,
 			i => i.MatchLdstr("GameUI.ZoomCategory"),
-			i => i.MatchCall(typeof(Language).GetMethod("GetTextValue", 0, new[] { typeof(string) })),
+			i => i.MatchCall(typeof(Language).GetMethod("GetTextValue", 0, [typeof(string)])),
 			i => i.MatchLdloc(out num12),
 			i => i.MatchLdloc(out vector3),
 			i => i.MatchLdloc(out vector4),

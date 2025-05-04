@@ -1,4 +1,4 @@
-<h1>Better Zoom</h1>
+<h1>Better Zoom <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fmod-count-badge.notle0n75.workers.dev%2F%3Fmod%3DBetterZoom" alt="Mod downloads badge" /></h1> 
 
 <h3>This mod allows you to zoom in and out much further than what's possible in Vanilla.</h3>
 <h3>Very useful to people who play in lower resolutions or who want to have high resolution sprites.</h3>

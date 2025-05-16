@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using BetterZoom.Edits;
 using Terraria.ModLoader.Config;
 
 #pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
@@ -38,6 +39,10 @@ internal sealed class Config : ModConfig
 
 	[DefaultValue(false)]
 	public bool disableUIZoomHotkey;
+
+	[ReloadRequired]
+	[DefaultValue(true)]
+	public bool renderMoreTiles;
 	
 	public override void OnChanged()
 	{

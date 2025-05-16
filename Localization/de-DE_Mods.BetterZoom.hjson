@@ -52,6 +52,20 @@ Configs: {
 			Label: UI Zoom Hotkey ausschalten
 			Tooltip: Schaltet den Shift+Plus/Shift+Minus Hotkey für den UI Zoom aus
 		}
+
+		renderMoreTiles: {
+			Label: Zeige mehr Blöcke
+			Tooltip:
+				'''
+				Wenn man diese Option anschaltet, zeichnet das Spiel mehr Blöcke auf dem Bildschirm.
+				Achtung: Je weiter man raus zoomt, desto laggier wird das Spiel. Dagegen kann ich nichts machen.
+				'''
+		}
+
+		tiles: {
+			// Label: tiles
+			// Tooltip: ""
+		}
 	}
 }
 

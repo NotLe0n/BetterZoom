@@ -52,6 +52,20 @@ Configs: {
 			Label: Disable UI Zoom Hotkey
 			Tooltip: Disables the Shift+Plus/Shift+Minus Hotkey to change the UI zoom
 		}
+
+		renderMoreTiles: {
+			Label: Render more tiles
+			Tooltip:
+				'''
+				Turning this on renders more tiles outside the normal view range.
+				Note: This will make the game noticeably laggier the more you zoom out. I can't do anything about that.
+				'''
+		}
+
+		tiles: {
+			Label: tiles
+			Tooltip: ""
+		}
 	}
 }
 

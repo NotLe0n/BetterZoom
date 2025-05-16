@@ -57,6 +57,9 @@ Min UI Scale (default: 0.3x):
 Max UI Scale (default: 6x):
 [c/C4C4C4:    This changes the maximal amount of UI scale you can set.]
 
+Disable UI Zoom Hotkey (default: 'off'):
+[c/C4C4C4:    Disables the Shift+Plus/Shift+Minus Hotkey to change the UI zoom.]
+
 _________________________
 
 [c/FFE900:                                LICENSE:]

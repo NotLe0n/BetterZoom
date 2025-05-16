@@ -22,13 +22,19 @@ internal sealed class ZoomInputBox
 		ZoomValue = initialValue;
 		zoomString = $"{initialValue:p2}";
 	}
-	
+
 	public void Draw(SpriteBatch sb, Vector2 pos, int width, int height, float scale1)
 	{
 		const int EdgeWidth = 5;
 
-		Utils.DrawSplicedPanel(sb, TextureAssets.TextBack.Value, (int)pos.X, (int)pos.Y, width, height, EdgeWidth, EdgeWidth, EdgeWidth, EdgeWidth, Color.White);
-		
+		Utils.DrawSplicedPanel(sb, 
+			TextureAssets.TextBack.Value, 
+			(int)pos.X, (int)pos.Y, 
+			width, height, 
+			EdgeWidth, EdgeWidth, 
+			EdgeWidth, EdgeWidth, 
+			Color.White);
+
 		if (Main.mouseLeft) {
 			if (new Rectangle((int)pos.X, (int)pos.Y, width, height).Contains(Main.MouseScreen.ToPoint())) {
 				if (!Focused) {
@@ -46,9 +52,9 @@ internal sealed class ZoomInputBox
 			// Handle input
 			Terraria.GameInput.PlayerInput.WritingText = true;
 			Main.instance.HandleIME();
-			
+
 			string input = Main.GetInputText(zoomString);
-			
+
 			// only allow floats between 0 and 1000
 			if ((float.TryParse(input, out float num) || input == "") && num / 1000f is <= 1 and >= 0) {
 				zoomString = input;
@@ -77,7 +83,7 @@ internal sealed class ZoomInputBox
 	{
 		Focused = false;
 		textBoxCounter = 0;
-		
+
 		if (float.TryParse(zoomString, out float newZoom)) {
 			ZoomValue = newZoom / 100f;
 			OnChange?.Invoke(ZoomValue);

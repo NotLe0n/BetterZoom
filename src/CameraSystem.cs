@@ -8,7 +8,7 @@ namespace BetterZoom;
 public sealed class CameraSystem : ModSystem
 {
 	private static readonly Config Config = ModContent.GetInstance<Config>();
-	
+
 	public override void ModifyTransformMatrix(ref SpriteViewMatrix transform)
 	{
 		if (Main.gameMenu) {

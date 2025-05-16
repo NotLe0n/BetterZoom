@@ -9,7 +9,7 @@ namespace BetterZoom.Edits;
 internal static class ZoomEdits
 {
 	private static readonly Config Config = ModContent.GetInstance<Config>();
-	
+
 	// Manual Hooks because 'On' doesn't have that one for some reason
 	private delegate float orig_get_UIScaleMax(Main self);
 
@@ -39,8 +39,7 @@ internal static class ZoomEdits
 				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget - num, Config.minZoom, Config.maxZoom); // changed
 			}
 		} // <new>
-		else
-		{
+		else {
 			float num1 = 0.01f * Main.UIScale;
 			if (PlayerInput.Triggers.Current.ViewZoomIn) {
 				Main.UIScale = Utils.Clamp(Main.UIScale + num1, Config.minUIScale, Config.maxUIScale);
@@ -87,11 +86,11 @@ internal static class ZoomEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After,
-			i => i.MatchLdsfld<Main>("GameViewMatrix"),
-			i => i.MatchLdsfld<Main>("ForcedMinimumZoom"),
-			i => i.MatchLdsfld<Main>("GameZoomTarget"),
-			i => i.MatchLdcR4(1)
-		)) {
+			    i => i.MatchLdsfld<Main>("GameViewMatrix"),
+			    i => i.MatchLdsfld<Main>("ForcedMinimumZoom"),
+			    i => i.MatchLdsfld<Main>("GameZoomTarget"),
+			    i => i.MatchLdcR4(1)
+		    )) {
 			throw new ILEditException($"{nameof(ZoomEdits)}::{nameof(ModifyZoomBounds)}");
 		}
 

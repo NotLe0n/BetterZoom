@@ -16,7 +16,7 @@ namespace BetterZoom.Edits;
 internal static class SettingsEdits
 {
 	private static readonly Config Config = ModContent.GetInstance<Config>();
-	
+
 	public static void Load()
 	{
 		IL_IngameOptions.Draw += IngameOptions_Draw;
@@ -30,27 +30,27 @@ internal static class SettingsEdits
 		ModifyZoomSlider(c);
 		ModifyUIScaleSlider(c);
 	}
-	
+
 	private static readonly Asset<Texture2D> SliderButtonAsset = ModContent.Request<Texture2D>("BetterZoom/Assets/SliderButton");
 	private static readonly Asset<Texture2D> TextInputAsset = ModContent.Request<Texture2D>("BetterZoom/Assets/TextInputButton");
 	private static readonly Asset<Texture2D> ButtonHoveredAsset = ModContent.Request<Texture2D>("BetterZoom/Assets/ButtonHovered");
 
-    // Reflections
-    private static readonly FieldInfo RightScaleField = typeof(IngameOptions).GetField(nameof(IngameOptions.rightScale));
-    private static readonly FieldInfo RightLockField = typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock));
-    private static readonly FieldInfo MouseOverTextField = typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static);
-    private static readonly MethodInfo DrawRightSideMethod = typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide));
-    private static readonly MethodInfo DrawValueBarMethod = typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawValueBar));
-    
+	// Reflections
+	private static readonly FieldInfo RightScaleField = typeof(IngameOptions).GetField(nameof(IngameOptions.rightScale));
+	private static readonly FieldInfo RightLockField = typeof(IngameOptions).GetField(nameof(IngameOptions.rightLock));
+	private static readonly FieldInfo MouseOverTextField = typeof(IngameOptions).GetField("_mouseOverText", BindingFlags.NonPublic | BindingFlags.Static);
+	private static readonly MethodInfo DrawRightSideMethod = typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawRightSide));
+	private static readonly MethodInfo DrawValueBarMethod = typeof(IngameOptions).GetMethod(nameof(IngameOptions.DrawValueBar));
+
 	private static void AddInputModeToggle(ILCursor c)
 	{
 		/*
 			C#:
 				IngameOptions.DrawRightSide(sb, Language.GetTextValue("GameUI.ZoomCategory"), num12, vector3, vector4, IngameOptions.rightScale[num12], 1f, default(Color));
 				IngameOptions.skipRightSlot[num12] = true;
-				
+
 			[+] DrawInputModeToggle(sb, vector3, vector4, num12);
-				
+
 				num12++;
 				vector3.X -= (float)num;
 			IL:
@@ -82,26 +82,25 @@ internal static class SettingsEdits
 
 		int vector3 = 0, vector4 = 0, num12 = 0;
 		if (!c.TryGotoNext(MoveType.After,
-			i => i.MatchLdstr("GameUI.ZoomCategory"),
-			i => i.MatchCall(typeof(Language).GetMethod("GetTextValue", 0, [typeof(string)])),
-			i => i.MatchLdloc(out num12),
-			i => i.MatchLdloc(out vector3),
-			i => i.MatchLdloc(out vector4),
-			i => i.MatchLdsfld(RightScaleField),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdelemR4(),
-			i => i.MatchLdcR4(1),
-			i => i.Match(OpCodes.Ldloca_S),
-			i => i.MatchInitobj<Color>(),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchCall(DrawRightSideMethod),
-			i => i.MatchPop(),
-			i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.skipRightSlot))),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdcI4(1),
-			i => i.MatchStelemI1()
-		    )) 
-		{
+			    i => i.MatchLdstr("GameUI.ZoomCategory"),
+			    i => i.MatchCall(typeof(Language).GetMethod("GetTextValue", 0, [typeof(string)])),
+			    i => i.MatchLdloc(out num12),
+			    i => i.MatchLdloc(out vector3),
+			    i => i.MatchLdloc(out vector4),
+			    i => i.MatchLdsfld(RightScaleField),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdelemR4(),
+			    i => i.MatchLdcR4(1),
+			    i => i.Match(OpCodes.Ldloca_S),
+			    i => i.MatchInitobj<Color>(),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchCall(DrawRightSideMethod),
+			    i => i.MatchPop(),
+			    i => i.MatchLdsfld(typeof(IngameOptions).GetField(nameof(IngameOptions.skipRightSlot))),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdcI4(1),
+			    i => i.MatchStelemI1()
+		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(AddInputModeToggle)}");
 		}
 
@@ -113,12 +112,13 @@ internal static class SettingsEdits
 	}
 
 	private static bool textInput;
-    private static readonly FieldInfo TextInputField = typeof(SettingsEdits).GetField(nameof(textInput), BindingFlags.Static | BindingFlags.NonPublic);
-	
+
+	private static readonly FieldInfo TextInputField = typeof(SettingsEdits).GetField(nameof(textInput), BindingFlags.Static | BindingFlags.NonPublic);
+
 	private static void DrawInputModeToggle(SpriteBatch sb, Vector2 v, Vector2 v2, int i)
 	{
 		var zoomTextDim = FontAssets.MouseText.Value.MeasureString(Language.GetTextValue("GameUI.ZoomCategory"));
-		var pos = v + v2 * (1+i) + new Vector2(zoomTextDim.X, -zoomTextDim.Y / 2);
+		var pos = v + v2 * (1 + i) + new Vector2(zoomTextDim.X, -zoomTextDim.Y / 2);
 		var btnRect = new Rectangle((int)pos.X, (int)pos.Y, 20, 20);
 
 		if (textInput) {
@@ -138,15 +138,15 @@ internal static class SettingsEdits
 				SoundEngine.PlaySound(SoundID.MenuTick);
 			}
 
-            string tooltip;
-            if (textInput) {
-                tooltip = Language.GetTextValue("Mods.BetterZoom.Settings.InputToggle.Slider.Tooltip");
-            }
-            else {
-                tooltip = Language.GetTextValue("Mods.BetterZoom.Settings.InputToggle.Precise.Tooltip");
-            }
-            
-            MouseOverTextField.SetValue(null, tooltip);
+			string tooltip;
+			if (textInput) {
+				tooltip = Language.GetTextValue("Mods.BetterZoom.Settings.InputToggle.Slider.Tooltip");
+			}
+			else {
+				tooltip = Language.GetTextValue("Mods.BetterZoom.Settings.InputToggle.Precise.Tooltip");
+			}
+
+			MouseOverTextField.SetValue(null, tooltip);
 			sb.Draw(ButtonHoveredAsset.Value, btnRect, Main.OurFavoriteColor);
 		}
 	}
@@ -205,34 +205,34 @@ internal static class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After,
-			i => i.MatchLdarg(1),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdsfld(RightScaleField),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdelemR4(),
-			i => i.MatchLdcR4(0.85f),
-			i => i.MatchMul(),
-			i => i.MatchLdsfld(RightScaleField),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdelemR4(),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchSub(),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchSub(),
-			i => i.MatchDiv(),
-			i => i.Match(OpCodes.Ldloca_S),
-			i => i.MatchInitobj<Color>(),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchCall(DrawRightSideMethod),
-			i => i.Match(OpCodes.Brfalse_S),
-			i => i.MatchLdsfld(RightLockField),
-			i => i.MatchLdcI4(-1),
-			i => i.Match(OpCodes.Bne_Un_S)
-		)) {
+			    i => i.MatchLdarg(1),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdsfld(RightScaleField),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdelemR4(),
+			    i => i.MatchLdcR4(0.85f),
+			    i => i.MatchMul(),
+			    i => i.MatchLdsfld(RightScaleField),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdelemR4(),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchSub(),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchSub(),
+			    i => i.MatchDiv(),
+			    i => i.Match(OpCodes.Ldloca_S),
+			    i => i.MatchInitobj<Color>(),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchCall(DrawRightSideMethod),
+			    i => i.Match(OpCodes.Brfalse_S),
+			    i => i.MatchLdsfld(RightLockField),
+			    i => i.MatchLdcI4(-1),
+			    i => i.Match(OpCodes.Bne_Un_S)
+		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(HookHoveringZoomText)}");
 		}
 
@@ -301,7 +301,7 @@ internal static class SettingsEdits
 				[+] IL_####: call	   <delegate>
 				[+] afterblock:
 		*/
-		
+
 		if (!c.TryGotoNext(MoveType.Before,
 			    i => i.MatchLdarg(1),
 			    i => i.Match(OpCodes.Ldloc_S),
@@ -310,7 +310,7 @@ internal static class SettingsEdits
 		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
-		
+
 		// #### if (!textInput) {
 		var drawInputBoxLabel = c.DefineLabel();
 		c.Emit(OpCodes.Ldsfld, TextInputField);
@@ -328,7 +328,7 @@ internal static class SettingsEdits
 		c.Previous.Operand = Config.minZoom;
 
 		if (!c.TryGotoNext(MoveType.After,
-			i => i.MatchSub()
+			    i => i.MatchSub()
 		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
@@ -351,8 +351,8 @@ internal static class SettingsEdits
 		var afterBlock = c.DefineLabel();
 		c.Emit(OpCodes.Br, afterBlock);
 		// #### }
-		
-		
+
+
 		// #### else {
 		c.MarkLabel(drawInputBoxLabel);
 
@@ -368,7 +368,7 @@ internal static class SettingsEdits
 			{
 				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, Config.minZoom, Config.maxZoom);
 			};
-			
+
 			return DrawInputTextBox(inputBox, sb, scale);
 		});
 
@@ -377,8 +377,7 @@ internal static class SettingsEdits
 		c.MarkLabel(afterBlock);
 
 		// ##### }
-		
-		/* 
+		/*
 			C# (L-506):
 				before:
 					Main.GameZoomTarget = num14 + 1f;
@@ -467,34 +466,34 @@ internal static class SettingsEdits
 		*/
 
 		if (!c.TryGotoNext(MoveType.After,
-			i => i.MatchLdarg(1),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdsfld(RightScaleField),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdelemR4(),
-			i => i.MatchLdcR4(0.75f),
-			i => i.MatchMul(),
-			i => i.MatchLdsfld(RightScaleField),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdelemR4(),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchSub(),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchSub(),
-			i => i.MatchDiv(),
-			i => i.Match(OpCodes.Ldloca_S),
-			i => i.MatchInitobj<Color>(),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchCall(DrawRightSideMethod),
-			i => i.Match(OpCodes.Brfalse_S),
-			i => i.MatchLdsfld(RightLockField),
-			i => i.MatchLdcI4(-1),
-			i => i.Match(OpCodes.Bne_Un_S)
-		)) {
+			    i => i.MatchLdarg(1),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdsfld(RightScaleField),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdelemR4(),
+			    i => i.MatchLdcR4(0.75f),
+			    i => i.MatchMul(),
+			    i => i.MatchLdsfld(RightScaleField),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdelemR4(),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchSub(),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchSub(),
+			    i => i.MatchDiv(),
+			    i => i.Match(OpCodes.Ldloca_S),
+			    i => i.MatchInitobj<Color>(),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchCall(DrawRightSideMethod),
+			    i => i.Match(OpCodes.Brfalse_S),
+			    i => i.MatchLdsfld(RightLockField),
+			    i => i.MatchLdcI4(-1),
+			    i => i.Match(OpCodes.Bne_Un_S)
+		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(HookHoveringUIScaleText)}");
 		}
 
@@ -570,17 +569,17 @@ internal static class SettingsEdits
 		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
-		
+
 		// #### if (!textInput) {
 		var drawInputBoxLabel = c.DefineLabel();
 		c.Emit(OpCodes.Ldsfld, TextInputField);
 		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
-		
+
 		if (!c.TryGotoNext(MoveType.After,
-			i => i.MatchLdarg(1),
-			i => i.Match(OpCodes.Ldloc_S),
-			i => i.MatchLdsfld<Main>(nameof(Main.temporaryGUIScaleSlider)),
-			i => i.MatchLdcR4(0.5f)
+			    i => i.MatchLdarg(1),
+			    i => i.Match(OpCodes.Ldloc_S),
+			    i => i.MatchLdsfld<Main>(nameof(Main.temporaryGUIScaleSlider)),
+			    i => i.MatchLdcR4(0.5f)
 		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
@@ -597,7 +596,7 @@ internal static class SettingsEdits
 
 		c.Next!.Operand = Config.maxUIScale - Config.minUIScale;
 		c.Index++;
-		
+
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchLdcI4(0),
 			    i => i.MatchLdnull(),
@@ -610,7 +609,7 @@ internal static class SettingsEdits
 		var afterBlock = c.DefineLabel();
 		c.Emit(OpCodes.Br, afterBlock);
 		// #### }
-		
+
 		// #### else {
 		c.MarkLabel(drawInputBoxLabel);
 
@@ -626,14 +625,14 @@ internal static class SettingsEdits
 			{
 				Main.UIScale = MathHelper.Clamp(zoomVal, Config.minUIScale, Config.maxUIScale);
 			};
-			
+
 			return DrawInputTextBox(inputBox, sb, scale);
 		});
 
 		c.Emit(OpCodes.Stloc, 44);
 
 		c.MarkLabel(afterBlock);
-		
+
 		/*
 			C# (L-541):
 				before:

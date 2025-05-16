@@ -39,7 +39,7 @@ internal static class ZoomEdits
 				Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget - num, Config.minZoom, Config.maxZoom); // changed
 			}
 		} // <new>
-		else {
+		else if (!Config.disableUIZoomHotkey) {
 			float num1 = 0.01f * Main.UIScale;
 			if (PlayerInput.Triggers.Current.ViewZoomIn) {
 				Main.UIScale = Utils.Clamp(Main.UIScale + num1, Config.minUIScale, Config.maxUIScale);

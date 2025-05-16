@@ -47,6 +47,11 @@ Configs: {
 				'''
 			Label: Maximale UI-Skala
 		}
+
+		disableUIZoomHotkey: {
+			Label: UI Zoom Hotkey ausschalten
+			Tooltip: Schaltet den Shift+Plus/Shift+Minus Hotkey für den UI Zoom aus
+		}
 	}
 }
 

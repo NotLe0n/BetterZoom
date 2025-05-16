@@ -35,6 +35,9 @@ internal sealed class Config : ModConfig
 	[Range(0.3f, 6f)]
 	[DefaultValue(6f)]
 	public float maxUIScale;
+
+	[DefaultValue(false)]
+	public bool disableUIZoomHotkey;
 	
 	public override void OnChanged()
 	{

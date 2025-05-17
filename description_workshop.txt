@@ -1,69 +1,61 @@
-[h1]Better Zoom更好的缩放[/h1]
+[h1]Better Zoom[/h1]
 
-[h3]这个Mod允许突破原版的缩放限制[/h3]
-[h3]对于在较低分辨率或想要高分辨率贴图的人十分有帮助[/h3]
+[h3]This mod allows you to zoom in and out much further than what's possible in Vanilla.[/h3]
+[h3]Very useful to people who play in lower resolutions or who want to have high resolution sprites.[/h3]
 
-如果你有任何问题请在论坛下方留言或加入我的[url=https://discord.gg/NX4DVzz2v6]Discord[/url]
-本Mod在[url=https://github.com/NotLe0n/BetterZoom]GitHub[/url]上开源. 如果你有GitHub账户，请给我一个星标⭐！
+Comment on the forum post or join my discord if you have any problems: [url=https://discord.gg/NX4DVzz2v6]link[/url]
+This mod is open source on [url=https://github.com/NotLe0n/BetterZoom]GitHub[/url]. If you have a GitHub account, please give it a star!
 
-相机控制部分已经移至另一个叫做[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2831018225]相机控制[/url]的独立Mod 
-如果你是个内容创造者，去看看吧！
+The Camera Control portion of this mod has been moved to its separate mod called 
+"[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2831018225]Camera Control[/url]". If you are a content creator, go check it out!
 
-非常感谢DogeRoll的编辑，现在可以绘制更多物块了！
+Giant thank you to DogeRoll for the Edits which allow more tiles to be drawn. 
 
-[h1]如何使用:[/h1]
+[h1]How to use:[/h1]
 
-[h2]设置部分:[/h2]
-点击滑块旁边的缩放或UI比例文本会把值重设为100%
-你可以使用「缩放」标题旁边的按钮切换滑块和准确数值输入模式
-只允许输入0-1000之间的一个数，按下Enter或其他键将提交更改
+[h2]In Settings:[/h2]
+Clicking on the Zoom or UIScale text next to the sliders will reset the value to 100%.
+You can toggle between slider and exact input using the toggle button next to the header text "Zoom".
+The text box only takes numbers from 0 to 1000 and pressing the Enter key or clicking away will submit the change.
 
-[h3]缩放:[/h3]
-通过改变缩放滑块或按下[+]或[-]键（不是小键盘上的）来正常的缩小或放大游戏画面
-但是不仅限于把100%调成200%，你可以设置100%到1000%！
+[h3]Zoom:[/h3]
+Changing the Zoom slider or Pressing the plus or minus keys on your keyboard (not the ones on the numpad) will zoom your game in and out just like normal,
+but instead of zooming from 100% to 200%, you can zoom from 10% to 1000%
 
-警告：视野越大越卡顿
-对此我无能为力，但你可以在配置中关闭渲染物块
+Warning the more you zoom out the laggier it gets!
+I can't do anything about the lag, but you can disable rendering tile in the Config if it's too much
 
-[h3]UI比例: [/h3]
-你现在可以更改UI比例从50%到500%. 
-你也可以通过按住[shift]当你按下[+]或[-]键时来更改UI比例
+[h3]UI Scale: [/h3]
+You can now change the UI Scale from 50% to 500%. You can also change this by holding shift while pressing plus or minus.
 
-如果你由于任何原因无法在游戏内更改缩放和UI比例
-你可以在游戏关闭后从[Documents/My Games/Terraria/tModLoader/config.json]中的配置文件修改
+If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values 
+inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.
 
-[h2]Mod配置:[/h2]
+[h2]Mod Config:[/h2]
 
-[h3]背景比例 (默认: [禁用]):[/h3]
-该配置用来觉得背景是否被缩放
+[h3]Background Scale (default: 'off'):[/h3]
+This toggles if the background should zoom too.
 
-[h3]光标比例 (默认: [1x]):[/h3]
-该配置用来更改你的光标比例
+[h3]Cursor Scale (default: 1x):[/h3]
+This changes the size of your cursor.
 
-[h3]缩放比例 (默认: [30% - 1000%]):[/h3]
-该配置用来更改可设置的缩放最小值和最大值
+[h3]Zoom Range (default: 30% - 1000%):[/h3]
+This changes the minimum and maximum amount of zoom you can set.
 
-[h3]UI比例 (默认: [50% - 400%]):[/h3]
-该配置用了更改可设置的UI比例最小值和最大值
+[h3]UI Scale Range (default: 50% - 400%):[/h3]
+This changes the minimum and maximum amount of UI Scale you can set.
 
-[h3]禁用UI比例快捷键 (默认: [禁用]):[/h3]
-禁用[Shift & +]/[Shift & -]两个更改UI比例的快捷键
+[h3]Disable UI Zoom Hotkey (default: 'off'):[/h3]
+Disables the Shift+Plus/Shift+Minus Hotkey to change the UI zoom.
 
-[h3]渲染更多物块 (默认: [启用]):[/h3]
-启用该选项以渲染更多超出视野范围内的物块
-注意：
-    这会使得你过分放大你的视野后造成游戏卡顿
-    我对此无能为力
+[h3]Render more tiles (default: 'on'):[/h3]
+Turning this on renders more tiles outside the normal view range.
+Note: This will make the game noticeably laggier the more you zoom out. I can't do anything about that.
 
-[h3]物块渲染限制 (默认: [1.0]):[/h3]
-这会设置在哪个缩放级别下可以看到更多的物块
-越低，游戏越卡，你能看到的物块越多
-（代码逻辑如此）
-例如，你设置了0.5（即50%）
-那么你只能看到视野范围内50%的物块
+[h3]Tile render limit (default: 1.0):[/h3]
+This sets at which zoom level you can see more tiles. The lower it is, the laggier the game but the more tiles you can see. 
+For example if you set this to 0.5 (50%) you can see tiles up to 50% zoom.
 
-[h1]许可[/h1]
-本模组采用GNU GPLv3许可
-如果你使用了这个模组中的任何代码，你必须以相同的许可将其开源，并在你的模组描述中给予致谢
-
-该页面中文本地化由[url=https://steamcommunity.com/profiles/76561199351410322]虞悖[/url]提供，反馈请至Q群[url=https://qm.qq.com/q/5wdAQBTpHa]909428503[/url]
+[h1]License[/h1]
+This mod is licensed under the GNU GPLv3 license.
+If you use any code from this mod you have to open source it under the same license and give credit in your mod's description.

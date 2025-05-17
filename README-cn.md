@@ -65,5 +65,5 @@
 <h1>许可</h1>
 本模组采用GNU GPLv3许可</br>
 如果你使用了这个模组中的任何代码，你必须以相同的许可将其开源，并在你的模组描述中给予致谢</br>
-
+</br>
 该页面中文本地化由<a href=https://steamcommunity.com/profiles/76561199351410322>虞悖</a>提供，反馈请至Q群<a href=https://qm.qq.com/q/5wdAQBTpHa>909428503</a>

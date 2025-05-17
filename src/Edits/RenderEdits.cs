@@ -13,7 +13,7 @@ namespace BetterZoom.Edits;
 /// <summary>
 /// Edits to allow more tiles to render and fix other rendering issues with zooming out
 /// </summary>
-public class RenderEdits : ModSystem // ModSystem because of ordering (???)
+public class RenderEdits : ModSystem
 {
 	private static readonly Config Config = ModContent.GetInstance<Config>();
 
@@ -198,7 +198,8 @@ public class RenderEdits : ModSystem // ModSystem because of ordering (???)
 
     }
 
-    private static int EvalOffset(int dim) => (int)(dim * (1.0f / Math.Min(1, Config.minZoom) - 1.0f) / 2);
+    private const float TileRenderMin = 0.1f;
+    private static int EvalOffset(int dim) => (int)(dim * (1.0f / Math.Min(1, TileRenderMin) - 1.0f) / 2);
 
     private static Point On_Main_GetScreenOverdrawOffset(On_Main.orig_GetScreenOverdrawOffset orig)
     {

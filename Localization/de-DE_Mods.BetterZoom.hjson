@@ -12,40 +12,14 @@ Configs: {
 			Label: Zeigergröße
 		}
 
-		maxZoom: {
-			Tooltip:
-				'''
-				Ändert den maximalen Zoom Wert den du setzen kannst.
-				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
-				'''
-			Label: Maximaler Zoom
+		zoomRange: {
+			Label: Zoom Wertebereich
+			Tooltip: Ändert den maximalen und minimalen Zoom Wert den du setzen kannst.
 		}
 
-		minZoom: {
-			Tooltip:
-				'''
-				Ändert den minimalen Zoom Wert den du setzen kannst.
-				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
-				'''
-			Label: Minimaler Zoom
-		}
-
-		minUIScale: {
-			Tooltip:
-				'''
-				Ändert den maximalen UI-Skala Wert den du setzen kannst.
-				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
-				'''
-			Label: Maximale UI-Skala
-		}
-
-		maxUIScale: {
-			Tooltip:
-				'''
-				Ändert den maximalen UI-Skala Wert den du setzen kannst.
-				Du musst es im Mod Menü ändern, da man die Mod neu landen muss.
-				'''
-			Label: Maximale UI-Skala
+		UIScaleRange: {
+			Label: UI-Skala Wertebereich
+			Tooltip: Ändert den maximalen UI-Skala Wert den du setzen kannst.
 		}
 
 		disableUIZoomHotkey: {
@@ -61,9 +35,18 @@ Configs: {
 				Achtung: Je weiter man raus zoomt, desto laggier wird das Spiel. Dagegen kann ich nichts machen.
 				'''
 		}
+	}
 
-		tiles: {
-			// Label: tiles
+	FloatRange: {
+		// Tooltip: ""
+
+		min: {
+			// Label: min
+			// Tooltip: ""
+		}
+
+		max: {
+			// Label: max
 			// Tooltip: ""
 		}
 	}

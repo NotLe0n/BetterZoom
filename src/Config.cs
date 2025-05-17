@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Numerics;
 using BetterZoom.Edits;
 using Terraria.ModLoader.Config;
 
@@ -17,21 +19,17 @@ internal sealed class Config : ModConfig
 	[DefaultValue(1f)]
 	public float cursorScale;
 	
-	[Range(0.3f, 10.0f)]
-	[DefaultValue(0.3f)]
-	public float minZoom;
-	
-	[Range(0.3f, 10.0f)]
-	[DefaultValue(10f)]
-	public float maxZoom;
+	[Range(0.1f, 10.0f)]
+	[CustomModConfigItem(typeof(DualRangeElement))]
+	public FloatRange zoomRange = new() {
+		min = 0.3f, max = 10.0f
+	};
 
-	[Range(0.3f, 6f)]
-	[DefaultValue(0.3f)]
-	public float minUIScale;
-	
-	[Range(0.3f, 6f)]
-	[DefaultValue(6f)]
-	public float maxUIScale;
+	[Range(0.5f, 5)]
+	[CustomModConfigItem(typeof(DualRangeElement))]
+	public FloatRange UIScaleRange = new() {
+		min = 0.5f, max = 4f
+	};
 
 	[DefaultValue(false)]
 	public bool disableUIZoomHotkey;
@@ -42,14 +40,6 @@ internal sealed class Config : ModConfig
 	
 	public override void OnChanged()
 	{
-		if (minZoom > maxZoom) {
-			minZoom = maxZoom;
-		}
-		
-		if (minUIScale > maxUIScale) {
-			minUIScale = maxUIScale;
-		}
-		
 		RenderEdits.ReloadRenderTargets();
 		base.OnChanged();
 	}

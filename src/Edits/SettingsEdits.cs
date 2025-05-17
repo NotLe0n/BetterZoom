@@ -13,11 +13,11 @@ using Terraria.ModLoader;
 
 namespace BetterZoom.Edits;
 
-internal static class SettingsEdits
+internal class SettingsEdits : ModSystem
 {
 	private static readonly Config Config = ModContent.GetInstance<Config>();
 
-	public static void Load()
+	public override void Load()
 	{
 		IL_IngameOptions.Draw += IngameOptions_Draw;
 	}
@@ -325,7 +325,7 @@ internal static class SettingsEdits
 		}
 
 		c.Remove();
-		c.EmitDelegate(() => Config.minZoom);
+		c.EmitDelegate(() => Config.zoomRange.min);
 
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchSub()
@@ -333,7 +333,7 @@ internal static class SettingsEdits
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.EmitDelegate(() => Config.maxZoom - Config.minZoom);
+		c.EmitDelegate(() => Config.zoomRange.max - Config.zoomRange.min);
 		c.Emit(OpCodes.Div);
 		c.Emit(OpCodes.Ldc_R4, 0.0f);
 		c.Emit(OpCodes.Ldc_R4, 1.0f);
@@ -366,7 +366,7 @@ internal static class SettingsEdits
 
 			inputBox.OnChange += zoomVal =>
 			{
-				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, Config.minZoom, Config.maxZoom);
+				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, Config.zoomRange.min, Config.zoomRange.max);
 			};
 
 			return DrawInputTextBox(inputBox, sb, scale);
@@ -407,10 +407,10 @@ internal static class SettingsEdits
 		}
 		
 		c.Remove();
-		c.EmitDelegate(() => Config.maxZoom - Config.minZoom);
+		c.EmitDelegate(() => Config.zoomRange.max - Config.zoomRange.min);
 
 		c.Emit(OpCodes.Mul);
-		c.EmitDelegate(() => Config.minZoom);
+		c.EmitDelegate(() => Config.zoomRange.min);
 	}
 
 	private static void ModifyUIScaleSlider(ILCursor c)
@@ -601,7 +601,7 @@ internal static class SettingsEdits
 		}
 
 		c.Remove();
-		c.EmitDelegate(() => Config.minUIScale);
+		c.EmitDelegate(() => Config.UIScaleRange.min);
 		c.Index++;
 		/* Current Position:
 
@@ -612,7 +612,7 @@ internal static class SettingsEdits
 		*/
 		
 		c.Remove();
-		c.EmitDelegate(() => Config.maxUIScale - Config.minUIScale);
+		c.EmitDelegate(() => Config.UIScaleRange.max - Config.UIScaleRange.min);
 		c.Index++;
 
 		if (!c.TryGotoNext(MoveType.After,
@@ -641,7 +641,7 @@ internal static class SettingsEdits
 
 			inputBox.OnChange += zoomVal =>
 			{
-				Main.UIScale = MathHelper.Clamp(zoomVal, Config.minUIScale, Config.maxUIScale);
+				Main.UIScale = MathHelper.Clamp(zoomVal, Config.UIScaleRange.min, Config.UIScaleRange.max);
 			};
 
 			return DrawInputTextBox(inputBox, sb, scale);
@@ -686,7 +686,7 @@ internal static class SettingsEdits
 		}
 
 		c.Remove();
-		c.EmitDelegate(() => Config.maxUIScale - Config.minUIScale);
+		c.EmitDelegate(() => Config.UIScaleRange.max - Config.UIScaleRange.min);
 
 		c.Index++;
 
@@ -698,7 +698,7 @@ internal static class SettingsEdits
 			IL_1737: ldc.r4		0.5
 		*/
 		c.Remove();
-		c.EmitDelegate(() => Config.minUIScale);
+		c.EmitDelegate(() => Config.UIScaleRange.min);
 	}
 
 	private static float DrawInputTextBox(ZoomInputBox inputBox, SpriteBatch sb, float scale)

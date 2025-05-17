@@ -12,40 +12,14 @@ Configs: {
 			Label: Cursor Scale
 		}
 
-		maxZoom: {
-			Tooltip:
-				'''
-				This changes the maximal amount of zoom you can set
-				You need to set this in the mod menu, since it requires a reload
-				'''
-			Label: Max Zoom
+		zoomRange: {
+			Label: Zoom Range
+			Tooltip: This changes the maximal and minimal amount of zoom you can set
 		}
 
-		minZoom: {
-			Tooltip:
-				'''
-				This changes the minimum amount of zoom you can set
-				You need to set this in the mod menu, since it requires a reload
-				'''
-			Label: Min Zoom
-		}
-
-		minUIScale: {
-			Tooltip:
-				'''
-				This changes the minimum amount of UI scale you can set
-				You need to set this in the mod menu, since it requires a reload
-				'''
-			Label: Min UI Scale
-		}
-
-		maxUIScale: {
-			Tooltip:
-				'''
-				This changes the maximal amount of UI scale you can set
-				You need to set this in the mod menu, since it requires a reload
-				'''
-			Label: Max UI Scale
+		UIScaleRange: {
+			Label: UIScale Range
+			Tooltip: This changes the minimum and maximum amount of UI scale you can set
 		}
 
 		disableUIZoomHotkey: {
@@ -61,9 +35,18 @@ Configs: {
 				Note: This will make the game noticeably laggier the more you zoom out. I can't do anything about that.
 				'''
 		}
+	}
 
-		tiles: {
-			Label: tiles
+	FloatRange: {
+		Tooltip: ""
+
+		min: {
+			Label: min
+			Tooltip: ""
+		}
+
+		max: {
+			Label: max
 			Tooltip: ""
 		}
 	}

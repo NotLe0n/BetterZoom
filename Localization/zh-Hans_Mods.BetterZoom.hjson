@@ -1,0 +1,71 @@
+Configs: {
+	Config: {
+		DisplayName: Config
+
+		scaleBackground: {
+			Tooltip: This toggles if the background should zoom too
+			Label: Scale Background
+		}
+
+		cursorScale: {
+			Tooltip: This changes the size of your cursor
+			Label: Cursor Scale
+		}
+
+		zoomRange: {
+			Label: Zoom Range
+			Tooltip: This changes the maximal and minimal amount of zoom you can set
+		}
+
+		UIScaleRange: {
+			Label: UIScale Range
+			Tooltip: This changes the minimum and maximum amount of UI scale you can set
+		}
+
+		disableUIZoomHotkey: {
+			Label: Disable UI Zoom Hotkey
+			Tooltip: Disables the Shift+Plus/Shift+Minus Hotkey to change the UI zoom
+		}
+
+		renderMoreTiles: {
+			Label: Render more tiles
+			Tooltip:
+				'''
+				Turning this on renders more tiles outside the normal view range.
+				Note: This will make the game noticeably laggier the more you zoom out. I can't do anything about that.
+				'''
+		}
+
+		tileRenderLimit: {
+			Label: Tile render limit
+			Tooltip:
+				'''
+				This sets at which zoom level you can see more tiles. The lower it is, the laggier the game but the more tiles you can see. 
+				For example if you set this to 0.5 (50%) you can see tiles up to 50% zoom.
+				'''
+		}
+	}
+
+	FloatRange: {
+		Tooltip: ""
+
+		min: {
+			Label: min
+			Tooltip: ""
+		}
+
+		max: {
+			Label: max
+			Tooltip: ""
+		}
+	}
+}
+
+Settings: {
+	Reset.Tooltip: Click to reset to 100%
+
+	InputToggle: {
+		Slider.Tooltip: Slider
+		Precise.Tooltip: Precise Input
+	}
+}

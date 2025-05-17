@@ -1,20 +1,20 @@
-[h1]Better Zoom[/h1]
+[h1]Better Zoom更好的缩放[/h1]
 
-[h3]This mod allows you to zoom in and out much further than what's possible in Vanilla.[/h3]
-[h3]Very useful to people who play in lower resolutions or who want to have high resolution sprites.[/h3]
+[h3]这个Mod允许突破原版的缩放限制[/h3]
+[h3]对于在较低分辨率或想要高分辨率贴图的人十分有帮助[/h3]
 
-Comment on the forum post or join my discord if you have any problems: [url=https://discord.gg/NX4DVzz2v6]link[/url]
-This mod is open source on [url=https://github.com/NotLe0n/BetterZoom]GitHub[/url]. If you have a GitHub account, please give it a star!
+如果你有任何问题请在论坛下方留言或加入我的[url=https://discord.gg/NX4DVzz2v6]Discord[/url]
+本Mod在[url=https://github.com/NotLe0n/BetterZoom]GitHub[/url]上开源. 如果你有GitHub账户，请给我一个星标⭐！
 
-The Camera Control portion of this mod has been moved to its separate mod called 
-"[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2831018225]Camera Control[/url]". If you are a content creator, go check it out!
+相机控制部分已经移至另一个叫做[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2831018225]相机控制[/url]的独立Mod 
+如果你是个内容创造者，去看看吧！
 
-Giant thank you to DogeRoll for the Edits which allow more tiles to be drawn. 
+非常感谢DogeRoll的编辑，现在可以绘制更多物块了！
 
-[h1]How to use:[/h1]
+[h1]如何使用:[/h1]
 
-[h2]In Settings:[/h2]
-Clicking on the Zoom or UIScale text next to the sliders will reset the value to 100%.
+[h2]设置部分:[/h2]
+点击滑块旁边的视野或UI界面Clicking on the Zoom or UIScale text next to the sliders will reset the value to 100%.
 You can toggle between slider and exact input using the toggle button next to the header text "Zoom".
 The text box only takes numbers from 0 to 1000 and pressing the Enter key or clicking away will submit the change.
 

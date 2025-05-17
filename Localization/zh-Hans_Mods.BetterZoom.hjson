@@ -4,27 +4,27 @@ Configs: {
 
 		scaleBackground: {
 			Tooltip: 该配置用来觉得背景是否被缩放
-			Label: 背景尺寸
+			Label: 背景比例
 		}
 
 		cursorScale: {
-			Tooltip: 该配置用来更改你的光标尺寸
-			Label: 光标尺寸
+			Tooltip: 该配置用来更改你的光标比例
+			Label: 光标比例
 		}
 
 		zoomRange: {
-			Label: 视野缩放
+			Label: 缩放比例
 			Tooltip: 该配置用来更改可设置的缩放最小值和最大值
 		}
 
 		UIScaleRange: {
-			Label: UI尺寸范围
-			Tooltip: 该配置用了更改可设置的UI大小最小值和最大值
+			Label: UI比例
+			Tooltip: 该配置用了更改可设置的UI比例最小值和最大值
 		}
 
 		disableUIZoomHotkey: {
-			Label: 禁用UI缩放快捷键
-			Tooltip: 禁用Shift & +/Shift & -两个更改UI缩放的快捷键
+			Label: 禁用UI比例快捷键
+			Tooltip: 禁用Shift & +/Shift & -两个更改UI比例的快捷键
 		}
 
 		renderMoreTiles: {

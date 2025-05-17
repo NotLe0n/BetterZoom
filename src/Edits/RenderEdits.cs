@@ -39,25 +39,29 @@ public class RenderEdits : ModSystem // ModSystem because of ordering (???)
         IL_Main.InitTargets_int_int += IL_Main_InitTargets;
         IL_Main.DrawBlack += IL_Main_DrawBlack;
         IL_Main.DoDraw += FixBackgroundRender;
-        On_Main.DrawSunAndMoon += On_MainOnDrawSunAndMoon;
         
         ReloadRenderTargets();
     }
 
-	private static void On_MainOnDrawSunAndMoon(On_Main.orig_DrawSunAndMoon orig, Main self, Main.SceneArea sceneArea, Color moonColor, Color sunColor, float tempMushroomInfluence)
-	{
-		if (sceneArea.bgTopY != 0) { // ... != 0: fix for capture
-			int visibleHeight = (int)(Main.screenHeight / Main.GameZoomTarget);
-			int platz = visibleHeight - Main.screenHeight;
-			sceneArea.bgTopY += platz / 2;
-		}
-		
-		orig(self, sceneArea, moonColor, sunColor, tempMushroomInfluence);
-	}
-
 	private static void FixBackgroundRender(ILContext il)
 	{
 		var c = new ILCursor(il);
+		
+		/*
+		
+				stfld		bgTopY
+			[+] ldarg.0
+			[+] callvirt	<delegate>
+			[+] stfld		bgStartX
+			[+] ldarg.0
+			[+] callvirt	<delegate>
+			[+] stfld		bgLoops
+			[+] ldarg.0
+			[+] callvirt	<delegate>
+			[+] stfld		bgTopY
+			...
+		*/
+		
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchStfld<Main>("bgTopY"))) {
 			throw new ILEditException($"{nameof(RenderEdits)}::{nameof(FixBackgroundRender)}");
 		}
@@ -69,30 +73,24 @@ public class RenderEdits : ModSystem // ModSystem because of ordering (???)
 			int visibleWidth = (int)(Main.screenWidth / Main.GameZoomTarget);
 			double parallax = Main.screenPosition.X * 0.1;
 			int bgWidth = Main.backgroundWidth[Main.background];
-			int platz = visibleWidth - Main.screenWidth;
-			return (int)(0.0 - Math.IEEERemainder(parallax, bgWidth) - bgWidth / 2d - platz / 2d);
+			int offset = Math.Max(0, visibleWidth - Main.screenWidth);
+
+			return (int)(0.0 - Math.IEEERemainder(parallax, bgWidth) - bgWidth / 2d - offset / 2d);
 		});
 		
 		ChangeBgField("bgLoops", () =>
 		{
-			int visibleWidth = (int)(Main.screenWidth / Main.GameZoomTarget);
+			int visibleWidth = Math.Max(Main.screenWidth, (int)(Main.screenWidth / Main.GameZoomTarget));
 
 			return visibleWidth / Main.backgroundWidth[Main.background] + 2;
-		});
-		
-		ChangeBgField("bgLoopsY", () =>
-		{
-			int visibleHeight = (int)(Main.screenHeight / Main.GameZoomTarget);
-
-			return visibleHeight / Main.backgroundHeight[Main.background] + 2;
 		});
 		
 		ChangeBgField("bgTopY", () =>
 		{
 			int visibleHeight = (int)(Main.screenHeight / Main.GameZoomTarget);
-			int platz = visibleHeight - Main.screenHeight;
+			int offset = Math.Max(0, visibleHeight - Main.screenHeight);
 
-			return (int)((0f - Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0) - platz / 2;
+			return (int)((offset / 2f - Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
 		});
 		return;
 

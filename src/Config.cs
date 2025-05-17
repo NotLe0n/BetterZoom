@@ -19,20 +19,16 @@ internal sealed class Config : ModConfig
 	
 	[Range(0.3f, 10.0f)]
 	[DefaultValue(0.3f)]
-	[ReloadRequired]
 	public float minZoom;
 	
-	[ReloadRequired]
 	[Range(0.3f, 10.0f)]
 	[DefaultValue(10f)]
 	public float maxZoom;
 
 	[Range(0.3f, 6f)]
 	[DefaultValue(0.3f)]
-	[ReloadRequired]
 	public float minUIScale;
 	
-	[ReloadRequired]
 	[Range(0.3f, 6f)]
 	[DefaultValue(6f)]
 	public float maxUIScale;
@@ -54,6 +50,7 @@ internal sealed class Config : ModConfig
 			minUIScale = maxUIScale;
 		}
 		
+		RenderEdits.ReloadRenderTargets();
 		base.OnChanged();
 	}
 }

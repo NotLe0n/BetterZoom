@@ -284,9 +284,9 @@ internal static class SettingsEdits
 					IL_1242: ldarg		1
 					IL_1243: ldloc.s	6
 					IL_1245: ldsfld		float32 Terraria.Main::GameZoomTarget
-				[~]	IL_####: ldc.r4		minZoom
+				[~]	IL_####: callvirt	() => minZoom
 					IL_124F: sub
-				[+]	IL_####: ldc.r4		maxZoom - minZoom
+				[+]	IL_####: callvirt	() => maxZoom - minZoom
 				[+]	IL_####: div
 				[+]	IL_####: ldc.r4		0.0
 				[+]	IL_####: ldc.r4		1
@@ -319,13 +319,13 @@ internal static class SettingsEdits
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchLdarg(1),
 			    i => i.Match(OpCodes.Ldloc_S),
-			    i => i.MatchLdsfld<Main>(nameof(Main.GameZoomTarget)),
-			    i => i.MatchLdcR4(1)
+			    i => i.MatchLdsfld<Main>(nameof(Main.GameZoomTarget))
 		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.Previous.Operand = Config.minZoom;
+		c.Remove();
+		c.EmitDelegate(() => Config.minZoom);
 
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchSub()
@@ -333,7 +333,7 @@ internal static class SettingsEdits
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
 
-		c.Emit(OpCodes.Ldc_R4, Config.maxZoom - Config.minZoom);
+		c.EmitDelegate(() => Config.maxZoom - Config.minZoom);
 		c.Emit(OpCodes.Div);
 		c.Emit(OpCodes.Ldc_R4, 0.0f);
 		c.Emit(OpCodes.Ldc_R4, 1.0f);
@@ -395,21 +395,22 @@ internal static class SettingsEdits
 					IL_14ea: ldloc.s		128
 					IL_14ec: brfalse.s		IL_14fb
 					IL_1503: ldloc.s		96
-				[~]	IL_1505: ldc.r4			maxZoom - minZoom
+				[~]	IL_1505: callvirt		() => maxZoom - minZoom
 				[+]	IL_150a: mul
-				[+]	IL_150b: ldc.r4			minZoom
+				[+]	IL_150b: callvirt		() => minZoom
 					IL_1510: add
 					IL_1511: stsfld			float32 Terraria.Main::GameZoomTarget
 		*/
 
-		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.0f))) {
+		if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.0f))) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
-
-		c.Prev.Operand = Config.maxZoom - Config.minZoom;
+		
+		c.Remove();
+		c.EmitDelegate(() => Config.maxZoom - Config.minZoom);
 
 		c.Emit(OpCodes.Mul);
-		c.Emit(OpCodes.Ldc_R4, Config.minZoom);
+		c.EmitDelegate(() => Config.minZoom);
 	}
 
 	private static void ModifyUIScaleSlider(ILCursor c)
@@ -545,9 +546,9 @@ internal static class SettingsEdits
 					IL_16c0: ldarg		1
 					IL_16c1: ldloc.s	6
 					IL_16c3: ldsfld		float32 Terraria.Main::temporaryGUIScaleSlider
-				[~]	IL_16c8: ldc.r4		minUIScale
+				[~]	IL_16c8: callvirt	() => minUIScale
 					IL_16cd: sub
-				[~]	IL_16ce: ldc.r4		maxUIScale - minUIScale
+				[~]	IL_16ce: callvirt	() => maxUIScale - minUIScale
 					IL_16d3: div
 					IL_16d4: ldc.r4		0.0
 					IL_16e0: ldc.i4		0
@@ -559,6 +560,13 @@ internal static class SettingsEdits
 				[+] IL_####: ldloc	   6
 				[+] IL_####: call	   <delegate>
 				[+] afterblock:
+		*/
+		
+		/*
+				[+] IL_####: ldsfld		bool BetterZoom.SettingsEdits::textInput
+				[+] IL_####: brtrue		drawInputBoxLabel
+					IL_16c0: ldarg		1
+					IL_16c1: ldloc.s	6
 		*/
 
 		if (!c.TryGotoNext(MoveType.Before,
@@ -575,26 +583,36 @@ internal static class SettingsEdits
 		c.Emit(OpCodes.Ldsfld, TextInputField);
 		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
 
+		
+		/*
+				IL_16c0: ldarg		1
+				IL_16c1: ldloc.s	6
+				IL_16c3: ldsfld		float32 Terraria.Main::temporaryGUIScaleSlider
+					<--- here
+				IL_16c8: ldc.r4		1
+		*/
+		
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchLdarg(1),
 			    i => i.Match(OpCodes.Ldloc_S),
-			    i => i.MatchLdsfld<Main>(nameof(Main.temporaryGUIScaleSlider)),
-			    i => i.MatchLdcR4(0.5f)
+			    i => i.MatchLdsfld<Main>(nameof(Main.temporaryGUIScaleSlider))
 		    )) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 
-		c.Prev.Operand = Config.minUIScale;
+		c.Remove();
+		c.EmitDelegate(() => Config.minUIScale);
 		c.Index++;
 		/* Current Position:
 
-			IL_16c8: ldc.r4		minUIScale		(0.5)
+			IL_16c8: callvirt	() => Config.minUIScale
 			IL_16cd: sub
 				<--- here
 			IL_16ce: ldc.r4		1.5
 		*/
-
-		c.Next!.Operand = Config.maxUIScale - Config.minUIScale;
+		
+		c.Remove();
+		c.EmitDelegate(() => Config.maxUIScale - Config.minUIScale);
 		c.Index++;
 
 		if (!c.TryGotoNext(MoveType.After,
@@ -663,11 +681,12 @@ internal static class SettingsEdits
 
 		*/
 
-		if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcR4(1.5f))) {
+		if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.5f))) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(IncreaseUIScaleBound)}");
 		}
 
-		c.Prev.Operand = Config.maxUIScale - Config.minUIScale;
+		c.Remove();
+		c.EmitDelegate(() => Config.maxUIScale - Config.minUIScale);
 
 		c.Index++;
 
@@ -678,7 +697,8 @@ internal static class SettingsEdits
 					<--- here
 			IL_1737: ldc.r4		0.5
 		*/
-		c.Next.Operand = Config.minUIScale;
+		c.Remove();
+		c.EmitDelegate(() => Config.minUIScale);
 	}
 
 	private static float DrawInputTextBox(ZoomInputBox inputBox, SpriteBatch sb, float scale)

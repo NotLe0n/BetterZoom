@@ -1,47 +1,52 @@
 Configs: {
 	Config: {
-		DisplayName: Config
+		DisplayName: 配置
 
 		scaleBackground: {
-			Tooltip: This toggles if the background should zoom too
-			Label: Scale Background
+			Tooltip: 该配置用来觉得背景是否被缩放
+			Label: 背景尺寸
 		}
 
 		cursorScale: {
-			Tooltip: This changes the size of your cursor
-			Label: Cursor Scale
+			Tooltip: 该配置用来更改你的光标尺寸
+			Label: 光标尺寸
 		}
 
 		zoomRange: {
-			Label: Zoom Range
-			Tooltip: This changes the maximal and minimal amount of zoom you can set
+			Label: 视野缩放
+			Tooltip: 该配置用来更改可设置的缩放最小值和最大值
 		}
 
 		UIScaleRange: {
-			Label: UIScale Range
-			Tooltip: This changes the minimum and maximum amount of UI scale you can set
+			Label: UI尺寸范围
+			Tooltip: 该配置用了更改可设置的UI大小最小值和最大值
 		}
 
 		disableUIZoomHotkey: {
-			Label: Disable UI Zoom Hotkey
-			Tooltip: Disables the Shift+Plus/Shift+Minus Hotkey to change the UI zoom
+			Label: 禁用UI缩放快捷键
+			Tooltip: 禁用Shift & +/Shift & -两个更改UI缩放的快捷键
 		}
 
 		renderMoreTiles: {
-			Label: Render more tiles
+			Label: 渲染更多物块
 			Tooltip:
 				'''
-				Turning this on renders more tiles outside the normal view range.
-				Note: This will make the game noticeably laggier the more you zoom out. I can't do anything about that.
+				启用该选项以渲染更多超出视野范围内的物块
+				注意：
+				     这会使得你过分放大你的视野后造成游戏卡顿
+				     我对此无能为力
 				'''
 		}
 
 		tileRenderLimit: {
-			Label: Tile render limit
+			Label: 物块渲染限制
 			Tooltip:
 				'''
-				This sets at which zoom level you can see more tiles. The lower it is, the laggier the game but the more tiles you can see. 
-				For example if you set this to 0.5 (50%) you can see tiles up to 50% zoom.
+				这会设置在哪个缩放级别下可以看到更多的物块
+				越低，游戏越卡，你能看到的物块越多
+				（代码逻辑如此）
+				例如，你设置了0.5（即50%）
+				那么你只能看到视野范围内50%的物块
 				'''
 		}
 	}
@@ -50,22 +55,22 @@ Configs: {
 		Tooltip: ""
 
 		min: {
-			Label: min
+			Label: 最小值
 			Tooltip: ""
 		}
 
 		max: {
-			Label: max
+			Label: 最大值
 			Tooltip: ""
 		}
 	}
 }
 
 Settings: {
-	Reset.Tooltip: Click to reset to 100%
+	Reset.Tooltip: 点击以重设为100%
 
 	InputToggle: {
-		Slider.Tooltip: Slider
-		Precise.Tooltip: Precise Input
+		Slider.Tooltip: 滑块
+		Precise.Tooltip: 准确数值
 	}
 }

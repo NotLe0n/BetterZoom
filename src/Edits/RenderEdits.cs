@@ -197,9 +197,8 @@ public class RenderEdits : ModSystem
         c.Remove();
 
     }
-
-    private const float TileRenderMin = 0.1f;
-    private static int EvalOffset(int dim) => (int)(dim * (1.0f / Math.Min(1, TileRenderMin) - 1.0f) / 2);
+    
+    private static int EvalOffset(int dim) => (int)(dim * (1.0f / Math.Min(1, Config.tileRenderLimit) - 1.0f) / 2);
 
     private static Point On_Main_GetScreenOverdrawOffset(On_Main.orig_GetScreenOverdrawOffset orig)
     {

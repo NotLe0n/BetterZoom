@@ -35,6 +35,15 @@ Configs: {
 				Achtung: Je weiter man raus zoomt, desto laggier wird das Spiel. Dagegen kann ich nichts machen.
 				'''
 		}
+
+		tileRenderLimit: {
+			Label: Blockzeichnung limit
+			Tooltip:
+				'''
+				Diese Einstellung setzt bis zu welchem Zoom man noch Blöcke sieht. Je kleiner die Zahl, desto langsamer das Spiel, aber desto mehr Blöcke sieht man.
+				Zum Beispiel: Wenn du diese Einstellung auf 0.5 (50%) setzt, kannst du bis zu 50% zoom noch Blöcke sehen.
+				'''
+		}
 	}
 
 	FloatRange: {

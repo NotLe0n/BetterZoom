@@ -60,6 +60,11 @@ Render more tiles (default: 'on'):
 [c/C4C4C4:    Turning this on renders more tiles outside the normal view range.]
     Note: This will make the game noticeably laggier the more you zoom out.
     I can't do anything about that.
+    
+Tile render limit (default: 1.0):
+[c/C4C4C4:    This sets at which zoom level you can see more tiles.]
+[c/C4C4C4:    The lower it is, the laggier the game but the more tiles you can see.]
+    For example if you set this to 0.5 (50%) you can see tiles up to 50% zoom.
 
 _________________________
 

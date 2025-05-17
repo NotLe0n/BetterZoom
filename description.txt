@@ -30,15 +30,15 @@ Zoom:
 [c/C4C4C4:    instead of zooming from 100% to 200%,]
 [c/C4C4C4:    you can zoom from 10% to 1000%]
 
-[c/FF0000: Warning the more you zoom out the laggier it gets!]
-I can't do anything about the lag, but you can disable rendering tile in the Config
-
-If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.
+[c/FF0000:    Warning the more you zoom out the laggier it gets!]
+    You can disable rendering tile in the Config if it's too much
 
 UI Scale: 
 [c/C4C4C4:    You can change the UI Scale from 50% to 500%.]
 [c/C4C4C4:    You can also change this by holding shift while]
 [c/C4C4C4:    pressing plus or minus.]
+
+If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.
 
 [c/FFE900:Mod Config:]
 Background Scale (default: 'off'):
@@ -58,7 +58,8 @@ Disable UI Zoom Hotkey (default: 'off'):
 
 Render more tiles (default: 'on'):
 [c/C4C4C4:    Turning this on renders more tiles outside the normal view range.]
-Note: This will make the game noticeably laggier the more you zoom out. I can't do anything about that.
+    Note: This will make the game noticeably laggier the more you zoom out.
+    I can't do anything about that.
 
 _________________________
 

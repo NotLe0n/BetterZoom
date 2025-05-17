@@ -23,7 +23,8 @@ The text box only takes 3 numbers and pressing the Enter key or clicking away wi
 Changing the Zoom slider or Pressing the plus or minus keys on your keyboard (not the ones on the numpad) will zoom your game in and out just like normal,
 but instead of zooming from 100% to 200%, you can zoom from 30% to 1000%
 
-When you zoom out the tiles don't load any further. This is not a bug!
+Warning the more you zoom out the laggier it gets!
+I can't do anything about the lag, but you can disable rendering tile in the Config if it's too much.
 
 <h3>UI Scale: </h3>
 You can now change the UI Scale from 30% to 600%. You can also change this by holding shift while pressing plus or minus.

@@ -65,3 +65,12 @@ Configs: {
 		}
 	}
 }
+
+Settings: {
+	Reset.Tooltip: 点击以重设为100%
+
+	InputToggle: {
+		Slider.Tooltip: 滑块
+		Precise.Tooltip: 准确数值
+	}
+}

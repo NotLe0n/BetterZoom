@@ -3,7 +3,7 @@ Configs: {
 		DisplayName: 配置
 
 		scaleBackground: {
-			Tooltip: 该配置用来觉得背景是否被缩放
+			Tooltip: 该配置用来决定背景是否被缩放
 			Label: 背景比例
 		}
 
@@ -24,7 +24,7 @@ Configs: {
 
 		disableUIZoomHotkey: {
 			Label: 禁用UI比例快捷键
-			Tooltip: 禁用Shift & +/Shift & -两个更改UI比例的快捷键
+			Tooltip: 禁用[Shift & +]/[Shift & -]两个更改UI比例的快捷键
 		}
 
 		renderMoreTiles: {
@@ -63,14 +63,5 @@ Configs: {
 			Label: 最大值
 			Tooltip: ""
 		}
-	}
-}
-
-Settings: {
-	Reset.Tooltip: 点击以重设为100%
-
-	InputToggle: {
-		Slider.Tooltip: 滑块
-		Precise.Tooltip: 准确数值
 	}
 }

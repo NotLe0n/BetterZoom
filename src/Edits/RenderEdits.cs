@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -38,11 +39,12 @@ public class RenderEdits : ModSystem
         On_Main.GetScreenOverdrawOffset += On_Main_GetScreenOverdrawOffset;
         IL_Main.InitTargets_int_int += IL_Main_InitTargets;
         IL_Main.DrawBlack += IL_Main_DrawBlack;
-        IL_Main.DoDraw += FixBackgroundRender;
+        //IL_Main.DoDraw += FixBackgroundRender;
         
         ReloadRenderTargets();
     }
 
+	// maybe causes the weird cellRef crash??
 	private static void FixBackgroundRender(ILContext il)
 	{
 		var c = new ILCursor(il);
@@ -65,8 +67,6 @@ public class RenderEdits : ModSystem
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchStfld<Main>("bgTopY"))) {
 			throw new ILEditException($"{nameof(RenderEdits)}::{nameof(FixBackgroundRender)}");
 		}
-
-		c.Index++;
 
 		ChangeBgField("bgStartX", () =>
 		{
@@ -104,22 +104,26 @@ public class RenderEdits : ModSystem
 
 	public static void ReloadRenderTargets()
     { 
-        /* SetResolution() call InitTargets() function, that sets offscreen drawing area and renderers */
-        Main.QueueMainThreadAction(() =>
-        {
-            try
-            {
-                var sw = Main.screenWidth;
-                var sh = Main.screenHeight;
-                Main.SetResolution(Main.screenWidth + 1, Main.screenHeight + 1);
-                Main.SetResolution(Main.screenWidth - 1, Main.screenHeight - 1);
-                Main.SetResolution(sw, sh);
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine($"{ex}: This should only happen on server initialization.");
-            }
-        });
+	    /* SetResolution() call InitTargets() function, that sets off screen drawing area and renderers */
+	    Main.QueueMainThreadAction(() =>
+	    {
+		    var initTargets = typeof(Main).GetMethod("InitTargets", BindingFlags.Instance | BindingFlags.NonPublic, null, [], null);
+		    var isBusy = typeof(Main).GetField("_isResizingAndRemakingTargets", BindingFlags.Static | BindingFlags.NonPublic);
+		    try
+		    {
+			    if (!(bool)isBusy.GetValue(null))
+			    {
+				    isBusy.SetValue(null, true);
+				    initTargets.Invoke(Main.instance, null);
+				    isBusy.SetValue(null, false);
+			    }
+		    }
+		    catch (NullReferenceException ex)
+		    {
+			    isBusy.SetValue(null, false);
+			    Console.WriteLine($"{ex}: This should only happen on server initialization.");
+		    }
+	    });
     }
 
     private static void IL_Main_DrawBlack(ILContext il)

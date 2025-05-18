@@ -13,13 +13,15 @@ public class FloatRange
 {
 	public float min;
 	public float max;
+
+	public override string ToString() => $"[{min} - {max}]";
 }
 
 public class DualRangeElement : ConfigElement<FloatRange>
 {
-	public FloatRange range;
-	public float MaxLimit { get; set; }
-	public float MinLimit { get; set; }
+	private FloatRange range;
+	private float MaxLimit { get; set; }
+	private float MinLimit { get; set; }
 	
 	public override void OnBind()
 	{
@@ -37,8 +39,6 @@ public class DualRangeElement : ConfigElement<FloatRange>
 
 		minProportion = (clampedMin - MinLimit) / (MaxLimit - MinLimit);
 		maxProportion = (clampedMax - MinLimit) / (MaxLimit - MinLimit);
-		
-		Console.WriteLine($"min: {range.min}, max: {range.max}");
 		
 		TextDisplayFunction = () => $"{Label}: {range.min:P2} - {range.max:P2}";
 	}

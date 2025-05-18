@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Numerics;
+using System.Text;
 using BetterZoom.Edits;
 using Terraria.ModLoader.Config;
 
@@ -51,5 +52,18 @@ internal sealed class Config : ModConfig
 	{
 		RenderEdits.ReloadRenderTargets();
 		base.OnChanged();
+	}
+
+	public override void OnLoaded()
+	{
+		StringBuilder b = new StringBuilder("BetterZoom Config:");
+		b.AppendLine("{");
+		foreach (var field in typeof(Config).GetFields()) {
+			b.AppendLine($"\t{field.Name}: {field.GetValue(this)?.ToString() ?? "null"}");
+		}
+		b.AppendLine("}");
+		
+		Mod.Logger.Info(b.ToString());
+		base.OnLoaded();
 	}
 }

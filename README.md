@@ -56,6 +56,9 @@ Note: This will make the game noticeably laggier the more you zoom out. I can't 
 This sets at which zoom level you can see more tiles. The lower it is, the laggier the game but the more tiles you can see.
 For example if you set this to 0.5 (50%) you can see tiles up to 50% zoom.
 
+<h3>Zoom Speed (default: 1.0)</h3>
+Changes how fast you zoom in using the keyboard. 1 is normal speed, 10 is 10x faster.
+
 <h1>License</h1>
 This mod is licensed under the GNU GPLv3 license.
 If you use any code from this mod you have to open source it under the same license and give credit in your mod's description.

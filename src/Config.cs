@@ -38,9 +38,14 @@ internal sealed class Config : ModConfig
 	[DefaultValue(true)]
 	public bool renderMoreTiles;
 
-	[DefaultValue(1f)] 
+	[DefaultValue(1f)]
 	[Range(0.1f, 1)]
 	public float tileRenderLimit;
+	
+	[DefaultValue(1)]
+	[Range(0.1f, 10f)]
+	[Increment(0.1f)]
+	public float zoomSpeed;
 	
 	public override void OnChanged()
 	{

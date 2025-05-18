@@ -44,6 +44,11 @@ Configs: {
 				Zum Beispiel: Wenn du diese Einstellung auf 0.5 (50%) setzt, kannst du bis zu 50% zoom noch Blöcke sehen.
 				'''
 		}
+
+		zoomSpeed: {
+			Label: Zoomgeschwindigkeit
+			Tooltip: Ändert wie schnell man mit der Tastatur zoomen kann. 1 ist der Standardwert, 10 ist 10x schneller.
+		}
 	}
 
 	FloatRange: {

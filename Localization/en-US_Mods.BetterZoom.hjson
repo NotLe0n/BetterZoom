@@ -44,6 +44,11 @@ Configs: {
 				For example if you set this to 0.5 (50%) you can see tiles up to 50% zoom.
 				'''
 		}
+
+		zoomSpeed: {
+			Label: Zoom speed
+			Tooltip: Changes how fast you zoom in using the keyboard. 1 is normal speed, 10 is 10x faster.
+		}
 	}
 
 	FloatRange: {

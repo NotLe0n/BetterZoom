@@ -49,6 +49,11 @@ Configs: {
 				那么你只能看到视野范围内50%的物块
 				'''
 		}
+
+		zoomSpeed: {
+			// Label: Zoom speed
+			// Tooltip: Changes how fast you zoom in using the keyboard. 1 is normal speed, 10 is 10x faster.
+		}
 	}
 
 	FloatRange: {

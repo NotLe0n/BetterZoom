@@ -66,6 +66,10 @@ Tile render limit (default: 1.0):
 [c/C4C4C4:    The lower it is, the laggier the game but the more tiles you can see.]
     For example if you set this to 0.5 (50%) you can see tiles up to 50% zoom.
 
+Zoom Speed (default: 1.0):
+[c/C4C4C4:    Changes how fast you zoom in using the keyboard.]
+    1 is normal speed, 10 is 10x faster.
+
 _________________________
 
 [c/FFE900:                                LICENSE:]

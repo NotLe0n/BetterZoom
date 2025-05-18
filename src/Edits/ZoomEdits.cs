@@ -28,7 +28,7 @@ internal class ZoomEdits : ModSystem
 			return;
 		}
 
-		float num = 0.01f * Main.GameZoomTarget; // changed
+		float num = Config.zoomSpeed / 100 * Main.GameZoomTarget; // changed
 
 		if (!Main.keyState.PressingShift()) { // <new />
 			if (PlayerInput.Triggers.Current.ViewZoomIn) {
@@ -40,7 +40,7 @@ internal class ZoomEdits : ModSystem
 			}
 		} // <new>
 		else if (!Config.disableUIZoomHotkey) {
-			float num1 = 0.01f * Main.UIScale;
+			float num1 = Config.zoomSpeed / 100 * Main.UIScale;
 			if (PlayerInput.Triggers.Current.ViewZoomIn) {
 				Main.UIScale = Utils.Clamp(Main.UIScale + num1, Config.UIScaleRange.min, Config.UIScaleRange.max);
 				Main.temporaryGUIScaleSlider = Main.UIScale;

@@ -62,8 +62,8 @@
 例如，你设置了0.5（即50%）
 那么你只能看到视野范围内50%的物块
 
-[h3]Zoom Speed (default: 1.0)[/h3]
-Changes how fast you zoom in using the keyboard. 1 is normal speed, 10 is 10x faster.
+[h3]缩放速度 (默认：[1.0])[/h3]
+修改使用快捷键更改缩放的速度，1为正常速度，10为10倍速
 
 [h1]许可[/h1]
 本模组采用GNU GPLv3许可

@@ -51,8 +51,8 @@ Configs: {
 		}
 
 		zoomSpeed: {
-			// Label: Zoom speed
-			// Tooltip: Changes how fast you zoom in using the keyboard. 1 is normal speed, 10 is 10x faster.
+			Label: 缩放速度
+			Tooltip: 修改使用快捷键更改缩放的速度，1为正常速度，10为10倍速
 		}
 	}
 

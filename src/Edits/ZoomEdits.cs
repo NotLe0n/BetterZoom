@@ -18,7 +18,12 @@ internal class ZoomEdits : ModSystem
 	public override void Load()
 	{
 		On_Main.UpdateViewZoomKeys += Main_UpdateViewZoomKeys;
-		IL_Main.DoDraw += ModifyZoomBounds;
+		// fixes race condition which crashes the game
+		Main.RunOnMainThread(() =>
+		{
+			IL_Main.DoDraw += ModifyZoomBounds;
+		});
+		
 		MonoModHooks.Add(UIScaleMax, ModifyUIScaleBounds);
 	}
 

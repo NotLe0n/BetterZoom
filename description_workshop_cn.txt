@@ -9,7 +9,9 @@
 相机控制部分已经移至另一个叫做[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2831018225]相机控制[/url]的独立Mod 
 如果你是个内容创造者，去看看吧！
 
-非常感谢DogeRoll的编辑，现在可以绘制更多物块了！
+特别感谢:
+- 非常感谢DogeRoll的编辑，现在可以绘制更多物块了！
+- 感谢 Zoe 制作了 mod 图标。
 
 [h1]如何使用:[/h1]
 
@@ -70,3 +72,5 @@
 如果你使用了这个模组中的任何代码，你必须以相同的许可将其开源，并在你的模组描述中给予致谢
 
 该页面中文本地化由[url=https://steamcommunity.com/profiles/76561199351410322]虞悖[/url]提供，反馈请至Q群[url=https://qm.qq.com/q/5wdAQBTpHa]909428503[/url]
+
+该模组图标的版权属于Steam用户ZoeyReal。

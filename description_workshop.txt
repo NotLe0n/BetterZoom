@@ -9,7 +9,9 @@ This mod is open source on [url=https://github.com/NotLe0n/BetterZoom]GitHub[/ur
 The Camera Control portion of this mod has been moved to its separate mod called 
 "[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2831018225]Camera Control[/url]". If you are a content creator, go check it out!
 
-Giant thank you to DogeRoll for the Edits which allow more tiles to be drawn. 
+Special Thanks:
+- Giant thank you to DogeRoll for the Edits which allow more tiles to be drawn. 
+- Thanks to Zoe for making the mod icon.
 
 [h1]How to use:[/h1]
 
@@ -62,3 +64,5 @@ Changes how fast you zoom in using the keyboard. 1 is normal speed, 10 is 10x fa
 [h1]License[/h1]
 This mod is licensed under the GNU GPLv3 license.
 If you use any code from this mod you have to open source it under the same license and give credit in your mod's description.
+
+The rights to the mod's icon is owned by steam user ZoeyReal

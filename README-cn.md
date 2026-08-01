@@ -1,6 +1,6 @@
 <h1>Better Zoom 更好的缩放 <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fmod-count-badge.notle0n75.workers.dev%2F%3Fmod%3DBetterZoom" alt="Mod downloads badge" /></h1> 
 
-[English](README.md) | 简体中文
+[English](README.md) | 简体中文 | [Português (Brasil)](README-ptbr.md)
 
 <h3>这个Mod允许你突破原版的缩放限制</h3>
 <h3>对于在较低分辨率或想要高分辨率贴图的人十分有帮助</h3>

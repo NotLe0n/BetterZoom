@@ -34,26 +34,26 @@ Agora você pode mudar a Escala da interface de 30% até 600%. Você também pod
 <h2>Configurações do Mod:</h2>
 
 <h3>Escala de Fundo (Padrão: 'desligado'):</h3>
-Isso alterna se o fundo também deve ser afetado pelo zoom.
+Alterna se o fundo também deve ser afetado pelo zoom.
 
 <h3>Escala do Cursor (Padrão: 1x):</h3>
-Isso muda o tamanho de seu cursor.
+Muda o tamanho de seu cursor.
 
 <h3>Alcance do Zoom (Padrão: 30% - 1000%):</h3>
-Isso muda o mínimo e o máximo de zoom que você pode definir.
+Muda o mínimo e o máximo de zoom que você pode definir.
 
 <h3>Alcance da Escala da Interface (Padrão: 50% - 400%):</h3>
-Isso muda o mínimo e o máximo de Escala da Interface que você pode definir.
+Muda o mínimo e o máximo de Escala da Interface que você pode definir.
 
 <h3>Desativar Atalho de Zoom da Interface (Padrão: 'desligado'):</h3>
 Desativa o atalho de Shift+Mais/Shift+Menos para mudar o zoom da interface.
 
 <h3>Renderizar Mais Blocos (Padrão: 'ligado'):</h3>
-Ligar isso renderizará mais blocos fora do campo de visão normal.
-Aviso: Isso vai deixar o jogo perceptivelmente mais lento quanto mais você der zoom para fora. Eu não posso fazer algo sobre isso.
+Quando ligado renderizará mais blocos fora do campo de visão normal.
+Aviso: Vai deixar o jogo perceptivelmente mais lento quanto mais você der zoom para fora. Eu não posso fazer algo sobre isso.
 
 <h3>Limite de Renderização de Blocos (Padrão: 1.0):</h3>
-Isso define em que nível de zoom você pode ver mais blocos. Quanto menor estiver, mais lento o jogo ficará porém mais blocos serão visíveis.
+Define em que nível de zoom você pode ver mais blocos. Quanto menor estiver, mais lento o jogo ficará porém mais blocos serão visíveis.
 Por exemplo se você definir isso para 0.5 (50%) você poderá ver blocos em até 50% de zoom.
 
 <h3>Velocidade do Zoom (Padrão: 1.0)</h3>

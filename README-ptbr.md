@@ -5,7 +5,7 @@
 <h3>Este mod permite você usar zooms muito menores ou maiores do que é possível no Vanilla.</h3>
 <h3>Bem útil para aqueles que jogam em resoluções baixas ou que gostariam de sprites com resoluções maiores.</h3>
 
-Comente no post do forum ou entre no meu Discord caso tenha algum problema: <a href="https://discord.gg/NX4DVzz2v6">link</a>
+Comente no post do fórum ou entre no meu Discord caso tenha algum problema: <a href="https://discord.gg/NX4DVzz2v6">link</a>
 Esse mod é de código aberto no <a href="https://github.com/NotLe0n/BetterZoom">GitHub</a>. Caso tenha uma conta GitHub, por favor o dê uma estrela!
 
 A porção de Controle da Câmera desse mod foi movida para um mod separado chamado 
@@ -14,9 +14,9 @@ A porção de Controle da Câmera desse mod foi movida para um mod separado cham
 <h1>Como usar:</h1>
 
 <h2>Nas Configurações:</h2>
-Pressionar no texto de Zoom ou de Escala da Interface ao lado dos controles deslizates irá resetar o valor para 100%.
+Pressionar no texto de Zoom ou de Escala da Interface ao lado dos controles deslizantes irá resetar o valor para 100%.
 
-Você pode alternar entre controle deslizante e entrada exata usando o butão de alternar ao lado do cabeçalho "Zoom".
+Você pode alternar entre controle deslizante e entrada exata usando o botão de alternar ao lado do cabeçalho "Zoom".
 A caixa de texto apenas aceita 3 números e apertar a tecla Enter ou clicar fora da caixa enviará o resultado.
 
 **AVISO: Você pode colocar qualquer número de 3 dígitos na caixa de texto, incluindo aqueles possivelmente inválidos, o que pode causar um travamento.**
@@ -49,18 +49,18 @@ Isso muda o mínimo e o máximo de Escala da Interface que você pode definir.
 Desativa o atalho de Shift+Mais/Shift+Menos para mudar o zoom da interface.
 
 <h3>Renderizar Mais Blocos (Padrão: 'ligado'):</h3>
-Ligar isso rederizará mais blocos fora do campo de visão normal.
-Aviso: Isso vai deixar o jogo perceptívelmente mais lento quanto mais você der zoom para fora. Eu não posso fazer algo sobre isso.
+Ligar isso renderizará mais blocos fora do campo de visão normal.
+Aviso: Isso vai deixar o jogo perceptivelmente mais lento quanto mais você der zoom para fora. Eu não posso fazer algo sobre isso.
 
 <h3>Limite de Renderização de Blocos (Padrão: 1.0):</h3>
 Isso define em que nível de zoom você pode ver mais blocos. Quanto menor estiver, mais lento o jogo ficará porém mais blocos serão visíveis.
 Por exemplo se você definir isso para 0.5 (50%) você poderá ver blocos em até 50% de zoom.
 
-<h3>Velocidade de Zoom (Padrão: 1.0)</h3>
+<h3>Velocidade do Zoom (Padrão: 1.0)</h3>
 Muda o quão rápido o zoom será usando seu teclado. 1 é a velocidade padrão, 10 é 10x mais rápido.
 
 <h1>Licença</h1>
 Esse mod está licenciado sobre a licença GNU GPLv3.
-Se você usar qualquer código desse mod você deverá manter-lo em código aberto, sobre a mesma licença e dar créditos na descrição de seu mod.
+Se você usar qualquer código desse mod você deverá mantê-lo em código aberto, sobre a mesma licença e dar créditos na descrição de seu mod.
 
 Os direitos para o ícone do mod são possuídos pelo usuário da Steam ZoeyReal

@@ -28,8 +28,8 @@ mas em vez do zoom ir de 100% até 200%, você pode ir de 30% até 1000%
 Aviso quanto mais longe o seu zoom estiver mais pesado o jogo ficará!
 Eu não posso fazer nada sobre o lag, mas você pode alterar configurações de renderização de blocos se for muito.
 
-<h3>UI Scale: </h3>
-Você agora pode mudar a Escala da interface de 30% até 600%. Você também pode mudae isso segurando shift enquanto aperta mais ou menos.
+<h3>Escala da Interface: </h3>
+Você agora pode mudar a Escala da interface de 30% até 600%. Você também pode mudar isso segurando shift enquanto aperta mais (+) ou menos (-).
 
 <h2>Configurações do Mod:</h2>
 

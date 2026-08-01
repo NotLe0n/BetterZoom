@@ -2,10 +2,10 @@
 
 [English](README.md) | [简体中文](README-cn.md) | Português (Brasil)
 
-<h3>Este mod permite você dar zooms muito menores ou maiorws do que é possível no Vanilla.</h3>
+<h3>Este mod permite você dar zooms muito menores ou maiores do que é possível no Vanilla.</h3>
 <h3>Bem útil para aqueles que jogam em baixas resoluções ou que gostariam de sprites com resoluções maiores.</h3>
 
-Comente no post do forum ou entre no meu discord caso tenha algum problema: <a href="https://discord.gg/NX4DVzz2v6">link</a>
+Comente no post do forum ou entre no meu Discord caso tenha algum problema: <a href="https://discord.gg/NX4DVzz2v6">Link</a>
 Esse mod é de código aberto no <a href="https://github.com/NotLe0n/BetterZoom">GitHub</a>. Caso tenha uma conta GitHub, por favor o dê uma estrela!
 
 A porção de Controle da Câmera desse mod foi movida para um mod separado chamado 

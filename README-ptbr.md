@@ -2,8 +2,8 @@
 
 [English](README.md) | [简体中文](README-cn.md) | Português (Brasil)
 
-<h3>Este mod permite você dar zooms muito menores ou maiores do que é possível no Vanilla.</h3>
-<h3>Bem útil para aqueles que jogam em baixas resoluções ou que gostariam de sprites com resoluções maiores.</h3>
+<h3>Este mod permite você usar zooms muito menores ou maiores do que é possível no Vanilla.</h3>
+<h3>Bem útil para aqueles que jogam em resoluções baixas ou que gostariam de sprites com resoluções maiores.</h3>
 
 Comente no post do forum ou entre no meu Discord caso tenha algum problema: <a href="https://discord.gg/NX4DVzz2v6">link</a>
 Esse mod é de código aberto no <a href="https://github.com/NotLe0n/BetterZoom">GitHub</a>. Caso tenha uma conta GitHub, por favor o dê uma estrela!
@@ -14,22 +14,22 @@ A porção de Controle da Câmera desse mod foi movida para um mod separado cham
 <h1>Como usar:</h1>
 
 <h2>Nas Configurações:</h2>
-Pressionar no texto de Zoom ou Escala da Interface ao lado dos controles deslizates irá resetar o valor para 100%.
+Pressionar no texto de Zoom ou de Escala da Interface ao lado dos controles deslizates irá resetar o valor para 100%.
 
 Você pode alternar entre controle deslizante e entrada exata usando o butão de alternar ao lado do cabeçalho "Zoom".
-A caixa de texto apenas aceita 3 números e apertando a tecla Enter ou clicando para fora irá enviae o resultado.
+A caixa de texto apenas aceita 3 números e apertar a tecla Enter ou clicar fora da caixa enviará o resultado.
 
-**AVISO: Você pode colocar qualquer número de 3 dígitos na caixa de texto, incluindo aqueles possivelmente invalidos, o que pode causar um travamento.**
+**AVISO: Você pode colocar qualquer número de 3 dígitos na caixa de texto, incluindo aqueles possivelmente inválidos, o que pode causar um travamento.**
 
 <h3>Zoom:</h3>
-Mudando o deslizador de Zoom ou pressionando as teclas de mais ou menos em seu teclado (não aquelas no teclado numérico) vai mudar o zoom de seu jogo como normal,
-mas em vez do zoom ir de 100% até 200%, você pode ir de 30% até 1000%
+Mudando o deslizador de Zoom ou pressionando as teclas de mais ou menos em seu teclado (não aquelas do teclado numérico) mudará o zoom de seu jogo como normal,
+mas em vez do zoom ir de 100% até 200%, você poderá ir de 30% até 1000%
 
-Aviso: quanto mais longe o seu zoom estiver mais pesado o jogo ficará!
+Aviso: quanto mais ampliado o zoom estiver mais pesado o jogo vai ficar!
 Eu não posso fazer nada sobre o lag, mas você pode alterar configurações de renderização de blocos se for muito.
 
 <h3>Escala da Interface: </h3>
-Você agora pode mudar a Escala da interface de 30% até 600%. Você também pode mudar isso segurando shift enquanto aperta mais (+) ou menos (-).
+Agora você pode mudar a Escala da interface de 30% até 600%. Você também pode mudar isso segurando shift enquanto aperta mais (+) ou menos (-).
 
 <h2>Configurações do Mod:</h2>
 

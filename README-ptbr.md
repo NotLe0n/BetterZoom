@@ -14,7 +14,7 @@ A porção de Controle da Câmera desse mod foi movida para um mod separado cham
 <h1>Como usar:</h1>
 
 <h2>Nas Configurações:</h2>
-Pressionar no texto de Zoom ou de Escala da Interface ao lado dos controles deslizantes irá resetar o valor para 100%.
+Pressionar no texto de Zoom ou de Escala da Interface ao lado dos controles deslizantes irá redefinir o valor para 100%.
 
 Você pode alternar entre controle deslizante e entrada exata usando o botão de alternar ao lado do cabeçalho "Zoom".
 A caixa de texto apenas aceita 3 números e apertar a tecla Enter ou clicar fora da caixa enviará o resultado.

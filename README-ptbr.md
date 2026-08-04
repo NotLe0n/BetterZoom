@@ -1,6 +1,6 @@
 <h1>Better Zoom <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fmod-count-badge.notle0n75.workers.dev%2F%3Fmod%3DBetterZoom" alt="Mod downloads badge" /></h1> 
 
-[English](README.md) | [简体中文](README-cn.md) | Português (Brasil)
+[English](README.md) | [简体中文](README-cn.md) | Português (Brasil) | [Русский](README-ru.md)
 
 <h3>Este mod permite você usar zooms muito menores ou maiores do que é possível no Vanilla.</h3>
 <h3>Bem útil para aqueles que jogam em resoluções baixas ou que gostariam de sprites com resoluções maiores.</h3>
@@ -29,7 +29,7 @@ Aviso: quanto mais ampliado o zoom estiver mais pesado o jogo vai ficar!
 Eu não posso fazer nada sobre o lag, mas você pode alterar configurações de renderização de blocos se for muito.
 
 <h3>Escala da Interface: </h3>
-Agora você pode mudar a Escala da interface de 50% até 400%. Você também pode mudar isso segurando shift enquanto aperta mais (+) ou menos (-).
+Agora você pode mudar a Escala da interface de 50% até 500%. Você também pode mudar isso segurando shift enquanto aperta mais (+) ou menos (-).
 
 <h2>Configurações do Mod:</h2>
 
@@ -42,7 +42,7 @@ Muda o tamanho de seu cursor.
 <h3>Alcance do Zoom (Padrão: 30% - 1000%):</h3>
 Muda o mínimo e o máximo de zoom que você pode definir.
 
-<h3>Alcance da Escala da Interface (Padrão: 50% - 400%):</h3>
+<h3>Alcance da Escala da Interface (Padrão: 50% - 500%):</h3>
 Muda o mínimo e o máximo de Escala da Interface que você pode definir.
 
 <h3>Desativar Atalho de Zoom da Interface (Padrão: 'desligado'):</h3>

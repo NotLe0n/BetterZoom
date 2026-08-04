@@ -1,6 +1,6 @@
 <h1>Better Zoom <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fmod-count-badge.notle0n75.workers.dev%2F%3Fmod%3DBetterZoom" alt="Mod downloads badge" /></h1> 
 
-English | [简体中文](README-cn.md) | [Português (Brasil)](README-ptbr.md)
+English | [简体中文](README-cn.md) | [Português (Brasil)](README-ptbr.md) | [Русский](README-ru.md)
 
 <h3>This mod allows you to zoom in and out much further than what's possible in Vanilla.</h3>
 <h3>Very useful to people who play in lower resolutions or who want to have high resolution sprites.</h3>
@@ -29,7 +29,7 @@ Warning the more you zoom out the laggier it gets!
 I can't do anything about the lag, but you can disable rendering tile in the Config if it's too much.
 
 <h3>UI Scale: </h3>
-You can now change the UI Scale from 50% to 400%. You can also change this by holding shift while pressing plus or minus.
+You can now change the UI Scale from 50% to 500%. You can also change this by holding shift while pressing plus or minus.
 
 <h2>Mod Config:</h2>
 
@@ -42,7 +42,7 @@ This changes the size of your cursor.
 <h3>Zoom Range (default: 30% - 1000%):</h3>
 This changes the minimum and maximum amount of zoom you can set.
 
-<h3>UI Scale Range (default: 50% - 400%):</h3>
+<h3>UI Scale Range (default: 50% - 500%):</h3>
 This changes the minimum and maximum amount of UI Scale you can set.
 
 <h3>Disable UI Zoom Hotkey (default: 'off'):</h3>

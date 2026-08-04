@@ -1,6 +1,6 @@
 <h1>Better Zoom 更好的缩放 <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fmod-count-badge.notle0n75.workers.dev%2F%3Fmod%3DBetterZoom" alt="Mod downloads badge" /></h1> 
 
-[English](README.md) | 简体中文 | [Português (Brasil)](README-ptbr.md)
+[English](README.md) | 简体中文 | [Português (Brasil)](README-ptbr.md) | [Русский](README-ru.md)
 
 <h3>这个Mod允许你突破原版的缩放限制</h3>
 <h3>对于在较低分辨率或想要高分辨率贴图的人十分有帮助</h3>
@@ -26,7 +26,7 @@
 对此我无能为力，但你可以在配置中关闭渲染物块</br>
 
 <h3>UI比例:</h3>
-你现在可以更改UI比例从50%到400%</br>
+你现在可以更改UI比例从50%到500%</br>
 你也可以通过按住[shift]当你按下[+]或[-]键时来更改UI比例</br>
 
 如果你由于任何原因无法在游戏内更改缩放和UI比例</br>
@@ -43,7 +43,7 @@
 <h3>缩放比例 (默认: [30% - 1000%]):</h3>
 该配置用来更改可设置的缩放最小值和最大值</br>
 
-<h3>UI比例 (默认: [50% - 400%]):</h3>
+<h3>UI比例 (默认: [50% - 500%]):</h3>
 该配置用了更改可设置的UI比例最小值和最大值</br>
 
 <h3>禁用UI比例快捷键 (默认: [禁用]):</h3>

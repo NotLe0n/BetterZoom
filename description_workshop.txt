@@ -30,7 +30,7 @@ Warning the more you zoom out the laggier it gets!
 I can't do anything about the lag, but you can disable rendering tile in the Config if it's too much
 
 [h3]UI Scale: [/h3]
-You can now change the UI Scale from 50% to 400%. You can also change this by holding shift while pressing plus or minus.
+You can now change the UI Scale from 50% to 500%. You can also change this by holding shift while pressing plus or minus.
 
 If you cannot for whatever reason change the Zoom or UI Scale in game, you can change the "Zoom" and "UIScale" values 
 inside the configuration file located at "Documents/My Games/Terraria/tModLoader/config.json" while the game is closed.
@@ -46,7 +46,7 @@ This changes the size of your cursor.
 [h3]Zoom Range (default: 30% - 1000%):[/h3]
 This changes the minimum and maximum amount of zoom you can set.
 
-[h3]UI Scale Range (default: 50% - 400%):[/h3]
+[h3]UI Scale Range (default: 50% - 500%):[/h3]
 This changes the minimum and maximum amount of UI Scale you can set.
 
 [h3]Disable UI Zoom Hotkey (default: 'off'):[/h3]

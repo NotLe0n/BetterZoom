@@ -29,7 +29,7 @@ internal sealed class Config : ModConfig
 	[Range(0.5f, 5)]
 	[CustomModConfigItem(typeof(DualRangeElement))]
 	public FloatRange UIScaleRange = new() {
-		min = 0.5f, max = 4f
+		min = 0.5f, max = 5f
 	};
 
 	[DefaultValue(false)]

@@ -19,11 +19,8 @@ internal class ZoomEdits : ModSystem
 	{
 		On_Main.UpdateViewZoomKeys += Main_UpdateViewZoomKeys;
 		// fixes race condition which crashes the game
-		Main.RunOnMainThread(() =>
-		{
-			IL_Main.DoDraw += ModifyZoomBounds;
-		});
-		
+		Main.RunOnMainThread(() => { IL_Main.DoDraw += ModifyZoomBounds; });
+
 		MonoModHooks.Add(UIScaleMax, ModifyUIScaleBounds);
 	}
 
@@ -100,7 +97,7 @@ internal class ZoomEdits : ModSystem
 
 		c.Remove();
 		c.EmitDelegate(() => Config.zoomRange.min);
-		
+
 
 		/*
 			IL_0f69: callvirt	() => minUIScale

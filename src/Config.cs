@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Numerics;
+﻿using System.ComponentModel;
 using System.Text;
 using BetterZoom.Edits;
 using Terraria.ModLoader.Config;
@@ -49,10 +47,21 @@ internal sealed class Config : ModConfig
 	[Increment(0.1f)]
 	public float zoomSpeed;
 	
+	private static float? appliedTileRenderLimit;
+	private static bool? appliedRenderMoreTiles;
+	
 	public override void OnChanged()
 	{
+		// OnChanged fires on every Single Player menu entry, not just config changes.
+		// Only tileRenderLimit/renderMoreTiles affect target sizing, so only update when they change.
+		if (appliedRenderMoreTiles == renderMoreTiles && appliedTileRenderLimit == tileRenderLimit) {
+			return;
+		}
+		
+		appliedRenderMoreTiles = renderMoreTiles;
+		appliedTileRenderLimit = tileRenderLimit;
+		
 		RenderEdits.ReloadRenderTargets();
-		base.OnChanged();
 	}
 
 	public override void OnLoaded()

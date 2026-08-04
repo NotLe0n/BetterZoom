@@ -1,4 +1,3 @@
-using BetterZoom.Edits;
 using Terraria.ModLoader;
 
 namespace BetterZoom;

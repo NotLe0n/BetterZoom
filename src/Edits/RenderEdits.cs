@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -25,32 +24,32 @@ public class RenderEdits : ModSystem
 
 	public override void Unload()
 	{
-		ReloadRenderTargets();
+		ReloadRenderTargets(notify: false);
 		base.Unload();
 	}
 
 	private static void LoadEdits()
-    {
-	    if (Config?.renderMoreTiles == false) {
-		    ReloadRenderTargets();
-		    return;
-	    }
-	    
-        On_Main.GetScreenOverdrawOffset += On_Main_GetScreenOverdrawOffset;
-        IL_Main.InitTargets_int_int += IL_Main_InitTargets;
-        IL_Main.DrawBlack += IL_Main_DrawBlack;
-        //IL_Main.DoDraw += FixBackgroundRender;
-        
-        ReloadRenderTargets();
-    }
+	{
+		if (Config?.renderMoreTiles == false) {
+			ReloadRenderTargets();
+			return;
+		}
+
+		On_Main.GetScreenOverdrawOffset += On_Main_GetScreenOverdrawOffset;
+		IL_Main.InitTargets_int_int += IL_Main_InitTargets;
+		IL_Main.DrawBlack += IL_Main_DrawBlack;
+		//IL_Main.DoDraw += FixBackgroundRender;
+
+		ReloadRenderTargets();
+	}
 
 	// maybe causes the weird cellRef crash??
 	private static void FixBackgroundRender(ILContext il)
 	{
 		var c = new ILCursor(il);
-		
+
 		/*
-		
+
 				stfld		bgTopY
 			[+] ldarg.0
 			[+] callvirt	<delegate>
@@ -63,7 +62,7 @@ public class RenderEdits : ModSystem
 			[+] stfld		bgTopY
 			...
 		*/
-		
+
 		if (!c.TryGotoNext(MoveType.After, i => i.MatchStfld<Main>("bgTopY"))) {
 			throw new ILEditException($"{nameof(RenderEdits)}::{nameof(FixBackgroundRender)}");
 		}
@@ -77,14 +76,14 @@ public class RenderEdits : ModSystem
 
 			return (int)(0.0 - Math.IEEERemainder(parallax, bgWidth) - bgWidth / 2d - offset / 2d);
 		});
-		
+
 		ChangeBgField("bgLoops", () =>
 		{
 			int visibleWidth = Math.Max(Main.screenWidth, (int)(Main.screenWidth / Main.GameZoomTarget));
 
 			return visibleWidth / Main.backgroundWidth[Main.background] + 2;
 		});
-		
+
 		ChangeBgField("bgTopY", () =>
 		{
 			int visibleHeight = (int)(Main.screenHeight / Main.GameZoomTarget);
@@ -101,23 +100,9 @@ public class RenderEdits : ModSystem
 			c.EmitStfld(typeof(Main).GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new());
 		}
 	}
-	
-	private static float? appliedTileRenderLimit;
-	private static bool? appliedRenderMoreTiles;
 
-	public static void ReloadRenderTargets(bool force = false)
+	public static void ReloadRenderTargets(bool notify = true)
 	{
-		// OnChanged fires on every Single Player menu entry, not just config changes.
-		// Only tileRenderLimit/renderMoreTiles affect target sizing, so only update when they change.
-		if (!force
-		    && appliedRenderMoreTiles == Config?.renderMoreTiles
-		    && appliedTileRenderLimit == Config?.tileRenderLimit) {
-			return;
-		}
-
-		appliedRenderMoreTiles = Config.renderMoreTiles;
-		appliedTileRenderLimit = Config.tileRenderLimit;
-
 		Main.QueueMainThreadAction(() =>
 		{
 			var initTargets = typeof(Main).GetMethod("InitTargets",
@@ -127,7 +112,7 @@ public class RenderEdits : ModSystem
 			if (initTargets is null || isBusy is null || Main.instance?.GraphicsDevice is null)
 				return; // server, or graphics not up yet
 
-			if ((bool)isBusy.GetValue(null))
+			if (isBusy.GetValue(null) is true)
 				return;
 
 			isBusy.SetValue(null, true);
@@ -152,131 +137,133 @@ public class RenderEdits : ModSystem
 		});
 	}
 
-    private static void IL_Main_DrawBlack(ILContext il)
-    {
-        ILCursor c = new ILCursor(il);
+	private static void IL_Main_DrawBlack(ILContext il)
+	{
+		ILCursor c = new ILCursor(il);
 
-        /* 
-            - num3 = point.X;
-            + num3 = 0;
-        */
-        int idx = -1;
-        if (!c.TryGotoNext(MoveType.Before,
-	            i => i.MatchLdloc(out _),
-	            i => i.MatchLdfld<Point>("X"),
-	            i => i.MatchStloc(out idx))) {
-	        throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_DrawBlack)} at edit 1");
-        }
-        
+		/*
+		    - num3 = point.X;
+		    + num3 = 0;
+		*/
+		int idx = -1;
+		if (!c.TryGotoNext(MoveType.Before,
+			    i => i.MatchLdloc(out _),
+			    i => i.MatchLdfld<Point>("X"),
+			    i => i.MatchStloc(out idx))) {
+			throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_DrawBlack)} at edit 1");
+		}
 
-        c.Remove();
-        c.Remove();
-        c.Remove();
-        c.Emit(OpCodes.Ldc_I4_0);
-        c.Emit(OpCodes.Stloc_S, (byte)idx);
 
-        /* 
-            - num4 = Main.maxTilesX - point.X;
-            + num4 = Main.maxTilesX;
-        */
-        if (!c.TryGotoNext(MoveType.Before,
-	            i => i.MatchLdsfld(out _),
-	            i => i.MatchLdloc(out _),
-	            i => i.MatchLdfld<Point>("X"),
-	            i => i.MatchSub(),
-	            i => i.MatchStloc(out _))) {
-	        throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_DrawBlack)} at edit 2");
-        }
-        c.Index++;
-        c.Remove();
-        c.Remove();
-        c.Remove();
+		c.Remove();
+		c.Remove();
+		c.Remove();
+		c.Emit(OpCodes.Ldc_I4_0);
+		c.Emit(OpCodes.Stloc_S, (byte)idx);
 
-        /* 
-            - num5 = point.Y;
-            + num5 = 0;
-        */
-        if (!c.TryGotoNext(MoveType.Before,
-	            i => i.MatchLdloc(out _),
-	            i => i.MatchLdfld<Point>("Y"),
-	            i => i.MatchStloc(out idx))) {
-	        throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_DrawBlack)} at edit 3");
-        }
+		/*
+		    - num4 = Main.maxTilesX - point.X;
+		    + num4 = Main.maxTilesX;
+		*/
+		if (!c.TryGotoNext(MoveType.Before,
+			    i => i.MatchLdsfld(out _),
+			    i => i.MatchLdloc(out _),
+			    i => i.MatchLdfld<Point>("X"),
+			    i => i.MatchSub(),
+			    i => i.MatchStloc(out _))) {
+			throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_DrawBlack)} at edit 2");
+		}
 
-        c.Remove();
-        c.Remove();
-        c.Remove();
-        c.Emit(OpCodes.Ldc_I4_0);
-        c.Emit(OpCodes.Stloc_S, (byte)idx);
+		c.Index++;
+		c.Remove();
+		c.Remove();
+		c.Remove();
 
-        /* 
-            - num6 = Main.maxTilesY - point.Y;
-            + num6 = Main.maxTilesY;
-        */
-        if (!c.TryGotoNext(MoveType.Before,
-	            i => i.MatchLdsfld(out _),
-	            i => i.MatchLdloc(out _),
-	            i => i.MatchLdfld<Point>("Y"),
-	            i => i.MatchSub(),
-	            i => i.MatchStloc(out _))) {
-	        throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_DrawBlack)} at edit 4");
-        }
-        c.Index++;
-        c.Remove();
-        c.Remove();
-        c.Remove();
+		/*
+		    - num5 = point.Y;
+		    + num5 = 0;
+		*/
+		if (!c.TryGotoNext(MoveType.Before,
+			    i => i.MatchLdloc(out _),
+			    i => i.MatchLdfld<Point>("Y"),
+			    i => i.MatchStloc(out idx))) {
+			throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_DrawBlack)} at edit 3");
+		}
 
-    }
-    
-    private static int EvalOffset(int dim) => (int)(dim * (1.0f / Math.Min(1, Config.tileRenderLimit) - 1.0f) / 2);
+		c.Remove();
+		c.Remove();
+		c.Remove();
+		c.Emit(OpCodes.Ldc_I4_0);
+		c.Emit(OpCodes.Stloc_S, (byte)idx);
 
-    private static Point On_Main_GetScreenOverdrawOffset(On_Main.orig_GetScreenOverdrawOffset orig)
-    {
-	    return !Config.renderMoreTiles ? orig() : new Point(0, 0);
-    }
+		/*
+		    - num6 = Main.maxTilesY - point.Y;
+		    + num6 = Main.maxTilesY;
+		*/
+		if (!c.TryGotoNext(MoveType.Before,
+			    i => i.MatchLdsfld(out _),
+			    i => i.MatchLdloc(out _),
+			    i => i.MatchLdfld<Point>("Y"),
+			    i => i.MatchSub(),
+			    i => i.MatchStloc(out _))) {
+			throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_DrawBlack)} at edit 4");
+		}
 
-    private static void IL_Main_InitTargets(ILContext il)
-    {
-        /* 
+		c.Index++;
+		c.Remove();
+		c.Remove();
+		c.Remove();
+	}
 
-            ReleaseTargets();
-            offScreenRange = 192 
+	private static int EvalOffset(int dim) => (int)(dim * (1.0f / Math.Min(1, Config.tileRenderLimit) - 1.0f) / 2);
 
-            + _renderTargetMaxSize = maxScreenW * 3 + 400 * Main.maxScreenW / 1920;
-	        + offScreenRange = 192 + EvalOffset;
+	private static Point On_Main_GetScreenOverdrawOffset(On_Main.orig_GetScreenOverdrawOffset orig)
+	{
+		return !Config.renderMoreTiles ? orig() : new Point(0, 0);
+	}
 
-            if (width + offScreenRange * 2 > _renderTargetMaxSize)
-		        offScreenRange = (_renderTargetMaxSize - width) / 2;
-        
-         */
+	private static void IL_Main_InitTargets(ILContext il)
+	{
+		/*
 
-        ILCursor c = new ILCursor(il);
+		    ReleaseTargets();
+		    offScreenRange = 192
 
-        if (!c.TryGotoNext(MoveType.After, 
-            i => i.MatchStsfld<Main>("offScreenRange"))) {
-	        throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_InitTargets)}");
-        }
-        
-        FieldInfo maxScreenW = typeof(Main).GetField("maxScreenW");
-        
-        // maxScreenW * 2
-        c.Emit(OpCodes.Ldsfld, maxScreenW);
-        c.Emit(OpCodes.Ldc_I4_3);
-        c.Emit(OpCodes.Mul);
-        // + ((400 * maxScreenW) / 1920)
-        c.Emit(OpCodes.Ldc_I4, 400);
-        c.Emit(OpCodes.Ldsfld, maxScreenW);
-        c.Emit(OpCodes.Mul);
-        c.Emit(OpCodes.Ldc_I4, 1920);
-        c.Emit(OpCodes.Div);
-        c.Emit(OpCodes.Add);
-        // _renderTargetMaxSize = result
-        c.Emit(OpCodes.Stsfld, typeof(Main).GetField("_renderTargetMaxSize", BindingFlags.NonPublic | BindingFlags.Static));
-        // offScreenRange = 192 + evalOffset
-        c.Emit(OpCodes.Ldc_I4, 192);
-        c.Emit(OpCodes.Ldarg_1);
-        c.EmitDelegate(EvalOffset);
-        c.Emit(OpCodes.Add);
-        c.Emit(OpCodes.Stsfld, typeof(Main).GetField("offScreenRange")); 
-    }
+		    + _renderTargetMaxSize = maxScreenW * 3 + 400 * Main.maxScreenW / 1920;
+			+ offScreenRange = 192 + EvalOffset;
+
+		    if (width + offScreenRange * 2 > _renderTargetMaxSize)
+				offScreenRange = (_renderTargetMaxSize - width) / 2;
+
+		 */
+
+		ILCursor c = new ILCursor(il);
+
+		if (!c.TryGotoNext(MoveType.After,
+			    i => i.MatchStsfld<Main>("offScreenRange"))) {
+			throw new ILEditException($"{nameof(RenderEdits)}::{nameof(IL_Main_InitTargets)}");
+		}
+
+		FieldInfo maxScreenW = typeof(Main).GetField("maxScreenW");
+		FieldInfo renderTargetMaxSize = typeof(Main).GetField("_renderTargetMaxSize", BindingFlags.NonPublic | BindingFlags.Static);
+
+		// maxScreenW * 2
+		c.Emit(OpCodes.Ldsfld, maxScreenW);
+		c.Emit(OpCodes.Ldc_I4_3);
+		c.Emit(OpCodes.Mul);
+		// + ((400 * maxScreenW) / 1920)
+		c.Emit(OpCodes.Ldc_I4, 400);
+		c.Emit(OpCodes.Ldsfld, maxScreenW);
+		c.Emit(OpCodes.Mul);
+		c.Emit(OpCodes.Ldc_I4, 1920);
+		c.Emit(OpCodes.Div);
+		c.Emit(OpCodes.Add);
+		// _renderTargetMaxSize = result
+		c.Emit(OpCodes.Stsfld, renderTargetMaxSize);
+		// offScreenRange = 192 + evalOffset
+		c.Emit(OpCodes.Ldc_I4, 192);
+		c.Emit(OpCodes.Ldarg_1);
+		c.EmitDelegate(EvalOffset);
+		c.Emit(OpCodes.Add);
+		c.Emit(OpCodes.Stsfld, typeof(Main).GetField("offScreenRange"));
+	}
 }

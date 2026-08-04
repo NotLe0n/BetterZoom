@@ -27,12 +27,12 @@ internal sealed class ZoomInputBox
 	{
 		const int EdgeWidth = 5;
 
-		Utils.DrawSplicedPanel(sb, 
-			TextureAssets.TextBack.Value, 
-			(int)pos.X, (int)pos.Y, 
-			width, height, 
-			EdgeWidth, EdgeWidth, 
-			EdgeWidth, EdgeWidth, 
+		Utils.DrawSplicedPanel(sb,
+			TextureAssets.TextBack.Value,
+			(int)pos.X, (int)pos.Y,
+			width, height,
+			EdgeWidth, EdgeWidth,
+			EdgeWidth, EdgeWidth,
 			Color.White);
 
 		if (Main.mouseLeft) {

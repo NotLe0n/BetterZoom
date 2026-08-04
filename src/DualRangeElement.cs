@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader.Config.UI;
@@ -22,24 +21,24 @@ public class DualRangeElement : ConfigElement<FloatRange>
 	private FloatRange range;
 	private float MaxLimit { get; set; }
 	private float MinLimit { get; set; }
-	
+
 	public override void OnBind()
 	{
 		base.OnBind();
 		range = (FloatRange)MemberInfo.GetValue(Item);
-		
+
 		if (RangeAttribute is { Min: float, Max: float }) {
 			MinLimit = (float)RangeAttribute.Min;
 			MaxLimit = (float)RangeAttribute.Max;
 		}
-		
+
 		// Initialize proportions
 		float clampedMin = MathHelper.Clamp(range.min, MinLimit, MaxLimit);
 		float clampedMax = MathHelper.Clamp(range.max, MinLimit, MaxLimit);
 
 		minProportion = (clampedMin - MinLimit) / (MaxLimit - MinLimit);
 		maxProportion = (clampedMax - MinLimit) / (MaxLimit - MinLimit);
-		
+
 		TextDisplayFunction = () => $"{Label}: {range.min:P2} - {range.max:P2}";
 	}
 
@@ -48,10 +47,10 @@ public class DualRangeElement : ConfigElement<FloatRange>
 		Texture2D colorBarTexture = TextureAssets.ColorBar.Value;
 		Vector2 scaledSize = new Vector2(colorBarTexture.Width, colorBarTexture.Height) * scale;
 		IngameOptions.valuePosition.X -= (int)scaledSize.X;
-		
+
 		Rectangle rectangle = new Rectangle((int)IngameOptions.valuePosition.X, (int)IngameOptions.valuePosition.Y - (int)scaledSize.Y / 2, (int)scaledSize.X, (int)scaledSize.Y);
 		Rectangle destinationRectangle = rectangle;
-		
+
 		int width = 167;
 		float num2 = rectangle.X + 5f * scale;
 		float num3 = rectangle.Y + 4f * scale;
@@ -60,7 +59,8 @@ public class DualRangeElement : ConfigElement<FloatRange>
 
 		for (float i = 0f; i < width; i += 1f) {
 			float percent = i / width;
-			sb.Draw(TextureAssets.ColorBlip.Value, new Vector2(num2 + percent * width * scale, num3), null, Utils.ColorLerp_BlackToWhite(percent), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+			sb.Draw(TextureAssets.ColorBlip.Value, new Vector2(num2 + percent * width * scale, num3), null, Utils.ColorLerp_BlackToWhite(percent), 0f, Vector2.Zero, scale,
+				SpriteEffects.None, 0f);
 		}
 
 		rectangle.Inflate((int)(-5f * scale), 2);
@@ -70,17 +70,18 @@ public class DualRangeElement : ConfigElement<FloatRange>
 		if (hovering) {
 			sb.Draw(TextureAssets.ColorHighlight.Value, destinationRectangle, Main.OurFavoriteColor);
 		}
-		
+
 		IngameOptions.inBar = hovering;
 	}
-	
+
 	private bool draggingMin;
 	private bool draggingMax;
-	
+
 	protected float minProportion;
 	protected float maxProportion;
-	
-	protected override void DrawSelf(SpriteBatch spriteBatch) {
+
+	protected override void DrawSelf(SpriteBatch spriteBatch)
+	{
 		base.DrawSelf(spriteBatch);
 
 		CalculatedStyle dimensions = GetDimensions();
@@ -135,18 +136,21 @@ public class DualRangeElement : ConfigElement<FloatRange>
 				range.min = LerpValue(minProportion);
 				Console.WriteLine($"Setting min: {range.min}");
 				SetObject(range); // update value
-			} else if (draggingMax) {
+			}
+			else if (draggingMax) {
 				maxProportion = Math.Max(percent, minProportion); // prevent max from going over min
 				range.max = LerpValue(maxProportion);
 				SetObject(range); // update value
 			}
-		} else {
+		}
+		else {
 			draggingMin = false;
 			draggingMax = false;
 		}
 	}
-	
-	private float LerpValue(float percent) {
+
+	private float LerpValue(float percent)
+	{
 		float min = MinLimit;
 		float max = MaxLimit;
 		float val = min + (max - min) * percent;

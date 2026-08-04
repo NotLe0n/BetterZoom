@@ -364,10 +364,7 @@ internal class SettingsEdits : ModSystem
 				inputBox.ZoomValue = Main.GameZoomTarget;
 			}
 
-			inputBox.OnChange += zoomVal =>
-			{
-				Main.GameZoomTarget = MathHelper.Clamp(zoomVal, Config.zoomRange.min, Config.zoomRange.max);
-			};
+			inputBox.OnChange += zoomVal => { Main.GameZoomTarget = MathHelper.Clamp(zoomVal, Config.zoomRange.min, Config.zoomRange.max); };
 
 			return DrawInputTextBox(inputBox, sb, scale);
 		});
@@ -405,7 +402,7 @@ internal class SettingsEdits : ModSystem
 		if (!c.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.0f))) {
 			throw new ILEditException($"{nameof(SettingsEdits)}::{nameof(ModifyZoomInput)}");
 		}
-		
+
 		c.Remove();
 		c.EmitDelegate(() => Config.zoomRange.max - Config.zoomRange.min);
 
@@ -561,7 +558,7 @@ internal class SettingsEdits : ModSystem
 				[+] IL_####: call	   <delegate>
 				[+] afterblock:
 		*/
-		
+
 		/*
 				[+] IL_####: ldsfld		bool BetterZoom.SettingsEdits::textInput
 				[+] IL_####: brtrue		drawInputBoxLabel
@@ -583,7 +580,7 @@ internal class SettingsEdits : ModSystem
 		c.Emit(OpCodes.Ldsfld, TextInputField);
 		c.Emit(OpCodes.Brtrue, drawInputBoxLabel);
 
-		
+
 		/*
 				IL_16c0: ldarg		1
 				IL_16c1: ldloc.s	6
@@ -591,7 +588,7 @@ internal class SettingsEdits : ModSystem
 					<--- here
 				IL_16c8: ldc.r4		1
 		*/
-		
+
 		if (!c.TryGotoNext(MoveType.After,
 			    i => i.MatchLdarg(1),
 			    i => i.Match(OpCodes.Ldloc_S),
@@ -610,7 +607,7 @@ internal class SettingsEdits : ModSystem
 				<--- here
 			IL_16ce: ldc.r4		1.5
 		*/
-		
+
 		c.Remove();
 		c.EmitDelegate(() => Config.UIScaleRange.max - Config.UIScaleRange.min);
 		c.Index++;
@@ -639,10 +636,7 @@ internal class SettingsEdits : ModSystem
 				inputBox.ZoomValue = Main.UIScale;
 			}
 
-			inputBox.OnChange += zoomVal =>
-			{
-				Main.UIScale = MathHelper.Clamp(zoomVal, Config.UIScaleRange.min, Config.UIScaleRange.max);
-			};
+			inputBox.OnChange += zoomVal => { Main.UIScale = MathHelper.Clamp(zoomVal, Config.UIScaleRange.min, Config.UIScaleRange.max); };
 
 			return DrawInputTextBox(inputBox, sb, scale);
 		});

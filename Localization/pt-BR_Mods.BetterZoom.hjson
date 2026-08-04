@@ -1,0 +1,76 @@
+Configs: {
+	Config: {
+		DisplayName: Configurações
+
+		scaleBackground: {
+			Tooltip: Alterna se o fundo também deve ser afetado pelo zoom.
+			Label: Escala de Fundo
+		}
+
+		cursorScale: {
+			Tooltip: Muda o tamanho de seu cursor.
+			Label: Escala do Cursor
+		}
+
+		zoomRange: {
+			Label: Alcance do Zoom
+			Tooltip: Muda o mínimo e o máximo de zoom que você pode definir.
+		}
+
+		UIScaleRange: {
+			Label: Alcance da Escala da Interface
+			Tooltip: Muda o mínimo e o máximo de Escala da Interface que você pode definir.
+		}
+
+		disableUIZoomHotkey: {
+			Label: Desativar Atalho de Zoom da Interface
+			Tooltip: Desativa o atalho de Shift+Mais/Shift+Menos para mudar o zoom da interface.
+		}
+
+		renderMoreTiles: {
+			Label: Renderizar Mais Blocos
+			Tooltip:
+				'''
+				Quando ligado renderizará mais blocos fora do campo de visão normal.
+				Aviso: Vai deixar o jogo perceptivelmente mais lento quanto mais você der zoom para fora. Eu não posso fazer algo sobre isso.
+				'''
+		}
+
+		tileRenderLimit: {
+			Label: Limite de Renderização de Blocos
+			Tooltip:
+				'''
+				Define em que nível de zoom você pode ver mais blocos. Quanto menor estiver, mais lento o jogo ficará porém mais blocos serão visíveis.
+       	 	Por exemplo se você definir isso para 0.5 (50%) você poderá ver blocos em até 50% de zoom. 
+				'''
+		}
+
+		zoomSpeed: {
+			Label: Velocidade do Zoom
+			Tooltip: Muda o quão rápido o zoom será usando seu teclado. 1 é a velocidade padrão, 10 é 10x mais rápido.
+		}
+	}
+
+	FloatRange: {
+		Tooltip: ""
+
+		min: {
+			Label: min
+			Tooltip: ""
+		}
+
+		max: {
+			Label: max
+			Tooltip: ""
+		}
+	}
+}
+
+Settings: {
+	Reset.Tooltip: Clique para redefinir para 100%
+
+	InputToggle: {
+		Slider.Tooltip: Controle deslizante
+		Precise.Tooltip: Entrada precisa
+	}
+}

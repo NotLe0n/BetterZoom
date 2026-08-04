@@ -40,6 +40,7 @@ internal sealed class Config : ModConfig
 	[ReloadRequired]
 	[DefaultValue(1f)]
 	[Range(0.1f, 1)]
+	[CustomModConfigItem(typeof(ZoomIndicatorElement))]
 	public float tileRenderLimit;
 	
 	[DefaultValue(1)]

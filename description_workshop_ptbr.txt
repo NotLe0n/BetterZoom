@@ -24,7 +24,8 @@ A caixa de texto apenas aceita 3 números e apertar a tecla Enter ou clicar fora
 
 [h3]Zoom:[/h3]
 Mudando o deslizador de Zoom ou pressionando as teclas de mais ou menos em seu teclado (não aquelas do teclado numérico) mudará o zoom de seu jogo como normal,
-mas em vez do zoom ir de 100% até 200%, você poderá ir de 30% até 1000%
+mas em vez do zoom ir de 100% até 200%, você poderá ir de 30% até 5000%
+O tamanho do controle deslizante pode ser alterado nas configurações (padrão: 30-1000%).
 
 Aviso: quanto mais ampliado o zoom estiver mais pesado o jogo vai ficar!
 Eu não posso fazer nada sobre o lag, mas você pode alterar configurações de renderização de blocos se for muito.

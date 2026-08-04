@@ -20,7 +20,7 @@ internal sealed class Config : ModConfig
 	[DefaultValue(1f)]
 	public float cursorScale;
 	
-	[Range(0.1f, 10.0f)]
+	[Range(0.1f, 50.0f)]
 	[CustomModConfigItem(typeof(DualRangeElement))]
 	public FloatRange zoomRange = new() {
 		min = 0.3f, max = 10.0f

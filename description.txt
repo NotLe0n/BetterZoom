@@ -32,7 +32,8 @@ Zoom:
 [c/C4C4C4:    (not the ones on the numpad) will zoom your]
 [c/C4C4C4:    game in and out just like normal, but]
 [c/C4C4C4:    instead of zooming from 100% to 200%,]
-[c/C4C4C4:    you can zoom from 10% to 1000%]
+[c/C4C4C4:    you can zoom from 10% to 5000%.]
+[c/C4C4C4:    How big the slider is can be changed in the Config]
 
 [c/FF0000:    Warning the more you zoom out the laggier it gets!]
     You can disable rendering tile in the Config if it's too much

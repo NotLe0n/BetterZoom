@@ -24,7 +24,8 @@ The text box only takes numbers from 0 to 1000 and pressing the Enter key or cli
 
 [h3]Zoom:[/h3]
 Changing the Zoom slider or Pressing the plus or minus keys on your keyboard (not the ones on the numpad) will zoom your game in and out just like normal,
-but instead of zooming from 100% to 200%, you can zoom from 10% to 1000%
+but instead of zooming from 100% to 200%, you can zoom from 10% to 5000%.
+How big the slider is can be changed in the settings (default: 30-1000%).
 
 Warning the more you zoom out the laggier it gets!
 I can't do anything about the lag, but you can disable rendering tile in the Config if it's too much

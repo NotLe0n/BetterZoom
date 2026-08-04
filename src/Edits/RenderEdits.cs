@@ -131,7 +131,7 @@ public class RenderEdits : ModSystem
 			// We bypass it, so we raise it ourselves otherwise mods that cache screen-sized targets (anything hooking FilterManager.EndCapture)
 			// keep drawing with the disposed old ones. See issue #22.
 			var onResChanged = typeof(Main).GetField(nameof(Main.OnResolutionChanged), BindingFlags.Static | BindingFlags.NonPublic);
-			if (onResChanged?.GetValue(null) is Action<Vector2> handler) {
+			if (notify && onResChanged?.GetValue(null) is Action<Vector2> handler) {
 				handler(new Vector2(Main.screenWidth, Main.screenHeight));
 			}
 		});

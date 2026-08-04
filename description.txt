@@ -13,6 +13,8 @@ If you are a content creator, go check it out!
 Special Thanks:
 - Giant thank you to DogeRoll for the Edits which allow more tiles to be drawn. 
 - Thanks to Zoe for making the mod icon.
+- Thanks to Yu Bei for the Chinese localization
+- Thanks to Pongleon for the Brazilian Portuguese localization
 
 _________________________
 

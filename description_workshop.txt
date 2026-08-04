@@ -12,6 +12,8 @@ The Camera Control portion of this mod has been moved to its separate mod called
 Special Thanks:
 - Giant thank you to DogeRoll for the Edits which allow more tiles to be drawn. 
 - Thanks to Zoe for making the mod icon.
+- Thanks to Yu Bei for the Chinese localization
+- Thanks to Pongleon for the Brazilian Portuguese localization
 
 [h1]How to use:[/h1]
 

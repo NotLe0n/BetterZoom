@@ -12,6 +12,8 @@ A porção de Controle da Câmera desse mod foi movida para um mod separado cham
 Agradecimentos Especiais:
 - Um grande obrigado ao DogeRoll pelos Edits que permitem mais blocos serem criados.
 - Obrigado Zoe por fazer o ícone do mod.
+- Agradecimentos a Yu Bei pela localização para o chinês.
+- Agradecimentos a Pongleon pela localização para o português brasileiro.
 
 [h1]Como usar:[/h1]
 

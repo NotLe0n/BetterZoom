@@ -29,7 +29,7 @@ Warning the more you zoom out the laggier it gets!
 I can't do anything about the lag, but you can disable rendering tile in the Config if it's too much.
 
 <h3>UI Scale: </h3>
-You can now change the UI Scale from 30% to 600%. You can also change this by holding shift while pressing plus or minus.
+You can now change the UI Scale from 50% to 400%. You can also change this by holding shift while pressing plus or minus.
 
 <h2>Mod Config:</h2>
 

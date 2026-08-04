@@ -28,7 +28,7 @@ Aviso: quanto mais ampliado o zoom estiver mais pesado o jogo vai ficar!
 Eu não posso fazer nada sobre o lag, mas você pode alterar configurações de renderização de blocos se for muito.
 
 [h3]Escala da Interface: [/h3]
-Agora você pode mudar a Escala da interface de 50% até 500%. Você também pode mudar isso segurando shift enquanto aperta mais (+) ou menos (-).
+Agora você pode mudar a Escala da interface de 50% até 400%. Você também pode mudar isso segurando shift enquanto aperta mais (+) ou menos (-).
 
 Se por algum motivo você não conseguir mudar o Zoom ou Escala da Interface no jogo, você pode mudar os valores "Zoom" e "UIScale"
 dentro do arquivo de configuração localizado em "Documentos/My Games/Terraria/tModLoader/config.json" enquanto o jogo estiver fechado.

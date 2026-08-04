@@ -36,7 +36,7 @@ Zoom:
     You can disable rendering tile in the Config if it's too much
 
 UI Scale: 
-[c/C4C4C4:    You can change the UI Scale from 50% to 500%.]
+[c/C4C4C4:    You can change the UI Scale from 50% to 400%.]
 [c/C4C4C4:    You can also change this by holding shift while]
 [c/C4C4C4:    pressing plus or minus.]
 

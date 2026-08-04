@@ -41,7 +41,7 @@ Configs: {
 			Tooltip:
 				'''
 				Define em que nível de zoom você pode ver mais blocos. Quanto menor estiver, mais lento o jogo ficará porém mais blocos serão visíveis.
-       	 	Por exemplo se você definir isso para 0.5 (50%) você poderá ver blocos em até 50% de zoom. 
+				   	 	Por exemplo se você definir isso para 0.5 (50%) você poderá ver blocos em até 50% de zoom. 
 				'''
 		}
 

@@ -15,7 +15,7 @@ namespace BetterZoom.Edits;
 
 internal class SettingsEdits : ModSystem
 {
-	private static readonly Config Config = ModContent.GetInstance<Config>();
+	private static Config Config => ModContent.GetInstance<Config>();
 
 	public override void Load()
 	{

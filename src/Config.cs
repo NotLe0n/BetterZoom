@@ -39,6 +39,7 @@ internal sealed class Config : ModConfig
 	[DefaultValue(true)]
 	public bool renderMoreTiles;
 
+	[ReloadRequired]
 	[DefaultValue(1f)]
 	[Range(0.1f, 1)]
 	public float tileRenderLimit;

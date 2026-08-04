@@ -8,7 +8,7 @@ namespace BetterZoom.Edits;
 
 internal class ZoomEdits : ModSystem
 {
-	private static readonly Config Config = ModContent.GetInstance<Config>();
+	private static Config Config => ModContent.GetInstance<Config>();
 
 	// Manual Hooks because 'On' doesn't have that one for some reason
 	private delegate float orig_get_UIScaleMax(Main self);

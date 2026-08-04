@@ -16,7 +16,7 @@ namespace BetterZoom.Edits;
 /// </summary>
 public class RenderEdits : ModSystem
 {
-	private static readonly Config Config = ModContent.GetInstance<Config>();
+	private static Config Config => ModContent.GetInstance<Config>();
 
 	public override void Load()
 	{
@@ -31,7 +31,7 @@ public class RenderEdits : ModSystem
 
 	private static void LoadEdits()
     {
-	    if (!Config.renderMoreTiles) {
+	    if (Config?.renderMoreTiles == false) {
 		    ReloadRenderTargets();
 		    return;
 	    }
@@ -101,30 +101,56 @@ public class RenderEdits : ModSystem
 			c.EmitStfld(typeof(Main).GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new());
 		}
 	}
+	
+	private static float? appliedTileRenderLimit;
+	private static bool? appliedRenderMoreTiles;
 
-	public static void ReloadRenderTargets()
-    { 
-	    /* SetResolution() call InitTargets() function, that sets off screen drawing area and renderers */
-	    Main.QueueMainThreadAction(() =>
-	    {
-		    var initTargets = typeof(Main).GetMethod("InitTargets", BindingFlags.Instance | BindingFlags.NonPublic, null, [], null);
-		    var isBusy = typeof(Main).GetField("_isResizingAndRemakingTargets", BindingFlags.Static | BindingFlags.NonPublic);
-		    try
-		    {
-			    if (!(bool)isBusy.GetValue(null))
-			    {
-				    isBusy.SetValue(null, true);
-				    initTargets.Invoke(Main.instance, null);
-				    isBusy.SetValue(null, false);
-			    }
-		    }
-		    catch (NullReferenceException ex)
-		    {
-			    isBusy.SetValue(null, false);
-			    Console.WriteLine($"{ex}: This should only happen on server initialization.");
-		    }
-	    });
-    }
+	public static void ReloadRenderTargets(bool force = false)
+	{
+		// OnChanged fires on every Single Player menu entry, not just config changes.
+		// Only tileRenderLimit/renderMoreTiles affect target sizing, so only update when they change.
+		if (!force
+		    && appliedRenderMoreTiles == Config?.renderMoreTiles
+		    && appliedTileRenderLimit == Config?.tileRenderLimit) {
+			return;
+		}
+
+		appliedRenderMoreTiles = Config.renderMoreTiles;
+		appliedTileRenderLimit = Config.tileRenderLimit;
+
+		Main.QueueMainThreadAction(() =>
+		{
+			var initTargets = typeof(Main).GetMethod("InitTargets",
+				BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
+			var isBusy = typeof(Main).GetField("_isResizingAndRemakingTargets", BindingFlags.Static | BindingFlags.NonPublic);
+
+			if (initTargets is null || isBusy is null || Main.instance?.GraphicsDevice is null)
+				return; // server, or graphics not up yet
+
+			if ((bool)isBusy.GetValue(null))
+				return;
+
+			isBusy.SetValue(null, true);
+			try {
+				initTargets.Invoke(Main.instance, null);
+			}
+			catch (Exception ex) {
+				ModContent.GetInstance<BetterZoom>().Logger.Warn($"Render target reinit failed: {ex}");
+				return;
+			}
+			finally {
+				isBusy.SetValue(null, false);
+			}
+
+			// Vanilla only rebuilds the targets inside SetResolution, which raises OnResolutionChanged.
+			// We bypass it, so we raise it ourselves otherwise mods that cache screen-sized targets (anything hooking FilterManager.EndCapture)
+			// keep drawing with the disposed old ones. See issue #22.
+			var onResChanged = typeof(Main).GetField(nameof(Main.OnResolutionChanged), BindingFlags.Static | BindingFlags.NonPublic);
+			if (onResChanged?.GetValue(null) is Action<Vector2> handler) {
+				handler(new Vector2(Main.screenWidth, Main.screenHeight));
+			}
+		});
+	}
 
     private static void IL_Main_DrawBlack(ILContext il)
     {
